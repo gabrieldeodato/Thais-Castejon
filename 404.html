@@ -1065,8 +1065,7 @@
 
 
 <script type="module">
-  if (window.location.protocol !== 'file:') {
-    (async () => {
+  (async () => {
       try {
         const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
         const { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
@@ -1167,8 +1166,7 @@
       } catch (err) {
         console.error("Failed to load Firebase:", err);
       }
-    })();
-  }
+  })();
 </script>
 
 
