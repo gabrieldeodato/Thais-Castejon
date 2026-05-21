@@ -683,13 +683,10 @@
     const today = new Date();
     today.setHours(0,0,0,0);
 
-    // Load schedule settings & overrides & appointments
-    let scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
-      available_weekdays: [1, 2, 3, 4, 5], // Mon-Fri
-      default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
-    };
-    let overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
-    let appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+        // Load schedule settings & overrides & appointments from window.siteState
+    let scheduleSettings = window.siteState.schedule_settings;
+    let overrides = window.siteState.schedule_overrides;
+    let appointments = window.siteState.appointments;
 
     for (let day = 1; day <= totalDays; day++) {
       const dayButton = document.createElement('button');
@@ -859,8 +856,7 @@
         const dateStr = window.modalSelectedDate.toISOString().split('T')[0];
         const timeStr = window.modalSelectedTime;
 
-        // Save appointment to localStorage site_appointments
-        let appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+                // Save appointment to window.siteState
         const newAppt = {
           id: Date.now().toString(),
           name: nameInput.value.trim(),
@@ -872,10 +868,12 @@
           time: timeStr,
           status: 'pending'
         };
-        appointments.push(newAppt);
-        localStorage.setItem('site_appointments', JSON.stringify(appointments));
+        window.siteState.appointments.push(newAppt);
         if (typeof window.saveAppointmentToFirebase === 'function') {
-          window.saveAppointmentToFirebase(newAppt);
+          window.saveAppointmentToFirebase(newAppt).catch(err => {
+            console.error("Erro ao salvar consulta no Firebase:", err);
+            alert("Sua consulta foi registrada localmente, mas não pôde ser sincronizada com o servidor online. Por favor, avise a clínica.");
+          });
         }
 
         // Show success values
@@ -1123,13 +1121,20 @@
     }
   ];
 
+    // Global site state initialized with default values
+  window.siteState = {
+    treatments: defaultTreatmentsList,
+    schedule_settings: {
+      available_weekdays: [1, 2, 3, 4, 5],
+      default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+    },
+    schedule_overrides: {},
+    appointments: [],
+    site_edits: {}
+  };
+
   window.syncDOMFromLocalStorage = function() {
-    let savedTreatments = localStorage.getItem('site_treatments');
-    if (!savedTreatments) {
-      localStorage.setItem('site_treatments', JSON.stringify(defaultTreatmentsList));
-      savedTreatments = JSON.stringify(defaultTreatmentsList);
-    }
-    const treatments = JSON.parse(savedTreatments);
+    const treatments = window.siteState.treatments;
 
     if (typeof treatmentDetails !== 'undefined') {
       for (let k in treatmentDetails) {
@@ -1150,7 +1155,7 @@
 
     document.querySelectorAll('[data-edit-key]').forEach(el => {
       const key = el.getAttribute('data-edit-key');
-      const savedValue = localStorage.getItem('site_edit_' + key);
+            const savedValue = window.siteState.site_edits[key];
       if (savedValue !== null) {
         if (el.tagName === 'IMG') {
           el.src = savedValue;
@@ -1287,81 +1292,81 @@
         window.firebaseCollection = collection;
         
         window.saveGlobalSettingsToFirebase = async function() {
-          const docRef = doc(db, "settings", "global");
-          const site_edits = {};
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('site_edit_')) {
-              const editKey = key.replace('site_edit_', '');
-              site_edits[editKey] = localStorage.getItem(key);
-            }
+        const docRef = doc(db, "settings", "global");
+        await setDoc(docRef, {
+          site_edits: window.siteState.site_edits,
+          treatments: window.siteState.treatments,
+          schedule_settings: window.siteState.schedule_settings,
+          schedule_overrides: window.siteState.schedule_overrides
+        }, { merge: true });
+      };
+      
+      window.saveAppointmentToFirebase = async function(appt) {
+        if (!appt || !appt.id) return;
+        const docRef = doc(db, "appointments", appt.id);
+        await setDoc(docRef, appt, { merge: true });
+      };
+      
+      onSnapshot(doc(db, "settings", "global"), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.site_edits) {
+            window.siteState.site_edits = data.site_edits;
           }
-          const treatments = JSON.parse(localStorage.getItem('site_treatments')) || [];
-          const schedule_settings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {};
-          const schedule_overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
-          
-          await setDoc(docRef, {
-            site_edits,
-            treatments,
-            schedule_settings,
-            schedule_overrides
-          }, { merge: true });
-        };
-        
-        window.saveAppointmentToFirebase = async function(appt) {
-          if (!appt || !appt.id) return;
-          const docRef = doc(db, "appointments", appt.id);
-          await setDoc(docRef, appt, { merge: true });
-        };
-        
-        onSnapshot(doc(db, "settings", "global"), (docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            if (data.site_edits) {
-              for (const [key, value] of Object.entries(data.site_edits)) {
-                localStorage.setItem('site_edit_' + key, value);
-              }
-            }
-            if (data.treatments) {
-              localStorage.setItem('site_treatments', JSON.stringify(data.treatments));
-            }
-            if (data.schedule_settings) {
-              localStorage.setItem('site_schedule_settings', JSON.stringify(data.schedule_settings));
-            }
-            if (data.schedule_overrides) {
-              localStorage.setItem('site_schedule_overrides', JSON.stringify(data.schedule_overrides));
-            }
-            
-            if (typeof window.syncDOMFromLocalStorage === 'function') {
-              window.syncDOMFromLocalStorage();
-            }
-            if (typeof window.syncAdminUI === 'function') {
-              window.syncAdminUI();
-            }
-          } else {
-            window.saveGlobalSettingsToFirebase();
+          if (data.treatments) {
+            window.siteState.treatments = data.treatments;
           }
-        });
-        
-        onSnapshot(collection(db, "appointments"), (querySnapshot) => {
-          const appointments = [];
-          querySnapshot.forEach((doc) => {
-            appointments.push(doc.data());
-          });
-          localStorage.setItem('site_appointments', JSON.stringify(appointments));
+          if (data.schedule_settings) {
+            window.siteState.schedule_settings = data.schedule_settings;
+          }
+          if (data.schedule_overrides) {
+            window.siteState.schedule_overrides = data.schedule_overrides;
+          }
           
           if (typeof window.syncDOMFromLocalStorage === 'function') {
             window.syncDOMFromLocalStorage();
           }
-          if (typeof window.syncAdminUI === 'function') {
-            window.syncAdminUI();
+          
+          // Re-render modal calendar if it is open
+          const bookingModal = document.getElementById('booking-modal');
+          if (bookingModal && !bookingModal.classList.contains('hidden')) {
+            if (typeof renderModalCalendar === 'function') {
+              renderModalCalendar();
+            }
           }
+        } else {
+          window.saveGlobalSettingsToFirebase().catch(err => console.error("Error creating global settings:", err));
+        }
+      }, (err) => {
+        console.error("Firestore settings snapshot error:", err);
+      });
+      
+      onSnapshot(collection(db, "appointments"), (querySnapshot) => {
+        const appointments = [];
+        querySnapshot.forEach((doc) => {
+          appointments.push(doc.data());
         });
+        window.siteState.appointments = appointments;
         
-      } catch (err) {
-        console.error("Failed to load Firebase:", err);
-      }
-    })();
+        if (typeof window.syncDOMFromLocalStorage === 'function') {
+          window.syncDOMFromLocalStorage();
+        }
+        
+        // Re-render modal calendar if it is open
+        const bookingModal = document.getElementById('booking-modal');
+        if (bookingModal && !bookingModal.classList.contains('hidden')) {
+          if (typeof renderModalCalendar === 'function') {
+            renderModalCalendar();
+          }
+        }
+      }, (err) => {
+        console.error("Firestore appointments snapshot error:", err);
+      });
+      
+    } catch (err) {
+      console.error("Failed to load Firebase:", err);
+    }
+  })();
 </script>
 
 

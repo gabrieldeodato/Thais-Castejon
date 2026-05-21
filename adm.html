@@ -1015,6 +1015,17 @@
     let currentAdminDate = new Date();
     let selectedDateStr = null;
 
+    window.siteState = {
+      treatments: defaultTreatmentsList,
+      schedule_settings: {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      },
+      schedule_overrides: {},
+      appointments: [],
+      site_edits: {}
+    };
+
     function handlePasswordSubmit(event) {
       event.preventDefault();
       const pwInput = document.getElementById('admin-password-input');
@@ -1097,20 +1108,6 @@
       if (denied) denied.classList.add('hidden');
       if (dash) dash.classList.remove('hidden');
       
-      // Seed default treatments list if not in localStorage
-      if (!localStorage.getItem('site_treatments')) {
-        localStorage.setItem('site_treatments', JSON.stringify(defaultTreatmentsList));
-      }
-
-      // Seed schedule defaults
-      if (!localStorage.getItem('site_schedule_settings')) {
-        const defaultSched = {
-          available_weekdays: [1, 2, 3, 4, 5],
-          default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
-        };
-        localStorage.setItem('site_schedule_settings', JSON.stringify(defaultSched));
-      }
-
       loadValues();
       renderAdminCalendar();
       renderUpcomingList();
@@ -1177,13 +1174,13 @@
       }
     }
 
-    // Load CMS Text and image fields from localStorage
+    // Load CMS Text and image fields from window.siteState.site_edits
     function loadValues() {
       for (let key in defaultValues) {
         const el = document.getElementById('field_' + key);
         if (el) {
-          let val = localStorage.getItem('site_edit_' + key);
-          if (val === null) {
+          let val = window.siteState.site_edits[key];
+          if (val === undefined || val === null) {
             val = defaultValues[key];
           }
           if (key === 'clinic_address') {
@@ -1232,35 +1229,35 @@
           if (key === 'clinic_address') {
             val = val.split('\n').join('\\n');
           }
-          localStorage.setItem('site_edit_' + key, val);
+          window.siteState.site_edits[key] = val;
         }
       }
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().then(() => {
+          showToast();
+        }).catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
+      } else {
+        showToast();
       }
-      showToast();
     }
 
     function restoreDefaults() {
       if (confirm('Deseja realmente restaurar os textos e imagens originais do site? Todas as alterações personalizadas serão perdidas.')) {
-        const keys = Object.keys(localStorage);
-        keys.forEach(k => {
-          if (k.startsWith('site_edit_')) {
-            localStorage.removeItem(k);
-          }
-        });
-        localStorage.setItem('site_treatments', JSON.stringify(defaultTreatmentsList));
-        const defaultSched = {
+        window.siteState.site_edits = {};
+        window.siteState.treatments = JSON.parse(JSON.stringify(defaultTreatmentsList));
+        window.siteState.schedule_settings = {
           available_weekdays: [1, 2, 3, 4, 5],
           default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
         };
-        localStorage.setItem('site_schedule_settings', JSON.stringify(defaultSched));
-        localStorage.removeItem('site_schedule_overrides');
+        window.siteState.schedule_overrides = {};
         if (typeof window.saveGlobalSettingsToFirebase === 'function') {
           window.saveGlobalSettingsToFirebase().then(() => {
+            alert('Configurações originais restauradas com sucesso!');
             window.location.reload();
-          }).catch(() => {
-            window.location.reload();
+          }).catch(err => {
+            alert("Erro ao restaurar configurações no banco de dados (Firebase): " + err.message);
           });
         } else {
           window.location.reload();
@@ -1313,12 +1310,12 @@
       }
 
       // Schedule settings, overrides, and appointments
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+      const scheduleSettings = window.siteState.schedule_settings || {
         available_weekdays: [1, 2, 3, 4, 5],
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
-      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
-      const appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+      const overrides = window.siteState.schedule_overrides || {};
+      const appointments = window.siteState.appointments || [];
 
       for (let day = 1; day <= totalDays; day++) {
         const thisDate = new Date(year, month, day);
@@ -1446,23 +1443,25 @@
       if (!selectedDateStr) return;
       const isDayActive = document.getElementById('selected-day-active-chk').checked;
       
-      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+      const overrides = window.siteState.schedule_overrides || {};
       
       if (!overrides[selectedDateStr]) {
         overrides[selectedDateStr] = {};
       }
       
       overrides[selectedDateStr].disabled = !isDayActive;
-      localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      window.siteState.schedule_overrides = overrides;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
       }
       
       // Refresh current calendar and details panel
       renderAdminCalendar();
       const parts = selectedDateStr.split('-');
       const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
-      const appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+      const appointments = window.siteState.appointments || [];
       const dayBookings = appointments.filter(a => a.date === selectedDateStr && a.status !== 'cancelled');
       loadDayDetails(dateObj, isDayActive, dayBookings);
     }
@@ -1473,11 +1472,11 @@
 
       container.innerHTML = '';
       
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+      const scheduleSettings = window.siteState.schedule_settings || {
         available_weekdays: [1, 2, 3, 4, 5],
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
-      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+      const overrides = window.siteState.schedule_overrides || {};
 
       let daySlots = [...scheduleSettings.default_slots];
       if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
@@ -1500,11 +1499,11 @@
 
     function removeDaySlot(time) {
       if (!selectedDateStr) return;
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+      const scheduleSettings = window.siteState.schedule_settings || {
         available_weekdays: [1, 2, 3, 4, 5],
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
-      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+      const overrides = window.siteState.schedule_overrides || {};
 
       let daySlots = [...scheduleSettings.default_slots];
       if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
@@ -1517,9 +1516,11 @@
         overrides[selectedDateStr] = {};
       }
       overrides[selectedDateStr].slots = daySlots;
-      localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      window.siteState.schedule_overrides = overrides;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
       }
 
       const parts = selectedDateStr.split('-');
@@ -1537,11 +1538,11 @@
         return;
       }
 
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+      const scheduleSettings = window.siteState.schedule_settings || {
         available_weekdays: [1, 2, 3, 4, 5],
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
-      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+      const overrides = window.siteState.schedule_overrides || {};
 
       let daySlots = [...scheduleSettings.default_slots];
       if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
@@ -1560,9 +1561,11 @@
         overrides[selectedDateStr] = {};
       }
       overrides[selectedDateStr].slots = daySlots;
-      localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      window.siteState.schedule_overrides = overrides;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
       }
 
       input.value = '';
@@ -1573,7 +1576,7 @@
 
     function cancelAppointment(id) {
       if (confirm('Deseja realmente cancelar este agendamento?')) {
-        let appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+        let appointments = window.siteState.appointments || [];
         let cancelledAppt = null;
         // Soft delete / Status change or filter
         appointments = appointments.map(a => {
@@ -1583,11 +1586,16 @@
           }
           return a;
         });
-        localStorage.setItem('site_appointments', JSON.stringify(appointments));
+        window.siteState.appointments = appointments;
         if (cancelledAppt && typeof window.saveAppointmentToFirebase === 'function') {
-          window.saveAppointmentToFirebase(cancelledAppt);
+          window.saveAppointmentToFirebase(cancelledAppt).then(() => {
+            showToast();
+          }).catch(err => {
+            alert("Erro ao cancelar o agendamento no banco de dados (Firebase). Erro: " + err.message);
+          });
+        } else {
+          showToast();
         }
-        showToast();
         
         // Refresh views
         renderAdminCalendar();
@@ -1596,7 +1604,7 @@
         if (selectedDateStr) {
           const parts = selectedDateStr.split('-');
           const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
-          const isDayActive = !((JSON.parse(localStorage.getItem('site_schedule_overrides')) || {})[selectedDateStr] || {}).disabled;
+          const isDayActive = !((window.siteState.schedule_overrides || {})[selectedDateStr] || {}).disabled;
           const dayBookings = appointments.filter(a => a.date === selectedDateStr && a.status !== 'cancelled');
           loadDayDetails(dateObj, isDayActive, dayBookings);
         }
@@ -1608,7 +1616,7 @@
       if (!container) return;
 
       container.innerHTML = '';
-      const appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+      const appointments = window.siteState.appointments || [];
       
       const todayStr = new Date().toISOString().split('T')[0];
       const upcoming = appointments.filter(a => a.date >= todayStr && a.status !== 'cancelled');
@@ -1644,7 +1652,7 @@
           currentAdminDate = dateObj;
           renderAdminCalendar();
           
-          const isDayActive = !((JSON.parse(localStorage.getItem('site_schedule_overrides')) || {})[selectedDateStr] || {}).disabled;
+          const isDayActive = !((window.siteState.schedule_overrides || {})[selectedDateStr] || {}).disabled;
           const dayBookings = appointments.filter(a => a.date === selectedDateStr && a.status !== 'cancelled');
           loadDayDetails(dateObj, isDayActive, dayBookings);
         };
@@ -1661,7 +1669,7 @@
       const slotsContainer = document.getElementById('general-default-slots-list');
       if (!weekdaysContainer || !slotsContainer) return;
 
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+      const scheduleSettings = window.siteState.schedule_settings || {
         available_weekdays: [1, 2, 3, 4, 5],
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
@@ -1695,7 +1703,7 @@
     }
 
     function saveGeneralSettingsToStorage() {
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+      const scheduleSettings = window.siteState.schedule_settings || {
         available_weekdays: [1, 2, 3, 4, 5],
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
@@ -1709,22 +1717,26 @@
       });
 
       scheduleSettings.available_weekdays = activeDays;
-      localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      window.siteState.schedule_settings = scheduleSettings;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
       }
       
       renderAdminCalendar();
     }
 
     function removeDefaultSlot(time) {
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings'));
+      const scheduleSettings = window.siteState.schedule_settings;
       if (!scheduleSettings) return;
 
       scheduleSettings.default_slots = scheduleSettings.default_slots.filter(s => s !== time);
-      localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      window.siteState.schedule_settings = scheduleSettings;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
       }
       
       renderGeneralScheduleSettings();
@@ -1740,7 +1752,7 @@
         return;
       }
 
-      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings'));
+      const scheduleSettings = window.siteState.schedule_settings;
       if (!scheduleSettings) return;
 
       if (scheduleSettings.default_slots.includes(timeVal)) {
@@ -1750,9 +1762,11 @@
 
       scheduleSettings.default_slots.push(timeVal);
       scheduleSettings.default_slots.sort();
-      localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      window.siteState.schedule_settings = scheduleSettings;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+        });
       }
 
       input.value = '';
@@ -1765,7 +1779,7 @@
       if (!container) return;
 
       container.innerHTML = '';
-      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+      const list = window.siteState.treatments || defaultTreatmentsList;
 
       list.forEach((t, idx) => {
         const card = document.createElement('div');
@@ -1836,7 +1850,7 @@
     }
 
     function editTreatmentBtnClick(index) {
-      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+      const list = window.siteState.treatments || defaultTreatmentsList;
       const t = list[index];
       if (!t) return;
 
@@ -1877,25 +1891,31 @@
     }
 
     function deleteTreatmentBtnClick(index) {
-      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+      const list = window.siteState.treatments || defaultTreatmentsList;
       const t = list[index];
       if (!t) return;
 
       if (confirm('Deseja realmente remover o tratamento "' + t.title + '"? Isto fará com que o card e botão sumam das páginas públicas.')) {
         list.splice(index, 1);
-        localStorage.setItem('site_treatments', JSON.stringify(list));
+        window.siteState.treatments = list;
         if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-          window.saveGlobalSettingsToFirebase();
+          window.saveGlobalSettingsToFirebase().then(() => {
+            showToast();
+            renderTreatmentsList();
+          }).catch(err => {
+            alert("Erro ao remover o tratamento no banco de dados (Firebase). Erro: " + err.message);
+          });
+        } else {
+          showToast();
+          renderTreatmentsList();
         }
-        showToast();
-        renderTreatmentsList();
       }
     }
 
     function saveTreatmentSubmit(e) {
       e.preventDefault();
       const index = parseInt(document.getElementById('crud_t_index').value, 10);
-      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+      const list = window.siteState.treatments || defaultTreatmentsList;
 
       const slug = document.getElementById('crud_t_id').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
       if (!slug) {
@@ -1937,13 +1957,20 @@
         list[index] = itemData;
       }
 
-      localStorage.setItem('site_treatments', JSON.stringify(list));
+      window.siteState.treatments = list;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase();
+        window.saveGlobalSettingsToFirebase().then(() => {
+          closeTreatmentForm();
+          showToast();
+          renderTreatmentsList();
+        }).catch(err => {
+          alert("Erro ao salvar o tratamento no banco de dados (Firebase). Erro: " + err.message);
+        });
+      } else {
+        closeTreatmentForm();
+        showToast();
+        renderTreatmentsList();
       }
-      closeTreatmentForm();
-      showToast();
-      renderTreatmentsList();
     }
 
 
@@ -1991,49 +2018,47 @@
       window.firebaseGetDownloadURL = getDownloadURL;
       
       window.saveGlobalSettingsToFirebase = async function() {
-        const docRef = doc(db, "settings", "global");
-        const site_edits = {};
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('site_edit_')) {
-            const editKey = key.replace('site_edit_', '');
-            site_edits[editKey] = localStorage.getItem(key);
-          }
+        try {
+          const docRef = doc(db, "settings", "global");
+          await setDoc(docRef, {
+            site_edits: window.siteState.site_edits || {},
+            treatments: window.siteState.treatments || [],
+            schedule_settings: window.siteState.schedule_settings || {},
+            schedule_overrides: window.siteState.schedule_overrides || {}
+          }, { merge: true });
+        } catch (err) {
+          console.error("Erro ao salvar configuracoes no Firebase:", err);
+          alert("Erro ao sincronizar com o banco de dados (Firebase). Suas alteracoes nao foram salvas na nuvem! Erro: " + err.message + "\nPor favor, verifique as regras de seguranca no Console do Firebase.");
+          throw err;
         }
-        const treatments = JSON.parse(localStorage.getItem('site_treatments')) || [];
-        const schedule_settings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {};
-        const schedule_overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
-        
-        await setDoc(docRef, {
-          site_edits,
-          treatments,
-          schedule_settings,
-          schedule_overrides
-        }, { merge: true });
       };
       
       window.saveAppointmentToFirebase = async function(appt) {
         if (!appt || !appt.id) return;
-        const docRef = doc(db, "appointments", appt.id);
-        await setDoc(docRef, appt, { merge: true });
+        try {
+          const docRef = doc(db, "appointments", appt.id);
+          await setDoc(docRef, appt, { merge: true });
+        } catch (err) {
+          console.error("Erro ao salvar agendamento no Firebase:", err);
+          alert("Erro ao salvar o agendamento no Firebase. Erro: " + err.message + "\nPor favor, verifique as regras de seguranca no Console do Firebase.");
+          throw err;
+        }
       };
       
       onSnapshot(doc(db, "settings", "global"), (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
           if (data.site_edits) {
-            for (const [key, value] of Object.entries(data.site_edits)) {
-              localStorage.setItem('site_edit_' + key, value);
-            }
+            window.siteState.site_edits = data.site_edits;
           }
           if (data.treatments) {
-            localStorage.setItem('site_treatments', JSON.stringify(data.treatments));
+            window.siteState.treatments = data.treatments;
           }
           if (data.schedule_settings) {
-            localStorage.setItem('site_schedule_settings', JSON.stringify(data.schedule_settings));
+            window.siteState.schedule_settings = data.schedule_settings;
           }
           if (data.schedule_overrides) {
-            localStorage.setItem('site_schedule_overrides', JSON.stringify(data.schedule_overrides));
+            window.siteState.schedule_overrides = data.schedule_overrides;
           }
           
           if (typeof window.syncDOMFromLocalStorage === 'function') {
@@ -2043,7 +2068,9 @@
             window.syncAdminUI();
           }
         } else {
-          window.saveGlobalSettingsToFirebase();
+          window.saveGlobalSettingsToFirebase().catch(err => {
+            console.error("Erro ao salvar configuracoes globais iniciais no Firebase:", err);
+          });
         }
       });
       
@@ -2052,7 +2079,7 @@
         querySnapshot.forEach((doc) => {
           appointments.push(doc.data());
         });
-        localStorage.setItem('site_appointments', JSON.stringify(appointments));
+        window.siteState.appointments = appointments;
         
         if (typeof window.syncDOMFromLocalStorage === 'function') {
           window.syncDOMFromLocalStorage();
