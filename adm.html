@@ -2119,5 +2119,113 @@
     window.handleAdminSendChat = handleAdminSendChat;
     window.adminCloseActiveChat = adminCloseActiveChat;
   </script>
+
+<script type="module">
+  if (window.location.protocol !== 'file:') {
+    (async () => {
+      try {
+        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+        const { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
+          authDomain: "thais-castejon.firebaseapp.com",
+          projectId: "thais-castejon",
+          storageBucket: "thais-castejon.firebasestorage.app",
+          messagingSenderId: "364219423720",
+          appId: "1:364219423720:web:4d08621d0b64e7548a625d",
+          measurementId: "G-FDQCRHEP1S"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        window.firebaseDb = db;
+        window.firebaseDoc = doc;
+        window.firebaseGetDoc = getDoc;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseOnSnapshot = onSnapshot;
+        window.firebaseCollection = collection;
+        
+        window.saveGlobalSettingsToFirebase = async function() {
+          const docRef = doc(db, "settings", "global");
+          const site_edits = {};
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('site_edit_')) {
+              const editKey = key.replace('site_edit_', '');
+              site_edits[editKey] = localStorage.getItem(key);
+            }
+          }
+          const treatments = JSON.parse(localStorage.getItem('site_treatments')) || [];
+          const schedule_settings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {};
+          const schedule_overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+          
+          await setDoc(docRef, {
+            site_edits,
+            treatments,
+            schedule_settings,
+            schedule_overrides
+          }, { merge: true });
+        };
+        
+        window.saveAppointmentToFirebase = async function(appt) {
+          if (!appt || !appt.id) return;
+          const docRef = doc(db, "appointments", appt.id);
+          await setDoc(docRef, appt, { merge: true });
+        };
+        
+        onSnapshot(doc(db, "settings", "global"), (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.site_edits) {
+              for (const [key, value] of Object.entries(data.site_edits)) {
+                localStorage.setItem('site_edit_' + key, value);
+              }
+            }
+            if (data.treatments) {
+              localStorage.setItem('site_treatments', JSON.stringify(data.treatments));
+            }
+            if (data.schedule_settings) {
+              localStorage.setItem('site_schedule_settings', JSON.stringify(data.schedule_settings));
+            }
+            if (data.schedule_overrides) {
+              localStorage.setItem('site_schedule_overrides', JSON.stringify(data.schedule_overrides));
+            }
+            
+            if (typeof window.syncDOMFromLocalStorage === 'function') {
+              window.syncDOMFromLocalStorage();
+            }
+            if (typeof window.syncAdminUI === 'function') {
+              window.syncAdminUI();
+            }
+          } else {
+            window.saveGlobalSettingsToFirebase();
+          }
+        });
+        
+        onSnapshot(collection(db, "appointments"), (querySnapshot) => {
+          const appointments = [];
+          querySnapshot.forEach((doc) => {
+            appointments.push(doc.data());
+          });
+          localStorage.setItem('site_appointments', JSON.stringify(appointments));
+          
+          if (typeof window.syncDOMFromLocalStorage === 'function') {
+            window.syncDOMFromLocalStorage();
+          }
+          if (typeof window.syncAdminUI === 'function') {
+            window.syncAdminUI();
+          }
+        });
+        
+      } catch (err) {
+        console.error("Failed to load Firebase:", err);
+      }
+    })();
+  }
+</script>
+
 </body>
 </html>
