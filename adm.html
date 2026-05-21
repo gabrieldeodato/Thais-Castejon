@@ -53,11 +53,16 @@
 </head>
 <body class="bg-background min-h-screen flex flex-col">
 
-  <!-- Loading / Verification screen -->
-  <div id="login-screen" class="flex-grow flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl border border-accent-border shadow-xl p-8 max-w-md w-full text-center space-y-4">
-      <div class="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin mx-auto"></div>
-      <p class="text-sm text-secondary font-medium">Verificando credenciais de administrador...</p>
+  <!-- Access Denied Screen (shown for non-admins) -->
+  <div id="access-denied-screen" class="hidden flex-grow flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-red-200 shadow-xl p-10 max-w-md w-full text-center space-y-5">
+      <div class="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto border-2 border-red-200">
+        <span class="material-symbols-outlined text-4xl text-red-500">lock</span>
+      </div>
+      <h2 class="text-2xl font-headline font-bold text-red-600">Acesso Negado</h2>
+      <p class="text-sm text-secondary">Você não tem permissão para acessar o painel administrativo.</p>
+      <p class="text-xs text-secondary opacity-70">Esta área é exclusiva para a administradora do sistema.</p>
+      <a href="index.html" class="inline-block mt-2 bg-primary text-white font-bold py-3 px-8 rounded-full hover:opacity-90 transition-opacity text-sm">Voltar ao Site</a>
     </div>
   </div>
 
@@ -932,7 +937,7 @@
         backToSiteBtn.setAttribute('href', '/');
       }
 
-      // 1. Check for user login and admin privilege
+      // Check for admin privilege
       let isAdmin = false;
       try {
         const userJson = localStorage.getItem('site_user');
@@ -949,11 +954,13 @@
         showDashboard();
       } else {
         localStorage.removeItem('adm_logged_in');
-        window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
+        // Show access denied instead of redirecting
+        const deniedScreen = document.getElementById('access-denied-screen');
+        if (deniedScreen) deniedScreen.classList.remove('hidden');
         return;
       }
 
-      // 3. Setup Logout
+      // Setup Logout
       const logoutBtn = document.getElementById('logout-btn');
       if (logoutBtn && !logoutBtn._listenerAdded) {
         logoutBtn._listenerAdded = true;
@@ -965,12 +972,11 @@
         });
       }
 
-      // 4. Setup Dynamic Preview Listeners
+      // Setup Dynamic Preview Listeners
       setupPreviews();
     }
 
-    // Run check immediately (script is at end of body so DOM is ready)
-    // Also bind to DOMContentLoaded as a safety fallback
+    // Run immediately — script is at bottom of body, DOM is ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', runAdminCheck);
     } else {
@@ -988,14 +994,12 @@
       }
     };
 
-    function showLogin() {
-      document.getElementById('login-screen').classList.remove('hidden');
-      document.getElementById('dashboard-screen').classList.add('hidden');
-    }
 
     function showDashboard() {
-      document.getElementById('login-screen').classList.add('hidden');
-      document.getElementById('dashboard-screen').classList.remove('hidden');
+      const denied = document.getElementById('access-denied-screen');
+      const dash = document.getElementById('dashboard-screen');
+      if (denied) denied.classList.add('hidden');
+      if (dash) dash.classList.remove('hidden');
       
       // Seed default treatments list if not in localStorage
       if (!localStorage.getItem('site_treatments')) {

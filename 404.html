@@ -52,9 +52,6 @@
 <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full" href="contato.html">Contato</a>
     </nav>
     <div class="flex items-center gap-3">
-      <a href="adm.html" id="admin-gear" class="hidden text-secondary hover:text-primary transition-colors flex items-center justify-center w-9 h-9 rounded-full hover:bg-primary-container/10" title="Painel Admin">
-        <span class="material-symbols-outlined text-[22px]">settings</span>
-      </a>
       <button onclick="openChatModal()" class="hidden md:flex text-secondary hover:text-primary text-sm font-semibold px-3 py-2 rounded-full hover:bg-primary-container/10 transition-colors items-center gap-1">
         <span class="material-symbols-outlined text-[18px]">chat</span> Fale Conosco
       </button>
@@ -66,6 +63,9 @@
           Cadastrar
         </button>
       </div>
+      <a href="adm.html" id="admin-gear" class="hidden text-secondary hover:text-primary transition-colors flex items-center justify-center w-9 h-9 rounded-full hover:bg-primary-container/10" title="Painel Admin">
+        <span class="material-symbols-outlined text-[22px]">settings</span>
+      </a>
       <button onclick="openBookingModal()" class="md:hidden text-primary text-button font-button font-medium text-sm">
         Agendar
       </button>
@@ -505,6 +505,13 @@
 
 <script>
   function openBookingModal(treatmentVal) {
+    // Require login to schedule
+    const userJson = localStorage.getItem('site_user');
+    if (!userJson) {
+      openAuthModal('register');
+      return;
+    }
+
     const modal = document.getElementById('booking-modal');
     const form = document.getElementById('booking-form');
     const successScreen = document.getElementById('booking-success-screen');
@@ -1172,8 +1179,7 @@
   function openChatModal() {
     const userJson = localStorage.getItem('site_user');
     if (!userJson) {
-      alert("Por favor, faça login ou cadastre-se para falar conosco.");
-      openAuthModal('login');
+      openAuthModal('register');
       return;
     }
 
