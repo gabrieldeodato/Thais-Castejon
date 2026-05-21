@@ -8,7 +8,12 @@
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const treatment = urlParams.get('treatment') || '';
-      const redirectUrl = 'index.html?booking=open' + (treatment ? '&treatment=' + treatment : '');
+      let target = 'index.html?booking=open';
+      if (window.location.protocol !== 'file:') {
+        target = '/?booking=open';
+      }
+      const redirectUrl = target + (treatment ? '&treatment=' + treatment : '');
+      document.getElementById('fallback-link').setAttribute('href', redirectUrl);
       window.location.replace(redirectUrl);
     });
   </script>
@@ -16,7 +21,7 @@
 <body>
   <div style="font-family: sans-serif; text-align: center; padding: 50px;">
     <h2>Redirecionando para a agenda...</h2>
-    <p>Caso não seja redirecionado automaticamente, <a href="index.html?booking=open">clique aqui</a>.</p>
+    <p>Caso não seja redirecionado automaticamente, <a id="fallback-link" href="index.html?booking=open">clique aqui</a>.</p>
   </div>
 </body>
 </html>

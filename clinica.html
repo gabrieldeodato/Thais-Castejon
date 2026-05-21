@@ -124,7 +124,7 @@
 <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full" href="contato.html">Contato</a>
     </nav>
     <div class="flex items-center gap-2">
-      <a href="adm.html" class="text-secondary hover:text-primary transition-colors flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary-container/10" title="Configurações">
+      <a href="adm.html" id="admin-gear" class="hidden text-secondary hover:text-primary transition-colors flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary-container/10" title="Configurações">
         <span class="material-symbols-outlined text-[24px]">settings</span>
       </a>
       <button onclick="openBookingModal()" class="hidden md:flex items-center justify-center bg-primary text-on-primary text-button font-button px-6 py-3 rounded-full hover:opacity-80 transition-opacity">
@@ -281,27 +281,27 @@
 <!-- BottomNavBar (Mobile Only) -->
 <nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-base bg-surface border-t border-outline-variant z-50">
 
-  <a id="nav-mobile-home" class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="index.html">
+  <a id="nav-mobile-home" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="index.html">
     <span class="material-symbols-outlined mb-1 text-[24px]" >home</span>
     <span class="text-[9px] font-label-caps tracking-wide">Início</span>
   </a>
-  <a id="nav-mobile-clinica" class="flex flex-col items-center justify-center text-primary font-bold scale-95 transition-transform duration-150 w-16 h-14" href="clinica.html">
+  <a id="nav-mobile-clinica" class=" flex flex-col items-center justify-center text-primary font-bold scale-95 transition-transform duration-150 w-16 h-14" href="clinica.html">
     <span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">domain</span>
     <span class="text-[9px] font-label-caps tracking-wide">Clínica</span>
   </a>
-  <a id="nav-mobile-tratamentos" class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="tratamentos.html">
+  <a id="nav-mobile-tratamentos" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="tratamentos.html">
     <span class="material-symbols-outlined mb-1 text-[24px]" >content_cut</span>
     <span class="text-[9px] font-label-caps tracking-wide">Tratamentos</span>
   </a>
-  <a id="nav-mobile-sobre" class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="sobre.html">
+  <a id="nav-mobile-sobre" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="sobre.html">
     <span class="material-symbols-outlined mb-1 text-[24px]" >person</span>
     <span class="text-[9px] font-label-caps tracking-wide">Dra. Thais</span>
   </a>
-  <a id="nav-mobile-contato" class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="contato.html">
+  <a id="nav-mobile-contato" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="contato.html">
     <span class="material-symbols-outlined mb-1 text-[24px]" >chat_bubble</span>
     <span class="text-[9px] font-label-caps tracking-wide">Contato</span>
   </a>
-  <a id="nav-mobile-adm" class="flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="adm.html">
+  <a id="nav-mobile-adm" class="hidden flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="adm.html">
     <span class="material-symbols-outlined mb-1 text-[24px]" >settings</span>
     <span class="text-[9px] font-label-caps tracking-wide">Painel</span>
   </a>
@@ -926,6 +926,48 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // 1. Dynamic Clean URLs / Local File compatibility
+    if (window.location.protocol === 'file:') {
+      document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && !href.startsWith('http') && !href.startsWith('#') && !href.includes('.') && href !== '/' && href !== '.') {
+          a.setAttribute('href', href + '.html');
+        } else if (href === '/' || href === '.') {
+          a.setAttribute('href', 'index.html');
+        }
+      });
+    } else {
+      document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && href.endsWith('.html')) {
+          if (href === 'index.html') {
+            a.setAttribute('href', '/');
+          } else {
+            a.setAttribute('href', href.replace('.html', ''));
+          }
+        }
+      });
+    }
+
+    // 2. Hide/Show admin settings gear based on login status
+    const isAdminLoggedIn = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
+    const adminGear = document.getElementById('admin-gear');
+    if (adminGear) {
+      if (isAdminLoggedIn) {
+        adminGear.classList.remove('hidden');
+      } else {
+        adminGear.classList.add('hidden');
+      }
+    }
+    const adminBottomNav = document.getElementById('nav-mobile-adm');
+    if (adminBottomNav) {
+      if (isAdminLoggedIn) {
+        adminBottomNav.classList.remove('hidden');
+      } else {
+        adminBottomNav.classList.add('hidden');
+      }
+    }
+
     // Helper function to capitalize first letter
     const capitalize = s => s && s[0].toUpperCase() + s.slice(1);
 
