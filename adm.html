@@ -1021,9 +1021,9 @@
       if (!pwInput || !errMsg) return;
 
       errMsg.classList.add('hidden');
-      if (pwInput.value === 'dev@123') {
-        localStorage.setItem('adm_logged_in', 'true');
-        sessionStorage.setItem('adm_logged_in', 'true');
+      if (pwInput.value === 'adm123') {
+        localStorage.setItem('thais_adm_auth', 'true');
+        sessionStorage.setItem('thais_adm_auth', 'true');
         
         // Hide password gate and show dashboard
         const gate = document.getElementById('password-gate-screen');
@@ -1045,13 +1045,13 @@
       }
 
       // Check for logged in state
-      const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
+      const isLogged = localStorage.getItem('thais_adm_auth') === 'true' || sessionStorage.getItem('thais_adm_auth') === 'true';
 
       if (isLogged) {
         showDashboard();
       } else {
-        localStorage.removeItem('adm_logged_in');
-        sessionStorage.removeItem('adm_logged_in');
+        localStorage.removeItem('thais_adm_auth');
+        sessionStorage.removeItem('thais_adm_auth');
         
         // Hide dashboard and show password gate
         const dash = document.getElementById('dashboard-screen');
@@ -1066,8 +1066,8 @@
       if (logoutBtn && !logoutBtn._listenerAdded) {
         logoutBtn._listenerAdded = true;
         logoutBtn.addEventListener('click', () => {
-          localStorage.removeItem('adm_logged_in');
-          sessionStorage.removeItem('adm_logged_in');
+          localStorage.removeItem('thais_adm_auth');
+          sessionStorage.removeItem('thais_adm_auth');
           window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
         });
       }
@@ -1079,7 +1079,7 @@
 
 
     window.syncAdminUI = function() {
-      const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
+      const isLogged = localStorage.getItem('thais_adm_auth') === 'true' || sessionStorage.getItem('thais_adm_auth') === 'true';
       if (isLogged) {
         loadValues();
         renderAdminCalendar();
