@@ -53,16 +53,26 @@
 </head>
 <body class="bg-background min-h-screen flex flex-col">
 
-  <!-- Access Denied Screen (shown for non-admins) -->
-  <div id="access-denied-screen" class="hidden flex-grow flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl border border-red-200 shadow-xl p-10 max-w-md w-full text-center space-y-5">
-      <div class="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto border-2 border-red-200">
-        <span class="material-symbols-outlined text-4xl text-red-500">lock</span>
+  <!-- Password Gate Screen -->
+  <div id="password-gate-screen" class="hidden flex-grow flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-outline-variant/30 shadow-2xl p-10 max-w-md w-full text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
+      <div class="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center mx-auto text-primary">
+        <span class="material-symbols-outlined text-4xl">admin_panel_settings</span>
       </div>
-      <h2 class="text-2xl font-headline font-bold text-red-600">Acesso Negado</h2>
-      <p class="text-sm text-secondary">Você não tem permissão para acessar o painel administrativo.</p>
-      <p class="text-xs text-secondary opacity-70">Esta área é exclusiva para a administradora do sistema.</p>
-      <a href="index.html" class="inline-block mt-2 bg-primary text-white font-bold py-3 px-8 rounded-full hover:opacity-90 transition-opacity text-sm">Voltar ao Site</a>
+      <div class="space-y-2">
+        <h2 class="text-2xl font-headline font-bold text-primary">Painel de Administração</h2>
+        <p class="text-sm text-secondary">Área de acesso restrito. Digite a senha para prosseguir.</p>
+      </div>
+      <form id="password-gate-form" onsubmit="handlePasswordSubmit(event)" class="space-y-4">
+        <div>
+          <input type="password" id="admin-password-input" required class="w-full px-5 py-3 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white text-center tracking-widest font-semibold" placeholder="Digite a senha"/>
+        </div>
+        <div id="password-error-msg" class="hidden text-xs text-red-600 font-medium">Senha incorreta. Tente novamente.</div>
+        <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity shadow-sm text-sm uppercase tracking-wider">
+          Acessar Painel
+        </button>
+      </form>
+      <a href="index.html" class="inline-block text-xs text-secondary hover:text-primary transition-colors underline">Voltar para o site</a>
     </div>
   </div>
 
@@ -837,7 +847,81 @@
   </div>
 
   <script>
-    const defaultValues = ${JSON.stringify(defaultValues, null, 2)};
+    const defaultValues = {
+      "clinic_address": "Rua Visconde de Pirajá, 351 - Sala 620\nGaleria Fórum de Ipanema, Rio de Janeiro - RJ",
+      "clinic_whatsapp": "(21) 98292-1357",
+      "clinic_email": "contato@drathaiscastejon.com.br",
+      "hours_weekdays": "09:00 - 19:00",
+      "hours_saturday": "09:00 - 13:00",
+      "clinic_cro": "CRO-SP 123456",
+      "clinica_hero_title": "A Clínica",
+      "clinica_hero_subtitle": "Um espaço planejado nos mínimos detalhes para acolher você com conforto, sofisticação e total biossegurança. Conheça o nosso conceito.",
+      "clinica_section_title": "Tecnologia e Cuidado Integrados",
+      "clinica_description": "Localizada no coração de Ipanema, no Rio de Janeiro, a Clínica Dra. Thais Castejon combina elegância minimalista com tecnologia de última geração. Desenvolvemos uma estrutura que assegura diagnósticos rápidos e precisos, aliada a protocols de biossegurança de nível hospitalar.",
+      "clinica_feat1_title": "Tecnologia Avançada",
+      "clinica_feat1_desc": "Scanner intraoral e equipamentos modernos para procedimentos precisos.",
+      "clinica_feat2_title": "Biossegurança",
+      "clinica_feat2_desc": "Esterilização rigorosa e fluxos controlados para sua total segurança.",
+      "clinica_feat3_title": "Conforto e Spa",
+      "clinica_feat3_desc": "Sala de espera intimista com café premium e som ambiente relaxante.",
+      "clinica_feat4_title": "Acesso Premium",
+      "clinica_feat4_desc": "Localização nobre com estacionamento privativo e manobrista.",
+      "clinica_env1_title": "Recepção Acolhedora",
+      "clinica_env1_desc": "Ambiente leve para seu conforto antes do atendimento.",
+      "clinica_env2_title": "Consultório de Alta Performance",
+      "clinica_env2_desc": "Equipado para procedimentos precisos e seguros.",
+      "clinica_env3_title": "Sala de Biossegurança",
+      "clinica_env3_desc": "Esterilização completa com autoclave e insumos descartáveis.",
+      "img_clinica_hero": "https://lh3.googleusercontent.com/aida-public/AB6AXuCmE9440hCiWhkjCZHktBFQkY-1s2MgRPHmnMLdKlguqRiwsXsJ9zVn_YebzkXraF-9BzPG-BiFWu-9bIpiOZ7NebvJfWJlnkcQUtqZ_o2Dt2DVXMHZ64k7ITkMRKmMlBBUR4tDTVQNefT-CSPsdyqZvMnhttVzhqKqIOX3-JzA49hcQPBSakK6lhfX6ijBYJZM2EG1zKf3AUJF9z5gI-BErtGfEgIr7_flmWDGY2A9eSkBN5YeTkHWmX4ZVYwe5-QR4z589MKGpu1c",
+      "img_env_1": "https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E",
+      "img_env_2": "https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc",
+      "img_env_3": "https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG",
+      "contato_hero_title": "Contato",
+      "contato_hero_subtitle": "Fale Conosco • Agende uma Avaliação • Localização",
+      "clinic_map_iframe": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.684534790076!2d-43.2023531!3d-22.9839462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9bd53f0a514d3b%3A0x2a0d787042a98fbd!2sR.%20Visc.%20de%20Piraj%C3%A1%2C%20351%20-%20Ipanema%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2022410-003!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr",
+      "clinic_map_link": "https://maps.google.com/?q=Rua+Visconde+de+Piraja,+351+-+Ipanema,+Rio+de+Janeiro+-+RJ",
+      "clinic_phone_1": "(21) 2521-0772",
+      "clinic_phone_2": "(21) 2513-3068",
+      "hero_badge": "Excelência em Harmonização",
+      "hero_title": "Beleza\nElevada com\nNaturalidade",
+      "hero_subtitle": "Descubra a sua melhor versão através de procedimentos estéticos avançados, focados em realçar a sua beleza natural com precisão e segurança clínica.",
+      "featured_title": "Procedimentos de Destaque",
+      "featured_subtitle": "Intervenções precisas e personalizadas para rejuvenescer e harmonizar os traços faciais.",
+      "about_title": "Dra. Thais Castejon",
+      "about_subtitle": "Especialista em Harmonização Orofacial",
+      "about_p1": "Com dedicação exclusiva à estética facial avançada, a Dra. Thais combina profundo conhecimento anatômico com um olhar refinado para a beleza natural.",
+      "about_p2": "Sua filosofia de trabalho baseia-se em protocolos individualizados e no uso de tecnologias de ponta para garantir resultados elegantes, sutis e, acima de tudo, seguros para cada paciente.",
+      "about_bullet_1": "Especialização em Harmonização Facial Avançada",
+      "about_bullet_2": "Membro da Sociedade Brasileira de Toxina Botulínica",
+      "about_bullet_3": "Mais de 5.000 procedimentos realizados",
+      "img_hero": "https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E",
+      "img_about_portrait": "https://lh3.googleusercontent.com/aida-public/AB6AXuD9zRA7H7P1cHhMfpDzExI_xhBv3tehfHizDIL9w0h7mWXYtT8CZ6axytzacGGXDIiVqb4QbOncCWWyol9_VzQa_TTiLNGW7a1jGM6LKpiRAuU1tP5vTGOjFFBGjhiLKJTRv7wGAtphaUGZVDrLmiQK7XjpAHZG6IKKQgs8ZjU6SI1h-Rlxuc2PRfr4yFJZwUj09O41AsvURLPeBh1VLltqpNvrevu6G-8Q6a1oAjwFYs679hJ6REpkQ5VhUgEDTjARWTSn4zZXMX5f",
+      "sobre_bio_title": "Expertise em Estética Orofacial e Cuidado Especializado",
+      "sobre_bio_desc": "Com mais de uma década de dedicação à odontologia e estética avançada, meu objetivo é harmonizar saúde e beleza. Acredito que cada sorriso conta uma história e meu papel é garantir que a sua seja contada com confiança e naturalidade. Em nosso consultório, unimos tecnologia de ponta a um atendimento acolhedor e humanizado.",
+      "sobre_badge_1": "Harmonização Facial",
+      "sobre_badge_2": "Lentes de Contato",
+      "sobre_badge_3": "Toxina Botulínica",
+      "sobre_badge_4": "Fios de PDO",
+      "sobre_cta_title": "Pronto para transformar seu sorriso?",
+      "sobre_cta_desc": "Agende uma avaliação e vamos criar um plano de tratamento personalizado para você.",
+      "sobre_edu1_title": "Especialização em HOF",
+      "sobre_edu1_desc": "Instituto de Odontologia Avançada, São Paulo - SP",
+      "sobre_edu2_title": "Residência em Estética",
+      "sobre_edu2_desc": "Harvard School of Dental Medicine, Boston - USA",
+      "sobre_edu3_title": "Graduação em Odontologia",
+      "sobre_edu3_desc": "Universidade de São Paulo (USP)",
+      "img_bio_portrait": "https://lh3.googleusercontent.com/aida-public/AB6AXuAdtoptJYkcr0uhrx-y0_vZNR0R8cn4zCHklHa-f3b8wF51Say1Gjn3N5qLE1q7QaHwC-OTD09EidO8VNde15Fw3_iNmCrc_oVfFOeKdArJGqjzG0Aw6wkWZG1seOMU5CDLtZ6ems3Q6aflM3JhnTsFSA3nj3VuttlxI8n36bQIV0QwHeYR70GL5KM7hoj-H6GO1FI03cSd2oDIhGisn6_1SfPBOp3p4-vI_L8O0jmdXWXvWEoBv1OnEfuGiswZLV4_dMERCMfnivdf",
+      "tratamentos_hero_title": "Nossos Tratamentos",
+      "tratamentos_hero_subtitle": "Procedimentos de alta performance em estética orofacial e dermatologia clínica.\nOferecemos protocols personalizados para realçar sua beleza natural com segurança e precisão.",
+      "card_toxina_title": "Toxina Botulínica",
+      "card_toxina_desc": "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
+      "card_preenchimento_title": "Preenchimento Facial",
+      "card_preenchimento_desc": "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
+      "card_bioestimulador_title": "Bioestimuladores de Colágeno",
+      "card_bioestimulador_desc": "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
+      "card_fios_title": "Lifting com Fios de PDO",
+      "card_fios_desc": "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local."
+    };
 
     // Standard list of treatments initialized dynamically
     const defaultTreatmentsList = [
@@ -930,6 +1014,29 @@
     let currentAdminDate = new Date();
     let selectedDateStr = null;
 
+    function handlePasswordSubmit(event) {
+      event.preventDefault();
+      const pwInput = document.getElementById('admin-password-input');
+      const errMsg = document.getElementById('password-error-msg');
+      if (!pwInput || !errMsg) return;
+
+      errMsg.classList.add('hidden');
+      if (pwInput.value === 'dev@123') {
+        localStorage.setItem('adm_logged_in', 'true');
+        sessionStorage.setItem('adm_logged_in', 'true');
+        
+        // Hide password gate and show dashboard
+        const gate = document.getElementById('password-gate-screen');
+        if (gate) gate.classList.add('hidden');
+        
+        showDashboard();
+      } else {
+        errMsg.classList.remove('hidden');
+        pwInput.value = '';
+        pwInput.focus();
+      }
+    }
+
     function runAdminCheck() {
       // Redirect "Ver Site" link on web server for clean URLs
       const backToSiteBtn = document.getElementById('back-to-site-btn');
@@ -937,27 +1044,21 @@
         backToSiteBtn.setAttribute('href', '/');
       }
 
-      // Check for admin privilege
-      let isAdmin = false;
-      try {
-        const userJson = localStorage.getItem('site_user');
-        if (userJson) {
-          const user = JSON.parse(userJson);
-          if (user && user.email === 'thais@gmail.com') {
-            isAdmin = true;
-          }
-        }
-      } catch (e) {}
+      // Check for logged in state
+      const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
 
-      if (isAdmin) {
-        localStorage.setItem('adm_logged_in', 'true');
+      if (isLogged) {
         showDashboard();
       } else {
         localStorage.removeItem('adm_logged_in');
-        // Show access denied instead of redirecting
-        const deniedScreen = document.getElementById('access-denied-screen');
-        if (deniedScreen) deniedScreen.classList.remove('hidden');
-        return;
+        sessionStorage.removeItem('adm_logged_in');
+        
+        // Hide dashboard and show password gate
+        const dash = document.getElementById('dashboard-screen');
+        if (dash) dash.classList.add('hidden');
+        
+        const gate = document.getElementById('password-gate-screen');
+        if (gate) gate.classList.remove('hidden');
       }
 
       // Setup Logout
@@ -967,7 +1068,6 @@
         logoutBtn.addEventListener('click', () => {
           localStorage.removeItem('adm_logged_in');
           sessionStorage.removeItem('adm_logged_in');
-          localStorage.removeItem('site_user');
           window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
         });
       }
@@ -976,12 +1076,7 @@
       setupPreviews();
     }
 
-    // Run immediately — script is at bottom of body, DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', runAdminCheck);
-    } else {
-      runAdminCheck();
-    }
+
 
     window.syncAdminUI = function() {
       const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
@@ -2118,6 +2213,13 @@
     window.renderAdminChatMessages = renderAdminChatMessages;
     window.handleAdminSendChat = handleAdminSendChat;
     window.adminCloseActiveChat = adminCloseActiveChat;
+
+    // Run immediately — script is at bottom of body, DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runAdminCheck);
+    } else {
+      runAdminCheck();
+    }
   </script>
 
 <script type="module">
