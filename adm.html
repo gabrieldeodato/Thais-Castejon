@@ -1987,15 +1987,34 @@
       const { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
       const { getStorage, ref, uploadBytes, getDownloadURL } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js");
       
-      const firebaseConfig = {
-        apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
-        authDomain: "thais-castejon.firebaseapp.com",
-        projectId: "thais-castejon",
-        storageBucket: "thais-castejon.firebasestorage.app",
-        messagingSenderId: "364219423720",
-        appId: "1:364219423720:web:4d08621d0b64e7548a625d",
-        measurementId: "G-FDQCRHEP1S"
-      };
+      let firebaseConfig;
+      if (window.location.protocol === 'file:') {
+        firebaseConfig = {
+          apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
+          authDomain: "thais-castejon.firebaseapp.com",
+          projectId: "thais-castejon",
+          storageBucket: "thais-castejon.firebasestorage.app",
+          messagingSenderId: "364219423720",
+          appId: "1:364219423720:web:4d08621d0b64e7548a625d",
+          measurementId: "G-FDQCRHEP1S"
+        };
+      } else {
+        try {
+          const configRes = await fetch('/api/config');
+          firebaseConfig = await configRes.json();
+        } catch (err) {
+          console.warn("Failed to fetch Firebase config, using default:", err);
+          firebaseConfig = {
+            apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
+            authDomain: "thais-castejon.firebaseapp.com",
+            projectId: "thais-castejon",
+            storageBucket: "thais-castejon.firebasestorage.app",
+            messagingSenderId: "364219423720",
+            appId: "1:364219423720:web:4d08621d0b64e7548a625d",
+            measurementId: "G-FDQCRHEP1S"
+          };
+        }
+      }
       
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
