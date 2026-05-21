@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Agendar Consulta - Dra. Thais Castejon</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const treatment = urlParams.get('treatment') || '';
+      const redirectUrl = 'index.html?booking=open' + (treatment ? '&treatment=' + treatment : '');
+      window.location.replace(redirectUrl);
+    });
+  </script>
+</head>
+<body>
+  <div style="font-family: sans-serif; text-align: center; padding: 50px;">
+    <h2>Redirecionando para a agenda...</h2>
+    <p>Caso não seja redirecionado automaticamente, <a href="index.html?booking=open">clique aqui</a>.</p>
+  </div>
+</body>
+</html>

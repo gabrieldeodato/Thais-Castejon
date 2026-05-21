@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html class="light" lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Painel Administrativo - Dra. Thais Castejon</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00236f",
+            secondary: "#505f76",
+            "sterile-white": "#FFFFFF",
+            background: "#faf8ff",
+            surface: "#faf8ff",
+            "on-surface": "#131b2e",
+            "on-primary": "#ffffff",
+            "clinical-blue-light": "#DBEAFE",
+            "accent-border": "#E2E8F0"
+          },
+          fontFamily: {
+            headline: ["EB Garamond", "serif"],
+            body: ["Hanken Grotesk", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Hanken Grotesk', sans-serif;
+      background-color: #faf8ff;
+      color: #131b2e;
+    }
+    .font-headline {
+      font-family: 'EB Garamond', serif;
+    }
+    .accordion-header::after {
+      content: 'expand_more';
+      font-family: 'Material Symbols Outlined';
+      font-size: 20px;
+      float: right;
+      transition: transform 0.2s;
+    }
+    .accordion-header.active::after {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col">
+
+  <!-- Password screen -->
+  <div id="login-screen" class="flex-grow flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-accent-border shadow-xl p-8 max-w-md w-full text-center">
+      <div class="w-16 h-16 rounded-full bg-clinical-blue-light flex items-center justify-center text-primary mx-auto mb-6">
+        <span class="material-symbols-outlined text-3xl font-bold">medical_services</span>
+      </div>
+      <h2 class="text-2xl font-headline font-bold text-primary mb-2">Acesso Administrativo</h2>
+      <p class="text-sm text-secondary mb-6">Digite a senha para acessar o painel de controle.</p>
+      <form id="login-form" class="space-y-4">
+        <div>
+          <input type="password" id="adm-password" class="w-full px-4 py-3 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-center font-semibold text-lg" placeholder="••••••••" required autofocus/>
+        </div>
+        <div id="login-error" class="hidden text-sm text-red-600 font-medium mb-2">Senha incorreta. Tente novamente.</div>
+        <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity shadow-md">
+          Entrar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard screen -->
+  <div id="dashboard-screen" class="hidden flex-grow flex flex-col">
+    <!-- Navbar -->
+    <header class="bg-white border-b border-accent-border py-4 px-6 sticky top-0 z-40 shadow-sm">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary font-bold">settings</span>
+          <span class="text-xl font-headline font-bold text-primary">Dra. Thais Castejon • Painel de Controle</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="index.html" class="text-sm text-secondary hover:text-primary transition-colors flex items-center gap-1 border border-accent-border rounded-full px-4 py-2 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-lg">visibility</span> Ver Site
+          </a>
+          <button id="logout-btn" class="text-sm text-red-600 hover:text-red-800 transition-colors bg-transparent border border-red-200 rounded-full px-4 py-2 hover:bg-red-50">
+            Sair
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto w-full px-4 py-8 flex-grow flex flex-col md:flex-row gap-8">
+      <!-- Tabs Column -->
+      <aside class="w-full md:w-64 shrink-0 flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible gap-2 border-b md:border-b-0 border-accent-border pb-4 md:pb-0">
+        <button onclick="switchTab('agendamentos')" id="tab-btn-agendamentos" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full bg-primary text-white">
+          <span class="material-symbols-outlined">calendar_month</span> Ver Agendamentos
+        </button>
+        <button onclick="switchTab('disponibilidade')" id="tab-btn-disponibilidade" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">schedule</span> Disponibilidade Geral
+        </button>
+        <button onclick="switchTab('listatratamentos')" id="tab-btn-listatratamentos" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">spa</span> Gerenciar Tratamentos
+        </button>
+        <button onclick="switchTab('imagens')" id="tab-btn-imagens" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">image</span> Imagens do Site
+        </button>
+        <button onclick="switchTab('contatoguia')" id="tab-btn-contatoguia" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">contact_page</span> Contato & Mapas
+        </button>
+        <button onclick="switchTab('textos')" id="tab-btn-textos" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">edit_note</span> Textos do Site
+        </button>
+      </aside>
+
+      <!-- Content Column -->
+      <main class="flex-grow bg-white border border-accent-border rounded-2xl shadow-sm p-6 md:p-8 flex flex-col justify-between">
+        
+        <!-- Tab Content Containers -->
+        <div id="tab-content" class="space-y-6 flex-grow mb-8">
+          
+          <!-- TAB 1: VER AGENDAMENTOS -->
+          <div id="tab-agendamentos" class="tab-pane space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Agenda de Consultas</h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <!-- Calendar Column -->
+              <div class="lg:col-span-7 space-y-6">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                  <!-- Header Calendar navigation -->
+                  <div class="flex items-center justify-between mb-4">
+                    <button onclick="changeAdminMonth(-1)" class="p-1.5 text-secondary hover:text-primary transition-colors bg-white rounded-full border border-slate-200" type="button">
+                      <span class="material-symbols-outlined text-lg">chevron_left</span>
+                    </button>
+                    <span id="calendar-month-year-title" class="font-headline text-lg font-bold text-primary">Novembro 2023</span>
+                    <button onclick="changeAdminMonth(1)" class="p-1.5 text-secondary hover:text-primary transition-colors bg-white rounded-full border border-slate-200" type="button">
+                      <span class="material-symbols-outlined text-lg">chevron_right</span>
+                    </button>
+                  </div>
+                  <!-- Grid headers -->
+                  <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                    <div class="text-[10px] font-bold text-secondary">DOM</div>
+                    <div class="text-[10px] font-bold text-secondary">SEG</div>
+                    <div class="text-[10px] font-bold text-secondary">TER</div>
+                    <div class="text-[10px] font-bold text-secondary">QUA</div>
+                    <div class="text-[10px] font-bold text-secondary">QUI</div>
+                    <div class="text-[10px] font-bold text-secondary">SEX</div>
+                    <div class="text-[10px] font-bold text-secondary">SÁB</div>
+                  </div>
+                  <!-- Grid container -->
+                  <div id="calendar-days-grid" class="grid grid-cols-7 gap-1 text-center text-sm"></div>
+                </div>
+
+                <!-- Upcoming Appointments list widget -->
+                <div class="border border-slate-100 rounded-xl p-4 space-y-4">
+                  <h4 class="font-headline font-semibold text-primary text-base flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-primary">notifications_active</span>
+                    Agendamentos Próximos
+                  </h4>
+                  <div id="upcoming-appointments-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+                </div>
+              </div>
+
+              <!-- Day Settings & Appointments Column -->
+              <div class="lg:col-span-5 space-y-6 border-t lg:border-t-0 lg:border-l border-slate-100 lg:pl-8 pt-6 lg:pt-0">
+                <div class="bg-[#00236f]/5 rounded-xl p-5 border border-[#00236f]/10">
+                  <h4 id="selected-day-header-title" class="font-headline font-bold text-primary text-lg mb-4">Selecione um Dia</h4>
+                  
+                  <!-- Toggle day availability exception -->
+                  <div id="selected-day-settings" class="hidden space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-200/50 pb-3">
+                      <span class="text-sm font-semibold text-on-surface">Atendimento no Dia:</span>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="selected-day-active-chk" class="sr-only peer" checked onchange="toggleSelectedDayActive()"/>
+                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                      </label>
+                    </div>
+
+                    <!-- Custom Slots Selection for selected day -->
+                    <div id="selected-day-slots-setup" class="space-y-3">
+                      <span class="text-xs font-bold text-secondary uppercase tracking-wider block">Horários Habilitados neste Dia:</span>
+                      <div id="selected-day-slots-list" class="grid grid-cols-3 gap-2"></div>
+                      <div class="flex gap-2 pt-1">
+                        <input type="text" id="add-custom-day-slot-val" class="flex-grow rounded-full border border-slate-200 text-xs px-3 py-1.5 focus:ring-1 focus:ring-primary" placeholder="Adicionar ex: 12:00"/>
+                        <button type="button" onclick="addCustomDaySlot()" class="bg-primary text-white text-xs px-4 py-1.5 rounded-full font-bold hover:opacity-90 transition-opacity">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Patient list for selected day -->
+                <div class="space-y-4">
+                  <h4 class="font-headline font-semibold text-primary text-base flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg text-primary">groups</span>
+                    Pacientes Agendados
+                  </h4>
+                  <div id="selected-day-patients-container" class="space-y-3">
+                    <p class="text-sm text-secondary italic">Nenhum dia selecionado.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: DISPONIBILIDADE GERAL -->
+          <div id="tab-disponibilidade" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Disponibilidade e Horários Padrão</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Weekdays check selection -->
+              <div class="space-y-4 border border-slate-100 rounded-xl p-5 bg-slate-50/50">
+                <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Dias da Semana de Atendimento</h4>
+                <p class="text-xs text-secondary mb-4">Escolha quais dias da semana seu consultório opera por padrão.</p>
+                <div id="general-weekdays-checks-container" class="space-y-2"></div>
+              </div>
+
+              <!-- Default daily slot hours list -->
+              <div class="space-y-4 border border-slate-100 rounded-xl p-5 bg-slate-50/50">
+                <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Horários Padrão (Slots de Consulta)</h4>
+                <p class="text-xs text-secondary">Defina os slots de horários oferecidos no site por padrão.</p>
+                
+                <div id="general-default-slots-list" class="grid grid-cols-4 gap-2 py-2 max-h-48 overflow-y-auto pr-1"></div>
+                
+                <div class="flex gap-2 pt-2 border-t border-slate-200/50">
+                  <input type="text" id="add-default-slot-val" class="flex-grow rounded-full border border-slate-200 text-sm px-4 py-2 focus:ring-1 focus:ring-primary" placeholder="Novo horário (ex: 13:30)"/>
+                  <button type="button" onclick="addDefaultGeneralSlot()" class="bg-primary text-white text-xs px-6 py-2 rounded-full font-bold hover:opacity-90 transition-opacity">Adicionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: GERENCIAR TRATAMENTOS (CRUD) -->
+          <div id="tab-listatratamentos" class="tab-pane hidden space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h3 class="text-xl font-headline font-bold text-primary">Gerenciar Tratamentos</h3>
+              <button onclick="openTreatmentForm()" class="bg-primary text-white text-xs px-5 py-2.5 rounded-full font-bold hover:opacity-95 transition-opacity flex items-center gap-1.5 shadow-sm">
+                <span class="material-symbols-outlined text-sm">add</span> Adicionar Tratamento
+              </button>
+            </div>
+
+            <!-- Treatment Form Container (hidden by default) -->
+            <div id="treatment-crud-form-card" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-6 space-y-4">
+              <h4 id="treatment-form-title" class="font-headline font-bold text-primary text-base">Adicionar Novo Tratamento</h4>
+              <form id="treatment-crud-form" class="space-y-4" onsubmit="saveTreatmentSubmit(event)">
+                <!-- Unique ID identifier -->
+                <input type="hidden" id="crud_t_index" value="-1"/>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">ID Único (Slug Alfanumérico)</label>
+                    <input type="text" id="crud_t_id" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="ex: clareamento" required/>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Nome do Tratamento</label>
+                    <input type="text" id="crud_t_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="ex: Clareamento Dental" required/>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Categoria</label>
+                    <select id="crud_t_category" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" onchange="syncCrudCategoryLabel()">
+                      <option value="facial">Facial</option>
+                      <option value="skin-care">Skin Care</option>
+                      <option value="dental">Dental</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Imagem URL</label>
+                    <input type="text" id="crud_t_image" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="https://images.unsplash.com/..." required/>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Ícone Material Design</label>
+                    <input type="text" id="crud_t_icon" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="spa, face_retouching_natural, healing" required/>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Breve Descrição (Card)</label>
+                  <input type="text" id="crud_t_shortDesc" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="Resumo simples de uma linha para exibição em grids." required/>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Descrição Detalhada (Modal)</label>
+                  <textarea id="crud_t_description" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary" placeholder="Explicação completa do procedimento..." required></textarea>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Indicações</label>
+                  <textarea id="crud_t_indications" rows="2" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary" placeholder="Ruguinhas, flacidez, manchas..." required></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Duração do Procedimento</label>
+                    <input type="text" id="crud_t_duration" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="Cerca de 40 minutos" required/>
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Período de Recuperação</label>
+                    <input type="text" id="crud_t_recovery" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="Imediata / 3 dias" required/>
+                  </div>
+                  <div class="flex items-center gap-2 pt-5">
+                    <input type="checkbox" id="crud_t_featured" class="rounded text-primary focus:ring-primary"/>
+                    <label class="text-xs font-semibold text-secondary uppercase" for="crud_t_featured">Exibir em Destaque na Home</label>
+                  </div>
+                </div>
+
+                <div class="flex justify-end gap-3 border-t border-slate-200/50 pt-4">
+                  <button type="button" onclick="closeTreatmentForm()" class="bg-white border border-slate-200 text-secondary text-xs px-5 py-2 rounded-full font-bold hover:bg-slate-50 transition-colors">
+                    Cancelar
+                  </button>
+                  <button type="submit" class="bg-primary text-white text-xs px-6 py-2 rounded-full font-bold hover:opacity-90 transition-opacity">
+                    Salvar Tratamento
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Treatments list grid -->
+            <div id="treatments-crud-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+          </div>
+
+          <!-- TAB 4: IMAGENS DO SITE -->
+          <div id="tab-imagens" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Imagens do Site</h3>
+            <p class="text-xs text-secondary leading-relaxed">Personalize as fotos de banner, perfil e ambientes das páginas. Insira URLs públicas de imagens e visualize o resultado ao lado.</p>
+            
+            <div class="space-y-6">
+              <!-- Hero Banner -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Capa Principal (Home Hero Banner)</label>
+                  <input type="text" id="field_img_hero" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_hero" class="h-24 w-40 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <!-- About Portrait Home -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto da Dra. Thais na Página Principal (Sobre)</label>
+                  <input type="text" id="field_img_about_portrait" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_about_portrait" class="h-24 w-20 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <!-- Portrait Dra. Thais Bio page -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Perfil na Biografia Completa (Página Dra. Thais)</label>
+                  <input type="text" id="field_img_bio_portrait" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_bio_portrait" class="h-24 w-20 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <!-- Clinica Hero Capa -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Capa Principal da Clínica (A Clínica Hero)</label>
+                  <input type="text" id="field_img_clinica_hero" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_clinica_hero" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <!-- Ambientes 1, 2, 3 -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto do Ambiente 1 (Recepção)</label>
+                  <input type="text" id="field_img_env_1" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_env_1" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto do Ambiente 2 (Consultório)</label>
+                  <input type="text" id="field_img_env_2" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_env_2" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto do Ambiente 3 (Sala de Biossegurança)</label>
+                  <input type="text" id="field_img_env_3" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_env_3" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: CONTATO & MAPAS -->
+          <div id="tab-contatoguia" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Informações de Contato & Mapas</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Endereço da Clínica (Use \n para quebrar linha)</label>
+                <textarea id="field_clinic_address" rows="3" class="w-full rounded-xl border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"></textarea>
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Número do CRO / Registro Profissional</label>
+                <input type="text" id="field_clinic_cro" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">WhatsApp Direct (Com DDD/Formato Visível)</label>
+                <input type="text" id="field_clinic_whatsapp" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">E-mail de Contato</label>
+                <input type="text" id="field_clinic_email" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Telefone Fixo 1</label>
+                <input type="text" id="field_clinic_phone_1" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Telefone Fixo 2</label>
+                <input type="text" id="field_clinic_phone_2" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Horário Padrão: Segunda a Sexta</label>
+                <input type="text" id="field_hours_weekdays" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Horário Padrão: Sábado</label>
+                <input type="text" id="field_hours_saturday" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+
+              <!-- Map Settings -->
+              <div class="md:col-span-2 border-t border-slate-100 pt-6">
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Iframe de Incorporação do Google Maps (Atributo src do link embed)</label>
+                <input type="text" id="field_clinic_map_iframe" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div class="md:col-span-2 flex justify-center">
+                <iframe id="preview_clinic_map_iframe" class="w-full h-48 border border-slate-200 rounded-lg shadow-sm hidden" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+              
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Link Direto de Como Chegar (Google Maps/Waze Directions Link)</label>
+                <input type="text" id="field_clinic_map_link" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 6: TEXTOS DO SITE -->
+          <div id="tab-textos" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Textos e Mensagens do Site</h3>
+            
+            <div class="space-y-4">
+              
+              <!-- Accordion 1: Página Início -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-inicio')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Página de Início (Hero & Biografia Home)
+                </button>
+                <div id="acc-inicio" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Badge de Entrada do Banner (Hero Badge)</label>
+                      <input type="text" id="field_hero_badge" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Hero Title)</label>
+                      <input type="text" id="field_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Hero Subtitle)</label>
+                      <textarea id="field_hero_subtitle" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título Procedimentos Destaque</label>
+                      <input type="text" id="field_featured_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Procedimentos Destaque</label>
+                      <input type="text" id="field_featured_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título Dra. Thais na Home</label>
+                      <input type="text" id="field_about_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Dra. Thais na Home</label>
+                      <input type="text" id="field_about_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 1</label>
+                      <textarea id="field_about_p1" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 2</label>
+                      <textarea id="field_about_p2" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 1</label>
+                      <input type="text" id="field_about_bullet_1" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 2</label>
+                      <input type="text" id="field_about_bullet_2" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 3</label>
+                      <input type="text" id="field_about_bullet_3" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion 2: Cards Destaque Home -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-cards')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Página de Início (Textos dos Cards Padrão)
+                </button>
+                <div id="acc-cards" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
+                      <span class="text-xs font-bold text-primary">Card: Toxina Botulínica</span>
+                      <input type="text" id="field_card_toxina_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <textarea id="field_card_toxina_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
+                      <span class="text-xs font-bold text-primary">Card: Preenchimento</span>
+                      <input type="text" id="field_card_preenchimento_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <textarea id="field_card_preenchimento_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
+                      <span class="text-xs font-bold text-primary">Card: Bioestimuladores</span>
+                      <input type="text" id="field_card_bioestimulador_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <textarea id="field_card_bioestimulador_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
+                      <span class="text-xs font-bold text-primary">Card: Fios de PDO</span>
+                      <input type="text" id="field_card_fios_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <textarea id="field_card_fios_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion 3: Página A Clínica -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-clinica')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Página A Clínica
+                </button>
+                <div id="acc-clinica" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Clínica Hero)</label>
+                      <input type="text" id="field_clinica_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Clínica Hero Subtitle)</label>
+                      <input type="text" id="field_clinica_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título Seção Introdução</label>
+                      <input type="text" id="field_clinica_section_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Descrição Seção Introdução</label>
+                      <textarea id="field_clinica_description" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                    </div>
+                  </div>
+                  <!-- Diferenciais -->
+                  <div class="border-t border-slate-100 pt-4 space-y-3">
+                    <span class="text-xs font-bold text-primary uppercase">Diferenciais e Ambientes</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Diferencial 1</span>
+                        <input type="text" id="field_clinica_feat1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_feat1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Diferencial 2</span>
+                        <input type="text" id="field_clinica_feat2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_feat2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Diferencial 3</span>
+                        <input type="text" id="field_clinica_feat3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_feat3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Diferencial 4</span>
+                        <input type="text" id="field_clinica_feat4_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_feat4_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                      
+                      <!-- Ambientes -->
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Ambiente 1 (Recepção)</span>
+                        <input type="text" id="field_clinica_env1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_env1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Ambiente 2 (Consultório)</span>
+                        <input type="text" id="field_clinica_env2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_env2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg md:col-span-2">
+                        <span class="text-xs font-bold text-secondary">Ambiente 3 (Esterilização)</span>
+                        <input type="text" id="field_clinica_env3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <input type="text" id="field_clinica_env3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion 4: Página Dra. Thais (Bio) -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-sobre')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Página Dra. Thais (Perfil Completo)
+                </button>
+                <div id="acc-sobre" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título Biografia Completa</label>
+                      <input type="text" id="field_sobre_bio_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Texto Biografia Completa</label>
+                      <textarea id="field_sobre_bio_desc" rows="5" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                    </div>
+                    <!-- Badges -->
+                    <div class="grid grid-cols-2 gap-2 md:col-span-2">
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 1</label>
+                        <input type="text" id="field_sobre_badge_1" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 2</label>
+                        <input type="text" id="field_sobre_badge_2" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 3</label>
+                        <input type="text" id="field_sobre_badge_3" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 4</label>
+                        <input type="text" id="field_sobre_badge_4" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                    </div>
+                    <!-- CTA -->
+                    <div class="md:col-span-2 border-t border-slate-100 pt-3">
+                      <label class="block text-xs font-bold text-primary uppercase mb-2">Card de Call to Action (Rodapé Bio)</label>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label class="block text-xs font-semibold text-secondary mb-1">Título CTA</label>
+                          <input type="text" id="field_sobre_cta_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        </div>
+                        <div>
+                          <label class="block text-xs font-semibold text-secondary mb-1">Descrição CTA</label>
+                          <input type="text" id="field_sobre_cta_desc" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Formacao -->
+                    <div class="md:col-span-2 border-t border-slate-100 pt-3 space-y-3">
+                      <span class="text-xs font-bold text-primary uppercase">Histórico Acadêmico e Formação</span>
+                      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-2 border border-slate-100 rounded-lg">
+                          <span class="text-xs font-bold text-secondary">Educação 1</span>
+                          <input type="text" id="field_sobre_edu1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                          <input type="text" id="field_sobre_edu1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                        </div>
+                        <div class="p-2 border border-slate-100 rounded-lg">
+                          <span class="text-xs font-bold text-secondary">Educação 2</span>
+                          <input type="text" id="field_sobre_edu2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                          <input type="text" id="field_sobre_edu2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                        </div>
+                        <div class="p-2 border border-slate-100 rounded-lg">
+                          <span class="text-xs font-bold text-secondary">Educação 3</span>
+                          <input type="text" id="field_sobre_edu3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                          <input type="text" id="field_sobre_edu3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion 5: Página de Tratamentos -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-tratamentos')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Página de Tratamentos
+                </button>
+                <div id="acc-tratamentos" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Tratamentos Hero)</label>
+                      <input type="text" id="field_tratamentos_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Tratamentos Hero Subtitle)</label>
+                      <input type="text" id="field_tratamentos_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                  </div>
+                  <!-- Cards catalog text backups -->
+                  <div class="border-t border-slate-100 pt-4 space-y-3">
+                    <span class="text-xs font-bold text-primary uppercase">Cards de Tratamento Exclusivos da Página</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Card 1: Skinbooster</span>
+                        <input type="text" id="field_card_skinbooster_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <textarea id="field_card_skinbooster_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"></textarea>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg">
+                        <span class="text-xs font-bold text-secondary">Card 2: Clareamento</span>
+                        <input type="text" id="field_card_clareamento_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <textarea id="field_card_clareamento_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"></textarea>
+                      </div>
+                      <div class="p-2 border border-slate-100 rounded-lg md:col-span-2">
+                        <span class="text-xs font-bold text-secondary">Card 3: Lentes de Contato</span>
+                        <input type="text" id="field_card_lentes_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                        <textarea id="field_card_lentes_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Accordion 6: Página de Contato -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-contato')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Página de Contato
+                </button>
+                <div id="acc-contato" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Contato Hero)</label>
+                      <input type="text" id="field_contato_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Contato Hero Subtitle)</label>
+                      <input type="text" id="field_contato_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sticky Footer Buttons -->
+        <div class="border-t border-accent-border pt-6 flex flex-col sm:flex-row gap-4 items-center justify-between">
+          <button onclick="restoreDefaults()" class="w-full sm:w-auto text-xs text-red-600 hover:text-red-800 border border-red-200 rounded-full px-6 py-3 font-bold hover:bg-red-50 transition-colors uppercase tracking-wider">
+            Restaurar Padrões
+          </button>
+          
+          <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <button onclick="saveAll()" class="w-full sm:w-auto bg-primary text-white rounded-full px-8 py-3.5 hover:opacity-90 transition-opacity font-bold uppercase tracking-wider text-xs shadow-md">
+              Salvar Alterações
+            </button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Message -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50">
+    <span class="material-symbols-outlined text-green-500">check_circle</span>
+    <span class="text-sm font-semibold">Alterações salvas com sucesso!</span>
+  </div>
+
+  <script>
+    const defaultValues = ${JSON.stringify(defaultValues, null, 2)};
+
+    // Standard list of treatments initialized dynamically
+    const defaultTreatmentsList = [
+      {
+        id: "toxina",
+        title: "Toxina Botulínica",
+        category: "facial",
+        categoryLabel: "Facial",
+        icon: "face_retouching_natural",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCD5ZbV7x84LGrJULPxZAVwLXanBeQuMDUaGGgabgPaXza_B-OcZwyAjjMXZj16GF7lp3FyONfIf2ph0C39bJ-HIw0ZHyU42BzsvMi8rqO-BSeOVqVeLkCN3nbuldyZgLkCQ8OVmXq6gP5_8Yl8H7Q30p2gjV4AOwNNNnh6XKXjxejKZqxiA-92k_JrEFhv5yiAhPgh878-M4teB5ghbQNn72nzXRCRnwLahWkVRSbrgq6wow2qdSrKKnUv8MnyqtYDHTwSDzUhze5h",
+        shortDesc: "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
+        description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
+        indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
+        duration: "Cerca de 30 minutos",
+        recovery: "Imediata (evitar esforço nas primeiras 4 horas)",
+        featured: true
+      },
+      {
+        id: "preenchimento",
+        title: "Preenchimento Facial",
+        category: "facial",
+        categoryLabel: "Facial",
+        icon: "psychiatry",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc",
+        shortDesc: "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
+        description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
+        indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
+        duration: "30 a 60 minutos",
+        recovery: "Praticamente imediata (leve inchaço transitório)",
+        featured: true
+      },
+      {
+        id: "bioestimulador",
+        title: "Bioestimuladores de Colágeno",
+        category: "facial",
+        categoryLabel: "Facial",
+        icon: "spa",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4IJq7C59mUZgTixBIi0GHBw5bMesuhawQtu0BWWFeJy6IRv83IRm8PxS308TNhn3uwwsSHntQpVUzyF5bLw_EzUCI37lZX6x8r_s9JRg5D5LsRWTuZvUf-2CSOjQH_iyb37vtHAxav9lS_irSPkBIq9MrR7PRWUZxStVHo3iLwBFq3U5_UyJ3JiCqTTHsuohCLGFHyq2NypwBAMbZAAX1hwukQUDwkwy8h-AGqm8LGnX3wA-FHlyph4TJE389KraXFJDEyhKeM5I",
+        shortDesc: "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
+        description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
+        indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
+        duration: "30 a 45 minutos",
+        recovery: "Rápida (retorno imediato às atividades normais)",
+        featured: true
+      },
+      {
+        id: "fios",
+        title: "Lifting com Fios de PDO",
+        category: "facial",
+        categoryLabel: "Facial",
+        icon: "healing",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4IJq7C59mUZgTixBIi0GHBw5bMesuhawQtu0BWWFeJy6IRv83IRm8PxS308TNhn3uwwsSHntQpVUzyF5bLw_EzUCI37lZX6x8r_s9JRg5D5LsRWTuZvUf-2CSOjQH_iyb37vtHAxav9lS_irSPkBIq9MrR7PRWUZxStVHo3iLwBFq3U5_UyJ3JiCqTTHsuohCLGFHyq2NypwBAMbZAAX1hwukQUDwkwy8h-AGqm8LGnX3wA-FHlyph4TJE389KraXFJDEyhKeM5I",
+        shortDesc: "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
+        description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
+        indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
+        duration: "45 a 60 minutos",
+        recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)",
+        featured: true
+      },
+      {
+        id: "skinbooster",
+        title: "Skinbooster Hidratação Profunda",
+        category: "skin-care",
+        categoryLabel: "Skin Care",
+        icon: "water_drop",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG",
+        shortDesc: "Tratamento injetável que revitaliza a pele de dentro para fora, melhorando a elasticidade, firmeza e o viço natural do rosto, pescoço e colo.",
+        description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
+        indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
+        duration: "Cerca de 30 minutos",
+        recovery: "Imediata (pequenas pápulas podem durar até 24 hours)",
+        featured: false
+      },
+      {
+        id: "dental",
+        title: "Estética Dental Premium",
+        category: "dental",
+        categoryLabel: "Dental",
+        icon: "medical_services",
+        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDk1es4J0A4DFH2KojaZoZzxm68eztRrBHcYidpsXTIhuW7dYlj39nGTji67-zbtFDkuO_9ZvSWi_T_guzjaUGG9zlpcheM_Z_T8x2DbX8QhH0YG1JFymZNEolg9nbnAojpIasUVFxB5PFwKnj4zNuJVi4OXvnHfGemi-Lcu4Mp5RvaNdaj_gDgoTu5HffoVfR2W7dMk6Ao3OF91HNIUMpL5Q6pqm7-vNcXQGxXnlssJpTC9_g_Jx1ktu3XQhAxzHjO7cX3aZWkpJRs",
+        shortDesc: "Clareamento a Laser Profissional e Lentes de Contato em Porcelana para um sorriso radiante e harmônico.",
+        description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
+        indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastados ou lascados.",
+        duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
+        recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)",
+        featured: false
+      }
+    ];
+
+    let currentAdminDate = new Date();
+    let selectedDateStr = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Setup Auth state
+      const isLogged = sessionStorage.getItem('adm_logged_in') === 'true';
+      if (isLogged) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+
+      // 2. Setup Login Form
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('adm-password').value;
+        if (pwd === '123') {
+          sessionStorage.setItem('adm_logged_in', 'true');
+          document.getElementById('login-error').classList.add('hidden');
+          showDashboard();
+        } else {
+          document.getElementById('login-error').classList.remove('hidden');
+        }
+      });
+
+      // 3. Setup Logout
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        sessionStorage.removeItem('adm_logged_in');
+        window.location.reload();
+      });
+
+      // 4. Setup Dynamic Preview Listeners
+      setupPreviews();
+    });
+
+    function showLogin() {
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('dashboard-screen').classList.add('hidden');
+    }
+
+    function showDashboard() {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard-screen').classList.remove('hidden');
+      
+      // Seed default treatments list if not in localStorage
+      if (!localStorage.getItem('site_treatments')) {
+        localStorage.setItem('site_treatments', JSON.stringify(defaultTreatmentsList));
+      }
+
+      // Seed schedule defaults
+      if (!localStorage.getItem('site_schedule_settings')) {
+        const defaultSched = {
+          available_weekdays: [1, 2, 3, 4, 5],
+          default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+        };
+        localStorage.setItem('site_schedule_settings', JSON.stringify(defaultSched));
+      }
+
+      loadValues();
+      renderAdminCalendar();
+      renderUpcomingList();
+      renderGeneralScheduleSettings();
+      renderTreatmentsList();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.className = "tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100";
+      });
+      document.getElementById('tab-btn-' + tabId).className = "tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full bg-primary text-white";
+    }
+
+    // Toggle accordion helper for dynamic page texts
+    function toggleAccordion(id) {
+      const el = document.getElementById(id);
+      const headers = document.querySelectorAll('.accordion-header');
+      const header = Array.from(headers).find(h => h.getAttribute('onclick').includes(id));
+      
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+        header.classList.add('active');
+      } else {
+        el.classList.add('hidden');
+        header.classList.remove('active');
+      }
+    }
+
+    // Setup Dynamic Previews
+    function setupPreviews() {
+      const imgKeys = ['img_hero', 'img_about_portrait', 'img_bio_portrait', 'img_clinica_hero', 'img_env_1', 'img_env_2', 'img_env_3'];
+      imgKeys.forEach(k => {
+        const inp = document.getElementById('field_' + k);
+        const prev = document.getElementById('preview_' + k);
+        if (inp && prev) {
+          inp.addEventListener('input', () => {
+            const val = inp.value.trim();
+            if (val) {
+              prev.src = val;
+              prev.classList.remove('hidden');
+            } else {
+              prev.classList.add('hidden');
+            }
+          });
+        }
+      });
+
+      const mapInp = document.getElementById('field_clinic_map_iframe');
+      const mapPrev = document.getElementById('preview_clinic_map_iframe');
+      if (mapInp && mapPrev) {
+        mapInp.addEventListener('input', () => {
+          const val = mapInp.value.trim();
+          if (val) {
+            mapPrev.src = val;
+            mapPrev.classList.remove('hidden');
+          } else {
+            mapPrev.classList.add('hidden');
+          }
+        });
+      }
+    }
+
+    // Load CMS Text and image fields from localStorage
+    function loadValues() {
+      for (let key in defaultValues) {
+        const el = document.getElementById('field_' + key);
+        if (el) {
+          let val = localStorage.getItem('site_edit_' + key);
+          if (val === null) {
+            val = defaultValues[key];
+          }
+          if (key === 'clinic_address') {
+            el.value = val.split('\\n').join('\n');
+          } else {
+            el.value = val;
+          }
+
+          // Trigger live updates for images / maps previews on load
+          const imgPreview = document.getElementById('preview_' + key);
+          if (imgPreview) {
+            if (val) {
+              imgPreview.src = val;
+              imgPreview.classList.remove('hidden');
+            } else {
+              imgPreview.classList.add('hidden');
+            }
+          }
+          
+          if (key === 'clinic_map_iframe') {
+            const mapPreview = document.getElementById('preview_clinic_map_iframe');
+            if (mapPreview) {
+              if (val) {
+                mapPreview.src = val;
+                mapPreview.classList.remove('hidden');
+              } else {
+                mapPreview.classList.add('hidden');
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Save CMS Text changes
+    function saveAll() {
+      for (let key in defaultValues) {
+        const el = document.getElementById('field_' + key);
+        if (el) {
+          let val = el.value.trim();
+          if (key === 'clinic_address') {
+            val = val.split('\n').join('\\n');
+          }
+          localStorage.setItem('site_edit_' + key, val);
+        }
+      }
+      showToast();
+    }
+
+    function restoreDefaults() {
+      if (confirm('Deseja realmente restaurar os textos e imagens originais do site? Todas as alterações personalizadas serão perdidas.')) {
+        const keys = Object.keys(localStorage);
+        keys.forEach(k => {
+          if (k.startsWith('site_edit_')) {
+            localStorage.removeItem(k);
+          }
+        });
+        localStorage.removeItem('site_treatments');
+        localStorage.removeItem('site_schedule_settings');
+        localStorage.removeItem('site_schedule_overrides');
+        window.location.reload();
+      }
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // --- Tab 1: Appointments & Calendar Logic ---
+    const monthsPT = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    function changeAdminMonth(offset) {
+      currentAdminDate.setMonth(currentAdminDate.getMonth() + offset);
+      renderAdminCalendar();
+    }
+
+    function renderAdminCalendar() {
+      const grid = document.getElementById('calendar-days-grid');
+      const title = document.getElementById('calendar-month-year-title');
+      if (!grid || !title) return;
+
+      grid.innerHTML = '';
+      const year = currentAdminDate.getFullYear();
+      const month = currentAdminDate.getMonth();
+      title.textContent = `${monthsPT[month]} ${year}`;
+
+      const firstDayIdx = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const prevTotalDays = new Date(year, month, 0).getDate();
+
+      // Pad previous month days
+      for (let i = firstDayIdx; i > 0; i--) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'p-2 text-slate-300 text-xs select-none';
+        dayDiv.textContent = prevTotalDays - i + 1;
+        grid.appendChild(dayDiv);
+      }
+
+      // Schedule settings, overrides, and appointments
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      };
+      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+      const appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+
+      for (let day = 1; day <= totalDays; day++) {
+        const thisDate = new Date(year, month, day);
+        thisDate.setHours(0,0,0,0);
+        const dateStr = thisDate.toISOString().split('T')[0];
+        const wDay = thisDate.getDay();
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'p-2 relative flex flex-col items-center justify-center rounded-full aspect-square text-xs font-semibold focus:outline-none transition-colors border border-transparent';
+        
+        // Base styling based on availability
+        let isEnabled = scheduleSettings.available_weekdays.includes(wDay);
+        if (overrides[dateStr]) {
+          if (overrides[dateStr].disabled) {
+            isEnabled = false;
+          } else {
+            isEnabled = true;
+          }
+        }
+
+        if (!isEnabled) {
+          // Blocked day background
+          btn.classList.add('bg-red-50', 'text-red-400');
+        } else {
+          // Available day
+          btn.classList.add('bg-white', 'text-[#00236f]', 'hover:bg-slate-100', 'border-slate-100');
+        }
+
+        // Active selection
+        if (selectedDateStr === dateStr) {
+          btn.classList.remove('bg-red-50', 'text-red-400', 'bg-white', 'text-[#00236f]', 'hover:bg-slate-100');
+          btn.classList.add('bg-primary', 'text-white', 'border-primary');
+        }
+
+        // Add day number
+        const numSpan = document.createElement('span');
+        numSpan.textContent = day;
+        btn.appendChild(numSpan);
+
+        // Indicator dot for bookings
+        const dayBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
+        if (dayBookings.length > 0) {
+          const dot = document.createElement('div');
+          dot.className = 'w-1 h-1 rounded-full bg-[#00236f] absolute bottom-1';
+          if (selectedDateStr === dateStr) {
+            dot.className = 'w-1 h-1 rounded-full bg-white absolute bottom-1';
+          }
+          btn.appendChild(dot);
+        }
+
+        btn.onclick = () => {
+          selectedDateStr = dateStr;
+          renderAdminCalendar();
+          loadDayDetails(thisDate, isEnabled, dayBookings);
+        };
+
+        grid.appendChild(btn);
+      }
+    }
+
+    function loadDayDetails(dateObj, isEnabled, bookings) {
+      const detailsCard = document.getElementById('selected-day-settings');
+      const headerTitle = document.getElementById('selected-day-header-title');
+      const chkActive = document.getElementById('selected-day-active-chk');
+      const patientContainer = document.getElementById('selected-day-patients-container');
+      const slotsSetup = document.getElementById('selected-day-slots-setup');
+
+      if (!detailsCard || !headerTitle || !chkActive || !patientContainer) return;
+
+      detailsCard.classList.remove('hidden');
+
+      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      let dateLabel = dateObj.toLocaleDateString('pt-BR', options);
+      dateLabel = dateLabel.charAt(0).toUpperCase() + dateLabel.slice(1);
+      headerTitle.textContent = dateLabel;
+
+      chkActive.checked = isEnabled;
+
+      if (!isEnabled) {
+        slotsSetup.classList.add('hidden');
+      } else {
+        slotsSetup.classList.remove('hidden');
+        renderDaySlotsSetup(dateObj);
+      }
+
+      // Render bookings for selected day
+      patientContainer.innerHTML = '';
+      if (bookings.length === 0) {
+        patientContainer.innerHTML = '<p class="text-xs text-secondary italic">Nenhum paciente agendado para este dia.</p>';
+      } else {
+        bookings.forEach(b => {
+          const digits = b.phone.replace(/D/g, '');
+          const waNum = digits.startsWith('55') ? digits : '55' + digits;
+          const waLink = `https://wa.me/${waNum}?text=Olá%20${encodeURIComponent(b.name)},%20confirmamos%20seu%20agendamento%20de%20${encodeURIComponent(b.treatment)}%20conosco%20para%20${b.date}%20às%20${b.time}.`;
+
+          const card = document.createElement('div');
+          card.className = 'p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2 relative';
+          card.innerHTML = `
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-xs font-semibold bg-clinical-blue-light text-primary px-2 py-0.5 rounded font-mono font-bold">${b.time}</span>
+                <p class="text-sm font-semibold text-primary mt-1">${b.name}</p>
+                <p class="text-[11px] text-secondary mt-0.5">Procedimento: ${b.treatment}</p>
+                <p class="text-[11px] text-secondary">Telefone: ${b.phone}</p>
+                <p class="text-[11px] text-secondary">Gmail/Email: ${b.email}</p>
+              </div>
+              <button onclick="cancelAppointment('${b.id}')" class="text-[10px] text-red-600 border border-red-200 hover:bg-red-50 bg-white px-2.5 py-1 rounded-full font-semibold focus:outline-none transition-colors mt-1">
+                Cancelar
+              </button>
+            </div>
+            <div class="pt-2 border-t border-slate-200/50 flex justify-end">
+              <a href="${waLink}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-green-600 font-bold hover:underline">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
+                Conversar no WhatsApp
+              </a>
+            </div>
+          `;
+          patientContainer.appendChild(card);
+        });
+      }
+    }
+
+    function toggleSelectedDayActive() {
+      if (!selectedDateStr) return;
+      const isDayActive = document.getElementById('selected-day-active-chk').checked;
+      
+      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+      
+      if (!overrides[selectedDateStr]) {
+        overrides[selectedDateStr] = {};
+      }
+      
+      overrides[selectedDateStr].disabled = !isDayActive;
+      localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      
+      // Refresh current calendar and details panel
+      renderAdminCalendar();
+      const parts = selectedDateStr.split('-');
+      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      const appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+      const dayBookings = appointments.filter(a => a.date === selectedDateStr && a.status !== 'cancelled');
+      loadDayDetails(dateObj, isDayActive, dayBookings);
+    }
+
+    function renderDaySlotsSetup(dateObj) {
+      const container = document.getElementById('selected-day-slots-list');
+      if (!container || !selectedDateStr) return;
+
+      container.innerHTML = '';
+      
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      };
+      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+
+      let daySlots = [...scheduleSettings.default_slots];
+      if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
+        daySlots = [...overrides[selectedDateStr].slots];
+      }
+
+      // Render slots as active pills with a toggle removal click
+      daySlots.forEach(time => {
+        const pill = document.createElement('div');
+        pill.className = 'flex items-center justify-between bg-white border border-slate-200 text-xs text-primary px-3 py-1.5 rounded-full font-semibold';
+        pill.innerHTML = `
+          <span>${time}</span>
+          <button type="button" onclick="removeDaySlot('${time}')" class="text-red-500 hover:text-red-700 ml-1.5 focus:outline-none rounded-full">
+            <span class="material-symbols-outlined text-xs align-middle">close</span>
+          </button>
+        `;
+        container.appendChild(pill);
+      });
+    }
+
+    function removeDaySlot(time) {
+      if (!selectedDateStr) return;
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      };
+      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+
+      let daySlots = [...scheduleSettings.default_slots];
+      if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
+        daySlots = [...overrides[selectedDateStr].slots];
+      }
+
+      daySlots = daySlots.filter(s => s !== time);
+
+      if (!overrides[selectedDateStr]) {
+        overrides[selectedDateStr] = {};
+      }
+      overrides[selectedDateStr].slots = daySlots;
+      localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+
+      const parts = selectedDateStr.split('-');
+      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      renderDaySlotsSetup(dateObj);
+    }
+
+    function addCustomDaySlot() {
+      const input = document.getElementById('add-custom-day-slot-val');
+      if (!input || !selectedDateStr) return;
+
+      const timeVal = input.value.trim();
+      if (!timeVal || !/^[0-2]\d:[0-5]\d$/.test(timeVal)) {
+        alert('Formato de horário inválido. Utilize o formato HH:MM (ex: 13:30).');
+        return;
+      }
+
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      };
+      const overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+
+      let daySlots = [...scheduleSettings.default_slots];
+      if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
+        daySlots = [...overrides[selectedDateStr].slots];
+      }
+
+      if (daySlots.includes(timeVal)) {
+        alert('Este horário já está cadastrado para este dia.');
+        return;
+      }
+
+      daySlots.push(timeVal);
+      daySlots.sort();
+
+      if (!overrides[selectedDateStr]) {
+        overrides[selectedDateStr] = {};
+      }
+      overrides[selectedDateStr].slots = daySlots;
+      localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+
+      input.value = '';
+      const parts = selectedDateStr.split('-');
+      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      renderDaySlotsSetup(dateObj);
+    }
+
+    function cancelAppointment(id) {
+      if (confirm('Deseja realmente cancelar este agendamento?')) {
+        let appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+        // Soft delete / Status change or filter
+        appointments = appointments.map(a => {
+          if (a.id === id) {
+            a.status = 'cancelled';
+          }
+          return a;
+        });
+        localStorage.setItem('site_appointments', JSON.stringify(appointments));
+        showToast();
+        
+        // Refresh views
+        renderAdminCalendar();
+        renderUpcomingList();
+        
+        if (selectedDateStr) {
+          const parts = selectedDateStr.split('-');
+          const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+          const isDayActive = !((JSON.parse(localStorage.getItem('site_schedule_overrides')) || {})[selectedDateStr] || {}).disabled;
+          const dayBookings = appointments.filter(a => a.date === selectedDateStr && a.status !== 'cancelled');
+          loadDayDetails(dateObj, isDayActive, dayBookings);
+        }
+      }
+    }
+
+    function renderUpcomingList() {
+      const container = document.getElementById('upcoming-appointments-list');
+      if (!container) return;
+
+      container.innerHTML = '';
+      const appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+      
+      const todayStr = new Date().toISOString().split('T')[0];
+      const upcoming = appointments.filter(a => a.date >= todayStr && a.status !== 'cancelled');
+      upcoming.sort((a,b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return a.time.localeCompare(b.time);
+      });
+
+      if (upcoming.length === 0) {
+        container.innerHTML = '<p class="text-xs text-secondary italic">Nenhum agendamento futuro agendado.</p>';
+        return;
+      }
+
+      upcoming.slice(0, 5).forEach(b => {
+        const item = document.createElement('div');
+        item.className = 'p-2 border border-slate-100 bg-white hover:bg-[#00236f]/5 rounded-lg flex items-center justify-between text-xs cursor-pointer transition-colors';
+        
+        // Format Date
+        const dateParts = b.date.split('-');
+        const dateObj = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+        const formattedDate = dateObj.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' });
+
+        item.innerHTML = `
+          <div>
+            <span class="font-bold text-[#00236f]">${formattedDate} às ${b.time}</span>
+            <p class="text-[11px] text-secondary mt-0.5">${b.name} - ${b.treatment}</p>
+          </div>
+          <span class="material-symbols-outlined text-secondary text-sm">chevron_right</span>
+        `;
+
+        item.onclick = () => {
+          selectedDateStr = b.date;
+          currentAdminDate = dateObj;
+          renderAdminCalendar();
+          
+          const isDayActive = !((JSON.parse(localStorage.getItem('site_schedule_overrides')) || {})[selectedDateStr] || {}).disabled;
+          const dayBookings = appointments.filter(a => a.date === selectedDateStr && a.status !== 'cancelled');
+          loadDayDetails(dateObj, isDayActive, dayBookings);
+        };
+
+        container.appendChild(item);
+      });
+    }
+
+    // --- Tab 2: General Availability Settings ---
+    const weekdaysPT = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
+    function renderGeneralScheduleSettings() {
+      const weekdaysContainer = document.getElementById('general-weekdays-checks-container');
+      const slotsContainer = document.getElementById('general-default-slots-list');
+      if (!weekdaysContainer || !slotsContainer) return;
+
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      };
+
+      // 1. Weekdays
+      weekdaysContainer.innerHTML = '';
+      weekdaysPT.forEach((dayLabel, idx) => {
+        const checked = scheduleSettings.available_weekdays.includes(idx) ? 'checked' : '';
+        const row = document.createElement('label');
+        row.className = 'flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer text-xs font-semibold text-secondary';
+        row.innerHTML = `
+          <input type="checkbox" data-wday="${idx}" ${checked} class="rounded text-primary focus:ring-primary" onchange="saveGeneralSettingsToStorage()"/>
+          <span>${dayLabel}</span>
+        `;
+        weekdaysContainer.appendChild(row);
+      });
+
+      // 2. Default slots
+      slotsContainer.innerHTML = '';
+      scheduleSettings.default_slots.forEach(time => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-2 bg-white border border-slate-100 rounded-lg text-xs font-semibold text-primary';
+        item.innerHTML = `
+          <span>${time}</span>
+          <button type="button" onclick="removeDefaultSlot('${time}')" class="text-red-500 hover:text-red-700 ml-1.5 focus:outline-none rounded-full">
+            <span class="material-symbols-outlined text-xs align-middle">delete</span>
+          </button>
+        `;
+        slotsContainer.appendChild(item);
+      });
+    }
+
+    function saveGeneralSettingsToStorage() {
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {
+        available_weekdays: [1, 2, 3, 4, 5],
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      };
+
+      const wdayChecks = document.querySelectorAll('#general-weekdays-checks-container input[type="checkbox"]');
+      const activeDays = [];
+      wdayChecks.forEach(chk => {
+        if (chk.checked) {
+          activeDays.push(parseInt(chk.getAttribute('data-wday'), 10));
+        }
+      });
+
+      scheduleSettings.available_weekdays = activeDays;
+      localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      
+      renderAdminCalendar();
+    }
+
+    function removeDefaultSlot(time) {
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings'));
+      if (!scheduleSettings) return;
+
+      scheduleSettings.default_slots = scheduleSettings.default_slots.filter(s => s !== time);
+      localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      
+      renderGeneralScheduleSettings();
+    }
+
+    function addDefaultGeneralSlot() {
+      const input = document.getElementById('add-default-slot-val');
+      if (!input) return;
+
+      const timeVal = input.value.trim();
+      if (!timeVal || !/^[0-2]\d:[0-5]\d$/.test(timeVal)) {
+        alert('Formato de horário inválido. Utilize o formato HH:MM (ex: 13:30).');
+        return;
+      }
+
+      const scheduleSettings = JSON.parse(localStorage.getItem('site_schedule_settings'));
+      if (!scheduleSettings) return;
+
+      if (scheduleSettings.default_slots.includes(timeVal)) {
+        alert('Este horário padrão já está cadastrado.');
+        return;
+      }
+
+      scheduleSettings.default_slots.push(timeVal);
+      scheduleSettings.default_slots.sort();
+      localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+
+      input.value = '';
+      renderGeneralScheduleSettings();
+    }
+
+    // --- Tab 3: Dynamic Treatments CRUD Logic ---
+    function renderTreatmentsList() {
+      const container = document.getElementById('treatments-crud-list');
+      if (!container) return;
+
+      container.innerHTML = '';
+      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+
+      list.forEach((t, idx) => {
+        const card = document.createElement('div');
+        card.className = 'p-4 border border-slate-200 rounded-xl bg-white flex gap-4 items-center hover:shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-shadow';
+        card.innerHTML = `
+          <img src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}" class="w-16 h-16 object-cover rounded-lg shrink-0 border border-slate-100"/>
+          <div class="flex-grow min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] bg-clinical-blue-light text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">${t.categoryLabel || t.category}</span>
+              ${t.featured ? '<span class="text-[9px] bg-green-50 text-green-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Destaque</span>' : ''}
+            </div>
+            <h4 class="text-sm font-semibold text-primary mt-1 truncate">${t.title}</h4>
+            <p class="text-xs text-secondary truncate mt-0.5">${t.shortDesc || t.description}</p>
+          </div>
+          <div class="flex flex-col gap-1.5 shrink-0">
+            <button onclick="editTreatmentBtnClick(${idx})" class="text-[10px] text-primary border border-slate-200 hover:bg-slate-50 bg-white px-2.5 py-1 rounded-full font-bold focus:outline-none transition-colors w-16 text-center">
+              Editar
+            </button>
+            <button onclick="deleteTreatmentBtnClick(${idx})" class="text-[10px] text-red-600 border border-slate-200 hover:bg-red-50 bg-white px-2.5 py-1 rounded-full font-bold focus:outline-none transition-colors w-16 text-center">
+              Excluir
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function openTreatmentForm() {
+      const formCard = document.getElementById('treatment-crud-form-card');
+      const form = document.getElementById('treatment-crud-form');
+      const formTitle = document.getElementById('treatment-form-title');
+      const indexInput = document.getElementById('crud_t_index');
+      const slugInput = document.getElementById('crud_t_id');
+
+      if (!formCard || !form) return;
+
+      form.reset();
+      indexInput.value = "-1";
+      slugInput.disabled = false;
+      formTitle.textContent = "Adicionar Novo Tratamento";
+      formCard.classList.remove('hidden');
+      formCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeTreatmentForm() {
+      const formCard = document.getElementById('treatment-crud-form-card');
+      if (formCard) formCard.classList.add('hidden');
+    }
+
+    function syncCrudCategoryLabel() {
+      // Auto mapping labels
+      const categorySelect = document.getElementById('crud_t_category');
+      // Just a placeholder hook if needed, but handled programmatically on save
+    }
+
+    function editTreatmentBtnClick(index) {
+      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+      const t = list[index];
+      if (!t) return;
+
+      openTreatmentForm();
+
+      document.getElementById('treatment-form-title').textContent = "Editar Tratamento: " + t.title;
+      document.getElementById('crud_t_index').value = index;
+      
+      const slugInput = document.getElementById('crud_t_id');
+      slugInput.value = t.id;
+      slugInput.disabled = true;
+
+      document.getElementById('crud_t_title').value = t.title;
+      document.getElementById('crud_t_image').value = t.image || '';
+      document.getElementById('crud_t_icon').value = t.icon || 'spa';
+      document.getElementById('crud_t_shortDesc').value = t.shortDesc || '';
+      document.getElementById('crud_t_description').value = t.description || '';
+      document.getElementById('crud_t_indications').value = t.indications || '';
+      document.getElementById('crud_t_duration').value = t.duration || '';
+      document.getElementById('crud_t_recovery').value = t.recovery || '';
+      document.getElementById('crud_t_category').value = t.category || 'facial';
+      document.getElementById('crud_t_featured').checked = (t.featured === true || t.featured === 'true');
+    }
+
+    function deleteTreatmentBtnClick(index) {
+      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+      const t = list[index];
+      if (!t) return;
+
+      if (confirm('Deseja realmente remover o tratamento "' + t.title + '"? Isto fará com que o card e botão sumam das páginas públicas.')) {
+        list.splice(index, 1);
+        localStorage.setItem('site_treatments', JSON.stringify(list));
+        showToast();
+        renderTreatmentsList();
+      }
+    }
+
+    function saveTreatmentSubmit(e) {
+      e.preventDefault();
+      const index = parseInt(document.getElementById('crud_t_index').value, 10);
+      const list = JSON.parse(localStorage.getItem('site_treatments')) || defaultTreatmentsList;
+
+      const slug = document.getElementById('crud_t_id').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+      if (!slug) {
+        alert('O ID Único é inválido. Utilize apenas letras minúsculas, números e traços.');
+        return;
+      }
+
+      // Check slug uniqueness on add
+      if (index === -1) {
+        const exists = list.some(item => item.id === slug);
+        if (exists) {
+          alert('Já existe um tratamento com este ID Único.');
+          return;
+        }
+      }
+
+      const catSelect = document.getElementById('crud_t_category');
+      const catVal = catSelect.value;
+      const catLabel = catSelect.options[catSelect.selectedIndex].text;
+
+      const itemData = {
+        id: slug,
+        title: document.getElementById('crud_t_title').value.trim(),
+        category: catVal,
+        categoryLabel: catLabel,
+        image: document.getElementById('crud_t_image').value.trim(),
+        icon: document.getElementById('crud_t_icon').value.trim(),
+        shortDesc: document.getElementById('crud_t_shortDesc').value.trim(),
+        description: document.getElementById('crud_t_description').value.trim(),
+        indications: document.getElementById('crud_t_indications').value.trim(),
+        duration: document.getElementById('crud_t_duration').value.trim(),
+        recovery: document.getElementById('crud_t_recovery').value.trim(),
+        featured: document.getElementById('crud_t_featured').checked
+      };
+
+      if (index === -1) {
+        list.push(itemData);
+      } else {
+        list[index] = itemData;
+      }
+
+      localStorage.setItem('site_treatments', JSON.stringify(list));
+      closeTreatmentForm();
+      showToast();
+      renderTreatmentsList();
+    }
+  </script>
+</body>
+</html>
