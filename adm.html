@@ -925,7 +925,7 @@
     let currentAdminDate = new Date();
     let selectedDateStr = null;
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function runAdminCheck() {
       // Redirect "Ver Site" link on web server for clean URLs
       const backToSiteBtn = document.getElementById('back-to-site-btn');
       if (backToSiteBtn && window.location.protocol !== 'file:') {
@@ -933,16 +933,16 @@
       }
 
       // 1. Check for user login and admin privilege
-      const userJson = localStorage.getItem('site_user');
       let isAdmin = false;
-      if (userJson) {
-        try {
+      try {
+        const userJson = localStorage.getItem('site_user');
+        if (userJson) {
           const user = JSON.parse(userJson);
-          if (user.email === 'thais@gmail.com') {
+          if (user && user.email === 'thais@gmail.com') {
             isAdmin = true;
           }
-        } catch (e) {}
-      }
+        }
+      } catch (e) {}
 
       if (isAdmin) {
         localStorage.setItem('adm_logged_in', 'true');
@@ -954,16 +954,28 @@
       }
 
       // 3. Setup Logout
-      document.getElementById('logout-btn').addEventListener('click', () => {
-        localStorage.removeItem('adm_logged_in');
-        sessionStorage.removeItem('adm_logged_in');
-        localStorage.removeItem('site_user');
-        window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
-      });
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn && !logoutBtn._listenerAdded) {
+        logoutBtn._listenerAdded = true;
+        logoutBtn.addEventListener('click', () => {
+          localStorage.removeItem('adm_logged_in');
+          sessionStorage.removeItem('adm_logged_in');
+          localStorage.removeItem('site_user');
+          window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
+        });
+      }
 
       // 4. Setup Dynamic Preview Listeners
       setupPreviews();
-    });
+    }
+
+    // Run check immediately (script is at end of body so DOM is ready)
+    // Also bind to DOMContentLoaded as a safety fallback
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runAdminCheck);
+    } else {
+      runAdminCheck();
+    }
 
     window.syncAdminUI = function() {
       const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
