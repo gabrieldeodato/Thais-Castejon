@@ -127,6 +127,13 @@
       <a href="adm.html" id="admin-gear" class="hidden text-secondary hover:text-primary transition-colors flex items-center justify-center w-10 h-10 rounded-full hover:bg-primary-container/10" title="Configurações">
         <span class="material-symbols-outlined text-[24px]">settings</span>
       </a>
+      <button onclick="openChatModal()" class="hidden md:flex text-secondary hover:text-primary text-sm font-semibold px-3 py-2 rounded-full hover:bg-primary-container/10 transition-colors items-center gap-1">
+        <span class="material-symbols-outlined text-[18px]">chat</span> Fale Conosco
+      </button>
+      <div id="auth-nav-container" class="flex items-center gap-2">
+        <button onclick="openAuthModal('login')" class="text-secondary hover:text-primary text-sm font-semibold px-3 py-2 rounded-full hover:bg-primary-container/10 transition-colors">Entrar</button>
+        <button onclick="openAuthModal('register')" class="bg-primary/10 text-primary hover:bg-primary/20 text-sm font-semibold px-4 py-2 rounded-full transition-colors">Cadastrar</button>
+      </div>
       <button onclick="openBookingModal()" class="hidden md:flex items-center justify-center bg-primary text-on-primary text-button font-button px-6 py-3 rounded-full hover:opacity-80 transition-opacity">
         Agendar
       </button>
@@ -531,6 +538,115 @@
 </div>
 
 
+<!-- Auth Modal -->
+<div id="auth-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+  <div class="bg-sterile-white rounded-2xl max-w-md w-full border border-accent-border shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <!-- Close Button -->
+    <button onclick="closeAuthModal()" class="absolute right-4 top-4 text-secondary hover:text-primary transition-colors focus:outline-none" type="button">
+      <span class="material-symbols-outlined text-2xl">close</span>
+    </button>
+
+    <!-- Header Icon -->
+    <div class="bg-primary text-white p-6 text-center">
+      <span class="material-symbols-outlined text-4xl mb-2">account_circle</span>
+      <h2 id="auth-modal-title" class="text-xl font-headline font-bold">Minha Conta</h2>
+      <p id="auth-modal-subtitle" class="text-xs opacity-80 mt-1">Acesse sua conta para agendar e falar conosco.</p>
+    </div>
+
+    <div class="p-6">
+      <!-- Login Form -->
+      <form id="login-form-el" class="space-y-4" onsubmit="handleLoginSubmit(event)">
+        <div>
+          <label class="block text-xs font-semibold text-secondary mb-1">E-mail (Gmail)</label>
+          <input type="email" id="login-email" required class="w-full px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="seuemail@gmail.com"/>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-secondary mb-1">Senha</label>
+          <input type="password" id="login-password" required class="w-full px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="••••••••"/>
+        </div>
+        <div id="login-error-msg" class="hidden text-xs text-red-600 font-medium">E-mail ou senha incorretos.</div>
+        <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity shadow-sm text-sm">
+          Entrar
+        </button>
+        <p class="text-center text-xs text-secondary mt-4">
+          Não tem uma conta? 
+          <a href="javascript:void(0)" onclick="switchAuthView('register')" class="text-primary font-bold hover:underline">Cadastre-se</a>
+        </p>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form-el" class="space-y-4 hidden" onsubmit="handleRegisterSubmit(event)">
+        <div>
+          <label class="block text-xs font-semibold text-secondary mb-1">Nome Completo</label>
+          <input type="text" id="register-name" required class="w-full px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="Ex: Maria Silva"/>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-secondary mb-1">E-mail (Gmail)</label>
+          <input type="email" id="register-email" required class="w-full px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="seuemail@gmail.com"/>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-secondary mb-1">Telefone / WhatsApp</label>
+          <input type="tel" id="register-phone" required class="w-full px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="(21) 99999-9999"/>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-secondary mb-1">Senha</label>
+          <input type="password" id="register-password" required class="w-full px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="Mínimo 6 caracteres"/>
+        </div>
+        <div id="register-error-msg" class="hidden text-xs text-red-600 font-medium">Ocorreu um erro no cadastro. Tente outro e-mail.</div>
+        <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity shadow-sm text-sm">
+          Criar Conta
+        </button>
+        <p class="text-center text-xs text-secondary mt-4">
+          Já tem uma conta? 
+          <a href="javascript:void(0)" onclick="switchAuthView('login')" class="text-primary font-bold hover:underline">Fazer Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Chat Modal (Fale Conosco) -->
+<div id="chat-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+  <div class="bg-sterile-white rounded-2xl max-w-lg w-full border border-accent-border shadow-2xl relative overflow-hidden flex flex-col h-[80vh] max-h-[600px] animate-in fade-in zoom-in-95 duration-200">
+    <!-- Header -->
+    <div class="bg-primary text-white p-4 flex justify-between items-center shrink-0">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span>
+        <div>
+          <h2 class="font-headline font-bold text-base">Fale Conosco</h2>
+          <p class="text-[10px] opacity-80">Suporte e Atendimento Online</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <!-- Close Chat Button (Mark as closed) -->
+        <button id="chat-close-session-btn" onclick="confirmCloseUserChat()" class="text-xs bg-white/10 hover:bg-white/20 text-white font-bold py-1 px-3 rounded-full transition-colors flex items-center gap-1" title="Encerrar Conversa">
+          <span class="material-symbols-outlined text-sm">archive</span> Encerrar
+        </button>
+        <button onclick="closeChatModal()" class="text-white hover:opacity-80 transition-opacity focus:outline-none" type="button">
+          <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="chat-messages-container" class="flex-grow overflow-y-auto p-4 bg-slate-50 space-y-3 flex flex-col">
+      <!-- Messages bubbles render here -->
+    </div>
+
+    <!-- Input Box -->
+    <div class="p-3 border-t border-accent-border bg-white shrink-0">
+      <form id="chat-input-form" onsubmit="handleSendChatMessage(event)" class="flex gap-2 items-center">
+        <input type="text" id="chat-input-text" required class="flex-grow px-4 py-2.5 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="Digite sua mensagem..."/>
+        <button type="submit" class="bg-primary text-white p-2.5 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[20px]">send</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 <script>
   function openBookingModal(treatmentVal) {
     const modal = document.getElementById('booking-modal');
@@ -928,6 +1044,506 @@
 
 
 <script>
+  function openAuthModal(view) {
+    if (!view) view = 'login';
+    const modal = document.getElementById('auth-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      switchAuthView(view);
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeAuthModal() {
+    const modal = document.getElementById('auth-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function switchAuthView(view) {
+    const loginForm = document.getElementById('login-form-el');
+    const registerForm = document.getElementById('register-form-el');
+    const title = document.getElementById('auth-modal-title');
+    const subtitle = document.getElementById('auth-modal-subtitle');
+    
+    document.getElementById('login-error-msg').classList.add('hidden');
+    document.getElementById('register-error-msg').classList.add('hidden');
+
+    if (view === 'login') {
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      title.textContent = "Acessar Conta";
+      subtitle.textContent = "Entre com seu e-mail e senha para prosseguir.";
+    } else {
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      title.textContent = "Criar Conta";
+      subtitle.textContent = "Preencha os campos abaixo para cadastrar-se.";
+    }
+  }
+
+  function toggleUserDropdown(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('user-dropdown-menu');
+    if (dropdown) {
+      dropdown.classList.toggle('hidden');
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('user-dropdown-menu');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+      const isClickInside = dropdown.contains(e.target) || e.target.closest('#user-menu-dropdown');
+      if (!isClickInside) {
+        dropdown.classList.add('hidden');
+      }
+    }
+  });
+
+  function logoutUser() {
+    localStorage.removeItem('site_user');
+    localStorage.removeItem('adm_logged_in');
+    
+    if (typeof window.updateNavbarAuth === 'function') {
+      window.updateNavbarAuth();
+    }
+    if (typeof window.syncUrlsAndGear === 'function') {
+      window.syncUrlsAndGear();
+    }
+    
+    if (window.location.pathname.includes('adm')) {
+      window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
+    } else {
+      window.location.reload();
+    }
+  }
+
+  async function handleLoginSubmit(event) {
+    event.preventDefault();
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value;
+    const errorMsg = document.getElementById('login-error-msg');
+    
+    errorMsg.classList.add('hidden');
+
+    if (email === 'thais@gmail.com' && password === 'dev@123') {
+      const adminUser = {
+        name: "Dra. Thais (Admin)",
+        email: "thais@gmail.com",
+        phone: "(21) 98292-1357"
+      };
+      localStorage.setItem('site_user', JSON.stringify(adminUser));
+      localStorage.setItem('adm_logged_in', 'true');
+      
+      window.updateNavbarAuth();
+      if (typeof window.syncUrlsAndGear === 'function') {
+        window.syncUrlsAndGear();
+      }
+      closeAuthModal();
+      return;
+    }
+
+    if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseGetDoc) {
+      try {
+        const userDocRef = window.firebaseDoc(window.firebaseDb, "users", email);
+        const userDocSnap = await window.firebaseGetDoc(userDocRef);
+        
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          if (userData.password === password) {
+            localStorage.setItem('site_user', JSON.stringify({
+              name: userData.name,
+              email: userData.email,
+              phone: userData.phone
+            }));
+            
+            window.updateNavbarAuth();
+            if (typeof window.syncUrlsAndGear === 'function') {
+              window.syncUrlsAndGear();
+            }
+            closeAuthModal();
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("Erro no login Firebase:", err);
+      }
+    } else {
+      const localUsers = JSON.parse(localStorage.getItem('local_users') || '{}');
+      if (localUsers[email] && localUsers[email].password === password) {
+        localStorage.setItem('site_user', JSON.stringify({
+          name: localUsers[email].name,
+          email: localUsers[email].email,
+          phone: localUsers[email].phone
+        }));
+        window.updateNavbarAuth();
+        if (typeof window.syncUrlsAndGear === 'function') {
+          window.syncUrlsAndGear();
+        }
+        closeAuthModal();
+        return;
+      }
+    }
+
+    errorMsg.classList.remove('hidden');
+  }
+
+  async function handleRegisterSubmit(event) {
+    event.preventDefault();
+    const name = document.getElementById('register-name').value.trim();
+    const email = document.getElementById('register-email').value.trim().toLowerCase();
+    const phone = document.getElementById('register-phone').value.trim();
+    const password = document.getElementById('register-password').value;
+    const errorMsg = document.getElementById('register-error-msg');
+    
+    errorMsg.classList.add('hidden');
+
+    if (password.length < 6) {
+      alert("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
+
+    if (email === 'thais@gmail.com') {
+      alert("E-mail não permitido para novos cadastros.");
+      return;
+    }
+
+    if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseGetDoc && window.firebaseSetDoc) {
+      try {
+        const userDocRef = window.firebaseDoc(window.firebaseDb, "users", email);
+        const userDocSnap = await window.firebaseGetDoc(userDocRef);
+        
+        if (userDocSnap.exists()) {
+          errorMsg.textContent = "Este e-mail já está cadastrado.";
+          errorMsg.classList.remove('hidden');
+          return;
+        }
+
+        const newUser = { name, email, phone, password };
+        await window.firebaseSetDoc(userDocRef, newUser);
+        
+        localStorage.setItem('site_user', JSON.stringify({ name, email, phone }));
+        window.updateNavbarAuth();
+        if (typeof window.syncUrlsAndGear === 'function') {
+          window.syncUrlsAndGear();
+        }
+        closeAuthModal();
+      } catch (err) {
+        console.error("Erro no registro Firebase:", err);
+        errorMsg.textContent = "Erro de conexão com o banco de dados.";
+        errorMsg.classList.remove('hidden');
+      }
+    } else {
+      const localUsers = JSON.parse(localStorage.getItem('local_users') || '{}');
+      if (localUsers[email]) {
+        errorMsg.textContent = "Este e-mail já está cadastrado localmente.";
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+      
+      localUsers[email] = { name, email, phone, password };
+      localStorage.setItem('local_users', JSON.stringify(localUsers));
+      
+      localStorage.setItem('site_user', JSON.stringify({ name, email, phone }));
+      window.updateNavbarAuth();
+      if (typeof window.syncUrlsAndGear === 'function') {
+        window.syncUrlsAndGear();
+      }
+      closeAuthModal();
+    }
+  }
+
+  window.updateNavbarAuth = function() {
+    const userJson = localStorage.getItem('site_user');
+    const authNavContainer = document.getElementById('auth-nav-container');
+    const adminGear = document.getElementById('admin-gear');
+    
+    if (userJson) {
+      const user = JSON.parse(userJson);
+      const isAdmin = user.email === 'thais@gmail.com';
+      if (isAdmin) {
+        if (adminGear) adminGear.classList.remove('hidden');
+      } else {
+        if (adminGear) adminGear.classList.add('hidden');
+      }
+      
+      if (authNavContainer) {
+        authNavContainer.innerHTML = `
+          <div class="relative inline-block text-left" id="user-menu-dropdown">
+            <button onclick="toggleUserDropdown(event)" class="flex items-center gap-1.5 focus:outline-none hover:opacity-80 transition-all py-1.5 px-3 rounded-full border border-accent-border bg-white shadow-sm">
+              <span class="material-symbols-outlined text-[20px] text-primary">account_circle</span>
+              <span class="text-xs font-semibold text-secondary hidden sm:inline-block max-w-[100px] truncate">${user.name}</span>
+              <span class="material-symbols-outlined text-xs text-secondary">expand_more</span>
+            </button>
+            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-48 rounded-xl bg-white border border-accent-border shadow-lg py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
+              <div class="px-4 py-2 border-b border-accent-border/50">
+                <p class="text-[9px] uppercase font-bold tracking-wider text-secondary">Olá, ${user.name}!</p>
+                <p class="text-xs text-secondary truncate">${user.email}</p>
+              </div>
+              <button onclick="openChatModal()" class="w-full text-left px-4 py-2 text-sm text-secondary hover:bg-slate-50 hover:text-primary transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">chat</span> Fale Conosco
+              </button>
+              <button onclick="logoutUser()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">logout</span> Sair
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    } else {
+      if (adminGear) adminGear.classList.add('hidden');
+      if (authNavContainer) {
+        authNavContainer.innerHTML = `
+          <button onclick="openAuthModal('login')" class="text-secondary hover:text-primary text-sm font-semibold px-3 py-2 rounded-full hover:bg-primary-container/10 transition-colors">Entrar</button>
+          <button onclick="openAuthModal('register')" class="bg-primary/10 text-primary hover:bg-primary/20 text-sm font-semibold px-4 py-2 rounded-full transition-colors">Cadastrar</button>
+        `;
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (typeof window.updateNavbarAuth === 'function') {
+      window.updateNavbarAuth();
+    }
+  });
+</script>
+
+
+<script>
+  let activeChatListener = null;
+
+  function openChatModal() {
+    const userJson = localStorage.getItem('site_user');
+    if (!userJson) {
+      alert("Por favor, faça login ou cadastre-se para falar conosco.");
+      openAuthModal('login');
+      return;
+    }
+
+    const modal = document.getElementById('chat-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      startChatSync();
+    }
+  }
+
+  function closeChatModal() {
+    const modal = document.getElementById('chat-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+      if (activeChatListener) {
+        activeChatListener();
+        activeChatListener = null;
+      }
+    }
+  }
+
+  function startChatSync() {
+    const userJson = localStorage.getItem('site_user');
+    if (!userJson) return;
+    const user = JSON.parse(userJson);
+    const container = document.getElementById('chat-messages-container');
+    container.innerHTML = '<p class="text-center text-xs text-secondary italic">Carregando conversa...</p>';
+
+    if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseOnSnapshot) {
+      const docRef = window.firebaseDoc(window.firebaseDb, "chats", user.email);
+      activeChatListener = window.firebaseOnSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const chatData = docSnap.data();
+          renderChatMessages(chatData.messages || [], chatData.status);
+        } else {
+          renderChatMessages([], 'open');
+        }
+      }, (err) => {
+        console.error("Erro escutando chat:", err);
+      });
+    } else {
+      const chatKey = 'chat_' + user.email;
+      const loadLocalChat = () => {
+        const localData = JSON.parse(localStorage.getItem(chatKey) || '{"status":"open","messages":[]}');
+        renderChatMessages(localData.messages || [], localData.status);
+      };
+      loadLocalChat();
+      window.addEventListener('storage', (e) => {
+        if (e.key === chatKey) {
+          loadLocalChat();
+        }
+      });
+    }
+  }
+
+  function renderChatMessages(messages, status) {
+    const container = document.getElementById('chat-messages-container');
+    container.innerHTML = '';
+
+    if (messages.length === 0) {
+      container.innerHTML = \`
+        <div class="text-center py-6 px-4">
+          <span class="material-symbols-outlined text-4xl text-primary/30 mb-2">chat_bubble</span>
+          <p class="text-sm font-semibold text-secondary">Olá! Envie uma mensagem abaixo para iniciar o seu atendimento.</p>
+          <p class="text-xs text-secondary opacity-70 mt-1">Dra. Thais ou nossa equipe responderá em breve.</p>
+        </div>
+      \`;
+      return;
+    }
+
+    messages.forEach(msg => {
+      const bubbleWrapper = document.createElement('div');
+      bubbleWrapper.className = 'flex flex-col w-full';
+      
+      const isUser = msg.sender === 'user';
+      const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+      
+      if (isUser) {
+        bubbleWrapper.innerHTML = \`
+          <div class="bg-primary text-white text-sm px-4 py-2.5 rounded-2xl rounded-tr-none self-end max-w-[80%] shadow-sm word-break break-words">
+            \\\${msg.text}
+          </div>
+          <span class="text-[9px] text-secondary/60 self-end mt-1 mr-1">\\\${timeStr}</span>
+        \`;
+      } else {
+        bubbleWrapper.innerHTML = \`
+          <div class="bg-clinical-blue-light text-primary text-sm px-4 py-2.5 rounded-2xl rounded-tl-none self-start max-w-[80%] shadow-sm word-break break-words border border-primary/5">
+            \\\${msg.text}
+          </div>
+          <span class="text-[9px] text-secondary/60 self-start mt-1 ml-1">Dra. Thais • \\\${timeStr}</span>
+        \`;
+      }
+      container.appendChild(bubbleWrapper);
+    });
+
+    if (status === 'closed') {
+      const closedBanner = document.createElement('div');
+      closedBanner.className = 'bg-slate-100 border border-slate-200 text-secondary text-xs p-3 rounded-xl text-center font-medium my-4';
+      closedBanner.innerHTML = \`
+        <p>Conversa encerrada.</p>
+        <p class="text-[10px] opacity-75 mt-0.5">Escreva uma nova mensagem para reabrir este atendimento.</p>
+      \`;
+      container.appendChild(closedBanner);
+      
+      const closeBtn = document.getElementById('chat-close-session-btn');
+      if (closeBtn) closeBtn.classList.add('hidden');
+    } else {
+      const closeBtn = document.getElementById('chat-close-session-btn');
+      if (closeBtn) closeBtn.classList.remove('hidden');
+    }
+
+    setTimeout(() => {
+      container.scrollTop = container.scrollHeight;
+    }, 50);
+  }
+
+  async function handleSendChatMessage(event) {
+    event.preventDefault();
+    const input = document.getElementById('chat-input-text');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const userJson = localStorage.getItem('site_user');
+    if (!userJson) return;
+    const user = JSON.parse(userJson);
+
+    const newMsg = {
+      sender: 'user',
+      text: text,
+      timestamp: Date.now()
+    };
+
+    if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseGetDoc && window.firebaseSetDoc) {
+      try {
+        const docRef = window.firebaseDoc(window.firebaseDb, "chats", user.email);
+        const docSnap = await window.firebaseGetDoc(docRef);
+        
+        let messages = [];
+        if (docSnap.exists()) {
+          messages = docSnap.data().messages || [];
+        }
+
+        messages.push(newMsg);
+
+        await window.firebaseSetDoc(docRef, {
+          userEmail: user.email,
+          userName: user.name,
+          userPhone: user.phone || '',
+          status: 'open',
+          updatedAt: Date.now(),
+          messages: messages
+        }, { merge: true });
+        
+        input.value = '';
+      } catch (err) {
+        console.error("Erro enviando mensagem Firebase:", err);
+        alert("Erro ao enviar mensagem. Tente novamente.");
+      }
+    } else {
+      const chatKey = 'chat_' + user.email;
+      const localData = JSON.parse(localStorage.getItem(chatKey) || '{"status":"open","messages":[]}');
+      const messages = localData.messages || [];
+      
+      messages.push(newMsg);
+      
+      const newChatData = {
+        userEmail: user.email,
+        userName: user.name,
+        userPhone: user.phone || '',
+        status: 'open',
+        updatedAt: Date.now(),
+        messages: messages
+      };
+      
+      localStorage.setItem(chatKey, JSON.stringify(newChatData));
+      
+      const localChats = JSON.parse(localStorage.getItem('local_chats') || '{}');
+      localChats[user.email] = newChatData;
+      localStorage.setItem('local_chats', JSON.stringify(localChats));
+      
+      input.value = '';
+      renderChatMessages(messages, 'open');
+    }
+  }
+
+  async function confirmCloseUserChat() {
+    if (!confirm("Deseja realmente encerrar este atendimento? A conversa será marcada como arquivada.")) return;
+
+    const userJson = localStorage.getItem('site_user');
+    if (!userJson) return;
+    const user = JSON.parse(userJson);
+
+    if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseUpdateDoc) {
+      try {
+        const docRef = window.firebaseDoc(window.firebaseDb, "chats", user.email);
+        await window.firebaseUpdateDoc(docRef, {
+          status: 'closed',
+          updatedAt: Date.now()
+        });
+      } catch (err) {
+        console.error("Erro encerrando chat:", err);
+      }
+    } else {
+      const chatKey = 'chat_' + user.email;
+      const localData = JSON.parse(localStorage.getItem(chatKey) || '{"status":"open","messages":[]}');
+      localData.status = 'closed';
+      localData.updatedAt = Date.now();
+      localStorage.setItem(chatKey, JSON.stringify(localData));
+      
+      const localChats = JSON.parse(localStorage.getItem('local_chats') || '{}');
+      if (localChats[user.email]) {
+        localChats[user.email].status = 'closed';
+        localChats[user.email].updatedAt = Date.now();
+        localStorage.setItem('local_chats', JSON.stringify(localChats));
+      }
+      
+      renderChatMessages(localData.messages, 'closed');
+    }
+  }
+</script>
+
+
+<script>
   function syncUrlsAndGear() {
     if (window.location.protocol === 'file:') {
       document.querySelectorAll('a[href]').forEach(a => {
@@ -951,7 +1567,12 @@
       });
     }
 
-    const isAdminLoggedIn = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
+    const userJson = localStorage.getItem('site_user');
+    let isAdminLoggedIn = false;
+    if (userJson) {
+      const user = JSON.parse(userJson);
+      isAdminLoggedIn = user.email === 'thais@gmail.com';
+    }
     const adminGear = document.getElementById('admin-gear');
     if (adminGear) {
       if (isAdminLoggedIn) {
@@ -1130,12 +1751,12 @@
         card.className = 'bg-sterile-white p-6 md:p-8 rounded-xl border border-outline-variant/30 flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300';
         card.innerHTML = `
           <div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary mb-6">
-            <span class="material-symbols-outlined text-[28px]">\${t.icon || 'spa'}</span>
+            <span class="material-symbols-outlined text-[28px]">${t.icon || 'spa'}</span>
           </div>
-          <span class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider mb-3">\${catLabel}</span>
-          <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl">\${t.title}</h3>
-          <p class="text-body-md font-body-md text-secondary text-sm mb-6 max-w-xs">\${t.shortDesc || t.description}</p>
-          <button onclick="openDetailModal('\${t.id}')" class="text-primary text-button font-button flex items-center gap-1 hover:opacity-75 transition-opacity border-b border-primary pb-0.5 mt-auto">
+          <span class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider mb-3">${catLabel}</span>
+          <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl">${t.title}</h3>
+          <p class="text-body-md font-body-md text-secondary text-sm mb-6 max-w-xs">${t.shortDesc || t.description}</p>
+          <button onclick="openDetailModal('${t.id}')" class="text-primary text-button font-button flex items-center gap-1 hover:opacity-75 transition-opacity border-b border-primary pb-0.5 mt-auto">
             Conhecer detalhes
             <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
           </button>
@@ -1154,15 +1775,15 @@
         card.className = 'group border border-outline-variant rounded-xl overflow-hidden bg-surface hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col h-full';
         card.innerHTML = `
           <div class="relative h-64 overflow-hidden">
-            <img alt="\${t.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="\${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}"/>
+            <img alt="${t.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}"/>
             <div class="absolute top-4 left-4">
-              <span class="bg-clinical-blue-light text-primary text-label-caps font-label-caps px-3 py-1.5 rounded uppercase tracking-wider backdrop-blur-sm bg-opacity-90">&nbsp;\${catLabel}&nbsp;</span>
+              <span class="bg-clinical-blue-light text-primary text-label-caps font-label-caps px-3 py-1.5 rounded uppercase tracking-wider backdrop-blur-sm bg-opacity-90">&nbsp;${catLabel}&nbsp;</span>
             </div>
           </div>
           <div class="p-6 md:p-8 flex flex-col flex-grow">
-            <h3 class="text-headline-md font-headline-md text-primary mb-3">\${t.title}</h3>
-            <p class="text-body-md font-body-md text-secondary mb-6 flex-grow">\${t.shortDesc || t.description}</p>
-            <a class="inline-flex items-center text-primary text-button font-button group/btn w-fit mt-auto border-b border-transparent hover:border-primary pb-0.5 transition-all" href="javascript:void(0)" onclick="openDetailModal('\${t.id}')">
+            <h3 class="text-headline-md font-headline-md text-primary mb-3">${t.title}</h3>
+            <p class="text-body-md font-body-md text-secondary mb-6 flex-grow">${t.shortDesc || t.description}</p>
+            <a class="inline-flex items-center text-primary text-button font-button group/btn w-fit mt-auto border-b border-transparent hover:border-primary pb-0.5 transition-all" href="javascript:void(0)" onclick="openDetailModal('${t.id}')">
               Ver detalhes
               <span class="material-symbols-outlined text-lg ml-1 group-hover/btn:translate-x-1 transition-transform">arrow_right_alt</span>
             </a>
@@ -1200,7 +1821,7 @@
     (async () => {
       try {
         const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
-        const { getFirestore, doc, onSnapshot, setDoc, collection } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        const { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
         
         const firebaseConfig = {
           apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
@@ -1214,6 +1835,14 @@
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        
+        window.firebaseDb = db;
+        window.firebaseDoc = doc;
+        window.firebaseGetDoc = getDoc;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseOnSnapshot = onSnapshot;
+        window.firebaseCollection = collection;
         
         window.saveGlobalSettingsToFirebase = async function() {
           const docRef = doc(db, "settings", "global");

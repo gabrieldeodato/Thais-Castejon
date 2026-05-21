@@ -53,23 +53,11 @@
 </head>
 <body class="bg-background min-h-screen flex flex-col">
 
-  <!-- Password screen -->
+  <!-- Loading / Verification screen -->
   <div id="login-screen" class="flex-grow flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl border border-accent-border shadow-xl p-8 max-w-md w-full text-center">
-      <div class="w-16 h-16 rounded-full bg-clinical-blue-light flex items-center justify-center text-primary mx-auto mb-6">
-        <span class="material-symbols-outlined text-3xl font-bold">medical_services</span>
-      </div>
-      <h2 class="text-2xl font-headline font-bold text-primary mb-2">Acesso Administrativo</h2>
-      <p class="text-sm text-secondary mb-6">Digite a senha para acessar o painel de controle.</p>
-      <form id="login-form" class="space-y-4">
-        <div>
-          <input type="password" id="adm-password" class="w-full px-4 py-3 rounded-full border border-accent-border focus:ring-2 focus:ring-primary focus:border-transparent text-center font-semibold text-lg" placeholder="••••••••" required autofocus/>
-        </div>
-        <div id="login-error" class="hidden text-sm text-red-600 font-medium mb-2">Senha incorreta. Tente novamente.</div>
-        <button type="submit" class="w-full bg-primary text-white font-bold py-3 rounded-full hover:opacity-90 transition-opacity shadow-md">
-          Entrar
-        </button>
-      </form>
+    <div class="bg-white rounded-2xl border border-accent-border shadow-xl p-8 max-w-md w-full text-center space-y-4">
+      <div class="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin mx-auto"></div>
+      <p class="text-sm text-secondary font-medium">Verificando credenciais de administrador...</p>
     </div>
   </div>
 
@@ -113,6 +101,9 @@
         </button>
         <button onclick="switchTab('textos')" id="tab-btn-textos" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
           <span class="material-symbols-outlined">edit_note</span> Textos do Site
+        </button>
+        <button onclick="switchTab('mensagens')" id="tab-btn-mensagens" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">chat</span> Mensagens
         </button>
       </aside>
 
@@ -760,6 +751,61 @@
             </div>
           </div>
 
+          <!-- TAB 7: CHAT / MENSAGENS -->
+          <div id="tab-mensagens" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Mensagens Recebidas</h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <!-- Users list / Conversas -->
+              <div class="lg:col-span-5 space-y-4">
+                <div class="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                  <div class="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+                    <span class="text-xs font-bold text-secondary uppercase tracking-wider">Conversas Recentes</span>
+                    <span id="unread-chats-badge" class="hidden bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0 novas</span>
+                  </div>
+                  <div id="admin-chat-users-list" class="divide-y divide-slate-100 max-h-[450px] overflow-y-auto">
+                    <p class="text-center text-xs text-secondary italic py-8">Carregando conversas...</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chat Conversation Box -->
+              <div class="lg:col-span-7 flex flex-col border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm h-[500px]">
+                <!-- Active Chat Header -->
+                <div id="admin-chat-header" class="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center shrink-0">
+                  <div>
+                    <h4 id="admin-chat-user-name" class="font-headline font-bold text-primary text-base">Selecione uma conversa</h4>
+                    <p id="admin-chat-user-info" class="text-[10px] text-secondary"></p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button id="admin-chat-close-btn" onclick="adminCloseActiveChat()" class="hidden text-xs bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 font-bold py-1 px-3 rounded-full transition-colors flex items-center gap-1" title="Encerrar Conversa">
+                      <span class="material-symbols-outlined text-sm">archive</span> Encerrar
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div id="admin-chat-messages" class="flex-grow overflow-y-auto p-4 bg-slate-50 space-y-3 flex flex-col">
+                  <div class="text-center py-12 px-4 my-auto">
+                    <span class="material-symbols-outlined text-4xl text-primary/20 mb-2">chat_bubble</span>
+                    <p class="text-sm font-semibold text-secondary">Nenhuma conversa selecionada</p>
+                    <p class="text-xs text-secondary opacity-70 mt-1">Selecione um paciente ao lado para ver a conversa.</p>
+                  </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div id="admin-chat-input-area" class="hidden p-3 border-t border-slate-200 bg-white shrink-0">
+                  <form id="admin-chat-form" onsubmit="handleAdminSendChat(event)" class="flex gap-2 items-center">
+                    <input type="text" id="admin-chat-text" required class="flex-grow px-4 py-2.5 rounded-full border border-slate-200 focus:ring-2 focus:ring-primary focus:border-transparent text-sm bg-white" placeholder="Digite uma resposta..."/>
+                    <button type="submit" class="bg-primary text-white p-2.5 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center shrink-0">
+                      <span class="material-symbols-outlined text-[20px]">send</span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- Sticky Footer Buttons -->
@@ -886,45 +932,33 @@
         backToSiteBtn.setAttribute('href', '/');
       }
 
-      // 1. Setup Auth state
-      const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
-      if (isLogged) {
-        showDashboard();
-      } else {
-        showLogin();
+      // 1. Check for user login and admin privilege
+      const userJson = localStorage.getItem('site_user');
+      let isAdmin = false;
+      if (userJson) {
+        try {
+          const user = JSON.parse(userJson);
+          if (user.email === 'thais@gmail.com') {
+            isAdmin = true;
+          }
+        } catch (e) {}
       }
 
-      // 2. Setup Login Form
-      document.getElementById('login-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const pwdInput = document.getElementById('adm-password');
-        const pwd = pwdInput ? pwdInput.value.trim() : '';
-        if (pwd === '123') {
-          localStorage.setItem('adm_logged_in', 'true');
-          sessionStorage.setItem('adm_logged_in', 'true');
-          document.getElementById('login-error').classList.add('hidden');
-          showDashboard();
-          
-          // Redirect to home and unlock settings gear
-          if (window.location.protocol === 'file:') {
-            window.location.href = 'index.html';
-          } else {
-            window.location.href = '/';
-          }
-        } else {
-          document.getElementById('login-error').classList.remove('hidden');
-        }
-      });
+      if (isAdmin) {
+        localStorage.setItem('adm_logged_in', 'true');
+        showDashboard();
+      } else {
+        localStorage.removeItem('adm_logged_in');
+        window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
+        return;
+      }
 
       // 3. Setup Logout
       document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('adm_logged_in');
         sessionStorage.removeItem('adm_logged_in');
-        if (window.location.protocol === 'file:') {
-          window.location.href = 'index.html';
-        } else {
-          window.location.href = '/';
-        }
+        localStorage.removeItem('site_user');
+        window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
       });
 
       // 4. Setup Dynamic Preview Listeners
@@ -970,6 +1004,10 @@
       renderUpcomingList();
       renderGeneralScheduleSettings();
       renderTreatmentsList();
+
+      if (typeof startAdminChatsListSync === 'function') {
+        startAdminChatsListSync();
+      }
     }
 
     function switchTab(tabId) {
@@ -1765,6 +1803,305 @@
       showToast();
       renderTreatmentsList();
     }
+
+    // --- Tab 7: Admin Chat / Mensagens Logic ---
+    let adminChatsListener = null;
+    let selectedChatUserEmail = null;
+    let activeAdminChatListener = null;
+
+    function startAdminChatsListSync() {
+      if (adminChatsListener) {
+        adminChatsListener();
+        adminChatsListener = null;
+      }
+
+      if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseCollection && window.firebaseOnSnapshot) {
+        const chatsCol = window.firebaseCollection(window.firebaseDb, "chats");
+        adminChatsListener = window.firebaseOnSnapshot(chatsCol, (querySnap) => {
+          const chats = [];
+          querySnap.forEach(docSnap => {
+            chats.push(docSnap.data());
+          });
+          chats.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+          renderAdminChatsList(chats);
+        }, (err) => {
+          console.error("Erro escutando lista de chats no admin:", err);
+        });
+      } else {
+        const loadLocalChats = () => {
+          const localChatsObj = JSON.parse(localStorage.getItem('local_chats') || '{}');
+          const chats = Object.values(localChatsObj);
+          chats.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+          renderAdminChatsList(chats);
+        };
+
+        loadLocalChats();
+        window.addEventListener('storage', (e) => {
+          if (e.key === 'local_chats' || (e.key && e.key.startsWith('chat_'))) {
+            loadLocalChats();
+          }
+        });
+      }
+    }
+
+    function renderAdminChatsList(chats) {
+      const container = document.getElementById('admin-chat-users-list');
+      const unreadBadge = document.getElementById('unread-chats-badge');
+      if (!container) return;
+
+      container.innerHTML = '';
+      if (chats.length === 0) {
+        container.innerHTML = '<p class="text-center text-xs text-secondary italic py-8">Nenhuma mensagem recebida ainda.</p>';
+        if (unreadBadge) unreadBadge.classList.add('hidden');
+        return;
+      }
+
+      let openChatsCount = 0;
+
+      chats.forEach(chat => {
+        const isSelected = selectedChatUserEmail === chat.userEmail;
+        const lastMsg = chat.messages && chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : null;
+        const lastMsgText = lastMsg ? lastMsg.text : 'Sem mensagens';
+        const lastMsgTime = lastMsg ? new Date(lastMsg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+        const isOpen = chat.status === 'open';
+
+        if (isOpen) openChatsCount++;
+
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'w-full text-left p-4 hover:bg-slate-50 transition-colors flex flex-col gap-1 border-l-4 ' + 
+          (isSelected ? 'border-primary bg-primary/5' : (isOpen ? 'border-green-500 bg-green-500/5' : 'border-transparent'));
+
+        const badgeHtml = isOpen 
+          ? '<span class="px-2 py-0.5 bg-green-500 text-white text-[9px] font-bold rounded-full">Aberto</span>'
+          : '<span class="px-2 py-0.5 bg-slate-300 text-slate-700 text-[9px] font-bold rounded-full">Encerrado</span>';
+
+        item.onclick = () => {
+          selectAdminChatUser(chat.userEmail, chat.userName, chat.userPhone || '');
+        };
+
+        item.innerHTML = 
+          '<div class="flex justify-between items-center w-full">' +
+            '<span class="text-xs font-semibold text-primary truncate max-w-[150px]">' + chat.userName + '</span>' +
+            '<div class="flex items-center gap-1.5 shrink-0">' +
+              '<span class="text-[9px] text-secondary/60">' + lastMsgTime + '</span>' +
+              badgeHtml +
+            '</div>' +
+          '</div>' +
+          '<div class="text-[10px] text-secondary font-mono truncate">' + chat.userEmail + '</div>' +
+          '<div class="text-xs text-secondary/80 truncate mt-1">' + (lastMsg ? lastMsgText : 'Sem mensagens') + '</div>';
+
+        container.appendChild(item);
+      });
+
+      if (unreadBadge) {
+        if (openChatsCount > 0) {
+          unreadBadge.textContent = openChatsCount + ' ativa(s)';
+          unreadBadge.classList.remove('hidden');
+        } else {
+          unreadBadge.classList.add('hidden');
+        }
+      }
+    }
+
+    function selectAdminChatUser(email, name, phone) {
+      selectedChatUserEmail = email;
+      
+      const nameEl = document.getElementById('admin-chat-user-name');
+      const infoEl = document.getElementById('admin-chat-user-info');
+      const inputArea = document.getElementById('admin-chat-input-area');
+      const closeBtn = document.getElementById('admin-chat-close-btn');
+      
+      if (nameEl) nameEl.textContent = name;
+      if (infoEl) infoEl.textContent = email + (phone ? ' • ' + phone : '');
+      if (inputArea) inputArea.classList.remove('hidden');
+      
+      if (activeAdminChatListener) {
+        activeAdminChatListener();
+        activeAdminChatListener = null;
+      }
+
+      const container = document.getElementById('admin-chat-messages');
+      if (container) {
+        container.innerHTML = '<p class="text-center text-xs text-secondary italic py-8">Carregando conversa...</p>';
+      }
+
+      if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseOnSnapshot) {
+        const docRef = window.firebaseDoc(window.firebaseDb, "chats", email);
+        activeAdminChatListener = window.firebaseOnSnapshot(docRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const chatData = docSnap.data();
+            renderAdminChatMessages(chatData.messages || [], chatData.status);
+          } else {
+            renderAdminChatMessages([], 'open');
+          }
+        }, (err) => {
+          console.error("Erro ao carregar mensagens no admin:", err);
+        });
+      } else {
+        const chatKey = 'chat_' + email;
+        const loadLocalChatMessages = () => {
+          const localData = JSON.parse(localStorage.getItem(chatKey) || '{"status":"open","messages":[]}');
+          renderAdminChatMessages(localData.messages || [], localData.status);
+        };
+        loadLocalChatMessages();
+        
+        window.addEventListener('storage', (e) => {
+          if (e.key === chatKey) {
+            loadLocalChatMessages();
+          }
+        });
+      }
+    }
+
+    function renderAdminChatMessages(messages, status) {
+      const container = document.getElementById('admin-chat-messages');
+      const closeBtn = document.getElementById('admin-chat-close-btn');
+      if (!container) return;
+
+      container.innerHTML = '';
+      if (messages.length === 0) {
+        container.innerHTML = '<p class="text-center text-xs text-secondary italic py-8">Sem mensagens nesta conversa.</p>';
+        return;
+      }
+
+      messages.forEach(msg => {
+        const bubbleWrapper = document.createElement('div');
+        bubbleWrapper.className = 'flex flex-col w-full';
+        
+        const isUser = msg.sender === 'user';
+        const timeStr = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+        
+        if (!isUser) {
+          bubbleWrapper.innerHTML = 
+            '<div class="bg-primary text-white text-sm px-4 py-2.5 rounded-2xl rounded-tr-none self-end max-w-[80%] shadow-sm word-break break-words">' +
+              msg.text +
+            '</div>' +
+            '<span class="text-[9px] text-secondary/60 self-end mt-1 mr-1">Você • ' + timeStr + '</span>';
+        } else {
+          bubbleWrapper.innerHTML = 
+            '<div class="bg-clinical-blue-light text-primary text-sm px-4 py-2.5 rounded-2xl rounded-tl-none self-start max-w-[80%] shadow-sm word-break break-words border border-primary/5">' +
+              msg.text +
+            '</div>' +
+            '<span class="text-[9px] text-secondary/60 self-start mt-1 ml-1">Paciente • ' + timeStr + '</span>';
+        }
+        container.appendChild(bubbleWrapper);
+      });
+
+      if (status === 'closed') {
+        const closedBanner = document.createElement('div');
+        closedBanner.className = 'bg-slate-100 border border-slate-200 text-secondary text-xs p-3 rounded-xl text-center font-medium my-4';
+        closedBanner.innerHTML = '<p>Conversa encerrada.</p>';
+        container.appendChild(closedBanner);
+        if (closeBtn) closeBtn.classList.add('hidden');
+      } else {
+        if (closeBtn) closeBtn.classList.remove('hidden');
+      }
+
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+      }, 50);
+    }
+
+    async function handleAdminSendChat(event) {
+      if (event) event.preventDefault();
+      const input = document.getElementById('admin-chat-text');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text || !selectedChatUserEmail) return;
+
+      const newMsg = {
+        sender: 'admin',
+        text: text,
+        timestamp: Date.now()
+      };
+
+      if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseGetDoc && window.firebaseSetDoc) {
+        try {
+          const docRef = window.firebaseDoc(window.firebaseDb, "chats", selectedChatUserEmail);
+          const docSnap = await window.firebaseGetDoc(docRef);
+          
+          let messages = [];
+          if (docSnap.exists()) {
+            messages = docSnap.data().messages || [];
+          }
+          messages.push(newMsg);
+
+          await window.firebaseSetDoc(docRef, {
+            status: 'open',
+            updatedAt: Date.now(),
+            messages: messages
+          }, { merge: true });
+          
+          input.value = '';
+        } catch (err) {
+          console.error("Erro ao enviar resposta do admin no Firebase:", err);
+          alert("Erro ao enviar mensagem.");
+        }
+      } else {
+        const chatKey = 'chat_' + selectedChatUserEmail;
+        const localData = JSON.parse(localStorage.getItem(chatKey) || '{"status":"open","messages":[]}');
+        const messages = localData.messages || [];
+        messages.push(newMsg);
+        
+        const newChatData = {
+          userEmail: selectedChatUserEmail,
+          userName: localData.userName || 'Paciente Local',
+          userPhone: localData.userPhone || '',
+          status: 'open',
+          updatedAt: Date.now(),
+          messages: messages
+        };
+        
+        localStorage.setItem(chatKey, JSON.stringify(newChatData));
+        
+        const localChats = JSON.parse(localStorage.getItem('local_chats') || '{}');
+        localChats[selectedChatUserEmail] = newChatData;
+        localStorage.setItem('local_chats', JSON.stringify(localChats));
+        
+        input.value = '';
+        renderAdminChatMessages(messages, 'open');
+      }
+    }
+
+    async function adminCloseActiveChat() {
+      if (!selectedChatUserEmail) return;
+      if (!confirm("Deseja realmente marcar esta conversa como encerrada?")) return;
+
+      if (window.location.protocol !== 'file:' && window.firebaseDb && window.firebaseDoc && window.firebaseUpdateDoc) {
+        try {
+          const docRef = window.firebaseDoc(window.firebaseDb, "chats", selectedChatUserEmail);
+          await window.firebaseUpdateDoc(docRef, {
+            status: 'closed',
+            updatedAt: Date.now()
+          });
+        } catch (err) {
+          console.error("Erro ao fechar chat no admin:", err);
+        }
+      } else {
+        const chatKey = 'chat_' + selectedChatUserEmail;
+        const localData = JSON.parse(localStorage.getItem(chatKey) || '{"status":"open","messages":[]}');
+        localData.status = 'closed';
+        localData.updatedAt = Date.now();
+        localStorage.setItem(chatKey, JSON.stringify(localData));
+        
+        const localChats = JSON.parse(localStorage.getItem('local_chats') || '{}');
+        if (localChats[selectedChatUserEmail]) {
+          localChats[selectedChatUserEmail].status = 'closed';
+          localChats[selectedChatUserEmail].updatedAt = Date.now();
+          localStorage.setItem('local_chats', JSON.stringify(localChats));
+        }
+        
+        renderAdminChatMessages(localData.messages, 'closed');
+      }
+    }
+
+    window.startAdminChatsListSync = startAdminChatsListSync;
+    window.renderAdminChatsList = renderAdminChatsList;
+    window.selectAdminChatUser = selectAdminChatUser;
+    window.renderAdminChatMessages = renderAdminChatMessages;
+    window.handleAdminSendChat = handleAdminSendChat;
+    window.adminCloseActiveChat = adminCloseActiveChat;
   </script>
 ${firebaseSyncScript}
 </body>
