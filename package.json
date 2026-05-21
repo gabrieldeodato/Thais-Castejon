@@ -1,0 +1,24 @@
+{
+  "name": "thais-castejon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gabrieldeodato@github.com/gabrieldeodato/Thais-Castejon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gabrieldeodato/Thais-Castejon/issues"
+  },
+  "homepage": "https://github.com/gabrieldeodato/Thais-Castejon#readme",
+  "dependencies": {
+    "firebase": "^12.13.0"
+  }
+}

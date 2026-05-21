@@ -882,6 +882,9 @@
         };
         appointments.push(newAppt);
         localStorage.setItem('site_appointments', JSON.stringify(appointments));
+        if (typeof window.saveAppointmentToFirebase === 'function') {
+          window.saveAppointmentToFirebase(newAppt);
+        }
 
         // Show success values
         document.getElementById('modal-success-patient-name').textContent = nameInput.value.trim();
@@ -1006,8 +1009,7 @@
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1. Dynamic Clean URLs / Local File compatibility
+  function syncUrlsAndGear() {
     if (window.location.protocol === 'file:') {
       document.querySelectorAll('a[href]').forEach(a => {
         const href = a.getAttribute('href');
@@ -1030,7 +1032,6 @@
       });
     }
 
-    // 2. Hide/Show admin settings gear based on login status
     const isAdminLoggedIn = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
     const adminGear = document.getElementById('admin-gear');
     if (adminGear) {
@@ -1048,99 +1049,98 @@
         adminBottomNav.classList.add('hidden');
       }
     }
+  }
 
-    // Helper function to capitalize first letter
-    const capitalize = s => s && s[0].toUpperCase() + s.slice(1);
+  const capitalize = s => s && s[0].toUpperCase() + s.slice(1);
 
-    // Default treatments definition
-    const defaultTreatmentsList = [
-      {
-        id: "toxina",
-        title: "Toxina Botulínica",
-        category: "facial",
-        categoryLabel: "Facial",
-        icon: "face_retouching_natural",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCD5ZbV7x84LGrJULPxZAVwLXanBeQuMDUaGGgabgPaXza_B-OcZwyAjjMXZj16GF7lp3FyONfIf2ph0C39bJ-HIw0ZHyU42BzsvMi8rqO-BSeOVqVeLkCN3nbuldyZgLkCQ8OVmXq6gP5_8Yl8H7Q30p2gjV4AOwNNNnh6XKXjxejKZqxiA-92k_JrEFhv5yiAhPgh878-M4teB5ghbQNn72nzXRCRnwLahWkVRSbrgq6wow2qdSrKKnUv8MnyqtYDHTwSDzUhze5h",
-        shortDesc: "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
-        description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
-        indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
-        duration: "Cerca de 30 minutos",
-        recovery: "Imediata (evitar esforço nas primeiras 4 horas)",
-        featured: true
-      },
-      {
-        id: "preenchimento",
-        title: "Preenchimento Facial",
-        category: "facial",
-        categoryLabel: "Facial",
-        icon: "psychiatry",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc",
-        shortDesc: "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
-        description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
-        indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
-        duration: "30 a 60 minutos",
-        recovery: "Praticamente imediata (leve inchaço transitório)",
-        featured: true
-      },
-      {
-        id: "bioestimulador",
-        title: "Bioestimuladores de Colágeno",
-        category: "facial",
-        categoryLabel: "Facial",
-        icon: "spa",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4IJq7C59mUZgTixBIi0GHBw5bMesuhawQtu0BWWFeJy6IRv83IRm8PxS308TNhn3uwwsSHntQpVUzyF5bLw_EzUCI37lZX6x8r_s9JRg5D5LsRWTuZvUf-2CSOjQH_iyb37vtHAxav9lS_irSPkBIq9MrR7PRWUZxStVHo3iLwBFq3U5_UyJ3JiCqTTHsuohCLGFHyq2NypwBAMbZAAX1hwukQUDwkwy8h-AGqm8LGnX3wA-FHlyph4TJE389KraXFJDEyhKeM5I",
-        shortDesc: "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
-        description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
-        indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
-        duration: "30 a 45 minutos",
-        recovery: "Rápida (retorno imediato às atividades normais)",
-        featured: true
-      },
-      {
-        id: "fios",
-        title: "Lifting com Fios de PDO",
-        category: "facial",
-        categoryLabel: "Facial",
-        icon: "healing",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4IJq7C59mUZgTixBIi0GHBw5bMesuhawQtu0BWWFeJy6IRv83IRm8PxS308TNhn3uwwsSHntQpVUzyF5bLw_EzUCI37lZX6x8r_s9JRg5D5LsRWTuZvUf-2CSOjQH_iyb37vtHAxav9lS_irSPkBIq9MrR7PRWUZxStVHo3iLwBFq3U5_UyJ3JiCqTTHsuohCLGFHyq2NypwBAMbZAAX1hwukQUDwkwy8h-AGqm8LGnX3wA-FHlyph4TJE389KraXFJDEyhKeM5I",
-        shortDesc: "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
-        description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
-        indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
-        duration: "45 a 60 minutos",
-        recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)",
-        featured: true
-      },
-      {
-        id: "skinbooster",
-        title: "Skinbooster Hidratação Profunda",
-        category: "skin-care",
-        categoryLabel: "Skin Care",
-        icon: "water_drop",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG",
-        shortDesc: "Tratamento injetável que revitaliza a pele de dentro para fora, melhorando a elasticidade, firmeza e o viço natural do rosto, pescoço e colo.",
-        description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
-        indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
-        duration: "Cerca de 30 minutos",
-        recovery: "Imediata (pequenas pápulas podem durar até 24 horas)",
-        featured: false
-      },
-      {
-        id: "dental",
-        title: "Estética Dental Premium",
-        category: "dental",
-        categoryLabel: "Dental",
-        icon: "medical_services",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDk1es4J0A4DFH2KojaZoZzxm68eztRrBHcYidpsXTIhuW7dYlj39nGTji67-zbtFDkuO_9ZvSWi_T_guzjaUGG9zlpcheM_Z_T8x2DbX8QhH0YG1JFymZNEolg9nbnAojpIasUVFxB5PFwKnj4zNuJVi4OXvnHfGemi-Lcu4Mp5RvaNdaj_gDgoTu5HffoVfR2W7dMk6Ao3OF91HNIUMpL5Q6pqm7-vNcXQGxXnlssJpTC9_g_Jx1ktu3XQhAxzHjO7cX3aZWkpJRs",
-        shortDesc: "Clareamento a Laser Profissional e Lentes de Contato em Porcelana para um sorriso radiante e harmônico.",
-        description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
-        indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastados ou lascados.",
-        duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
-        recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)",
-        featured: false
-      }
-    ];
+  const defaultTreatmentsList = [
+    {
+      id: "toxina",
+      title: "Toxina Botulínica",
+      category: "facial",
+      categoryLabel: "Facial",
+      icon: "face_retouching_natural",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCD5ZbV7x84LGrJULPxZAVwLXanBeQuMDUaGGgabgPaXza_B-OcZwyAjjMXZj16GF7lp3FyONfIf2ph0C39bJ-HIw0ZHyU42BzsvMi8rqO-BSeOVqVeLkCN3nbuldyZgLkCQ8OVmXq6gP5_8Yl8H7Q30p2gjV4AOwNNNnh6XKXjxejKZqxiA-92k_JrEFhv5yiAhPgh878-M4teB5ghbQNn72nzXRCRnwLahWkVRSbrgq6wow2qdSrKKnUv8MnyqtYDHTwSDzUhze5h",
+      shortDesc: "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
+      description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
+      indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
+      duration: "Cerca de 30 minutos",
+      recovery: "Imediata (evitar esforço nas primeiras 4 horas)",
+      featured: true
+    },
+    {
+      id: "preenchimento",
+      title: "Preenchimento Facial",
+      category: "facial",
+      categoryLabel: "Facial",
+      icon: "psychiatry",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc",
+      shortDesc: "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
+      description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
+      indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
+      duration: "30 a 60 minutos",
+      recovery: "Praticamente imediata (leve inchaço transitório)",
+      featured: true
+    },
+    {
+      id: "bioestimulador",
+      title: "Bioestimuladores de Colágeno",
+      category: "facial",
+      categoryLabel: "Facial",
+      icon: "spa",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4IJq7C59mUZgTixBIi0GHBw5bMesuhawQtu0BWWFeJy6IRv83IRm8PxS308TNhn3uwwsSHntQpVUzyF5bLw_EzUCI37lZX6x8r_s9JRg5D5LsRWTuZvUf-2CSOjQH_iyb37vtHAxav9lS_irSPkBIq9MrR7PRWUZxStVHo3iLwBFq3U5_UyJ3JiCqTTHsuohCLGFHyq2NypwBAMbZAAX1hwukQUDwkwy8h-AGqm8LGnX3wA-FHlyph4TJE389KraXFJDEyhKeM5I",
+      shortDesc: "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
+      description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
+      indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
+      duration: "30 a 45 minutos",
+      recovery: "Rápida (retorno imediato às atividades normais)",
+      featured: true
+    },
+    {
+      id: "fios",
+      title: "Lifting com Fios de PDO",
+      category: "facial",
+      categoryLabel: "Facial",
+      icon: "healing",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAQ4IJq7C59mUZgTixBIi0GHBw5bMesuhawQtu0BWWFeJy6IRv83IRm8PxS308TNhn3uwwsSHntQpVUzyF5bLw_EzUCI37lZX6x8r_s9JRg5D5LsRWTuZvUf-2CSOjQH_iyb37vtHAxav9lS_irSPkBIq9MrR7PRWUZxStVHo3iLwBFq3U5_UyJ3JiCqTTHsuohCLGFHyq2NypwBAMbZAAX1hwukQUDwkwy8h-AGqm8LGnX3wA-FHlyph4TJE389KraXFJDEyhKeM5I",
+      shortDesc: "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
+      description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
+      indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
+      duration: "45 a 60 minutos",
+      recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)",
+      featured: true
+    },
+    {
+      id: "skinbooster",
+      title: "Skinbooster Hidratação Profunda",
+      category: "skin-care",
+      categoryLabel: "Skin Care",
+      icon: "water_drop",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG",
+      shortDesc: "Tratamento injetável que revitaliza a pele de dentro para fora, melhorando a elasticidade, firmeza e o viço natural do rosto, pescoço e colo.",
+      description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
+      indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
+      duration: "Cerca de 30 minutos",
+      recovery: "Imediata (pequenas pápulas podem durar até 24 horas)",
+      featured: false
+    },
+    {
+      id: "dental",
+      title: "Estética Dental Premium",
+      category: "dental",
+      categoryLabel: "Dental",
+      icon: "medical_services",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDk1es4J0A4DFH2KojaZoZzxm68eztRrBHcYidpsXTIhuW7dYlj39nGTji67-zbtFDkuO_9ZvSWi_T_guzjaUGG9zlpcheM_Z_T8x2DbX8QhH0YG1JFymZNEolg9nbnAojpIasUVFxB5PFwKnj4zNuJVi4OXvnHfGemi-Lcu4Mp5RvaNdaj_gDgoTu5HffoVfR2W7dMk6Ao3OF91HNIUMpL5Q6pqm7-vNcXQGxXnlssJpTC9_g_Jx1ktu3XQhAxzHjO7cX3aZWkpJRs",
+      shortDesc: "Clareamento a Laser Profissional e Lentes de Contato em Porcelana para um sorriso radiante e harmônico.",
+      description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
+      indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastadas ou lascados.",
+      duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
+      recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)",
+      featured: false
+    }
+  ];
 
-    // Initialize site_treatments in localStorage if not set
+  window.syncDOMFromLocalStorage = function() {
     let savedTreatments = localStorage.getItem('site_treatments');
     if (!savedTreatments) {
       localStorage.setItem('site_treatments', JSON.stringify(defaultTreatmentsList));
@@ -1148,7 +1148,6 @@
     }
     const treatments = JSON.parse(savedTreatments);
 
-    // Update in-memory treatmentDetails object if it exists (for modals)
     if (typeof treatmentDetails !== 'undefined') {
       for (let k in treatmentDetails) {
         delete treatmentDetails[k];
@@ -1166,7 +1165,6 @@
       });
     }
 
-    // 1. Sync plain text / HTML / image / iframe content for elements with data-edit-key
     document.querySelectorAll('[data-edit-key]').forEach(el => {
       const key = el.getAttribute('data-edit-key');
       const savedValue = localStorage.getItem('site_edit_' + key);
@@ -1178,7 +1176,7 @@
         } else if (el.tagName === 'A') {
           if (key === 'clinic_whatsapp') {
             el.textContent = savedValue;
-            const digits = savedValue.replace(/D/g, '');
+            const digits = savedValue.replace(/\D/g, '');
             const waNum = digits.startsWith('55') ? digits : '55' + digits;
             el.href = 'https://wa.me/' + waNum;
           } else if (key === 'clinic_email') {
@@ -1186,7 +1184,7 @@
             el.href = 'mailto:' + savedValue.trim();
           } else if (key.startsWith('clinic_phone_')) {
             el.textContent = savedValue;
-            const digits = savedValue.replace(/D/g, '');
+            const digits = savedValue.replace(/\D/g, '');
             el.href = 'tel:' + digits;
           } else if (key === 'clinic_map_link') {
             el.href = savedValue;
@@ -1194,8 +1192,8 @@
             el.textContent = savedValue;
           }
         } else {
-          if (savedValue.includes('\n')) {
-            el.innerHTML = savedValue.replace(/\n/g, '<br/>');
+          if (savedValue.includes('\\n')) {
+            el.innerHTML = savedValue.replace(/\\n/g, '<br/>');
           } else {
             el.textContent = savedValue;
           }
@@ -1203,7 +1201,6 @@
       }
     });
 
-    // 2. Render Featured Treatments Grid on Homepage if present
     const featuredGrid = document.getElementById('featured-treatments-grid');
     if (featuredGrid) {
       featuredGrid.innerHTML = '';
@@ -1228,7 +1225,6 @@
       });
     }
 
-    // 3. Render Catalog Treatments Grid on Catalog page if present
     const catalogGrid = document.getElementById('treatments-grid');
     if (catalogGrid) {
       catalogGrid.innerHTML = '';
@@ -1257,7 +1253,6 @@
       });
     }
 
-    // 4. Sync treatment select options in scheduling modal
     const selectEl = document.getElementById('modal-treatment-select');
     if (selectEl) {
       selectEl.innerHTML = '<option disabled="" selected="" value="">Selecione um tratamento...</option>';
@@ -1272,7 +1267,112 @@
       optEval.textContent = 'Avaliação Geral';
       selectEl.appendChild(optEval);
     }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    syncUrlsAndGear();
+    window.syncDOMFromLocalStorage();
   });
+</script>
+
+
+<script type="module">
+  if (window.location.protocol !== 'file:') {
+    (async () => {
+      try {
+        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+        const { getFirestore, doc, onSnapshot, setDoc, collection } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
+          authDomain: "thais-castejon.firebaseapp.com",
+          projectId: "thais-castejon",
+          storageBucket: "thais-castejon.firebasestorage.app",
+          messagingSenderId: "364219423720",
+          appId: "1:364219423720:web:4d08621d0b64e7548a625d",
+          measurementId: "G-FDQCRHEP1S"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        window.saveGlobalSettingsToFirebase = async function() {
+          const docRef = doc(db, "settings", "global");
+          const site_edits = {};
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('site_edit_')) {
+              const editKey = key.replace('site_edit_', '');
+              site_edits[editKey] = localStorage.getItem(key);
+            }
+          }
+          const treatments = JSON.parse(localStorage.getItem('site_treatments')) || [];
+          const schedule_settings = JSON.parse(localStorage.getItem('site_schedule_settings')) || {};
+          const schedule_overrides = JSON.parse(localStorage.getItem('site_schedule_overrides')) || {};
+          
+          await setDoc(docRef, {
+            site_edits,
+            treatments,
+            schedule_settings,
+            schedule_overrides
+          }, { merge: true });
+        };
+        
+        window.saveAppointmentToFirebase = async function(appt) {
+          if (!appt || !appt.id) return;
+          const docRef = doc(db, "appointments", appt.id);
+          await setDoc(docRef, appt, { merge: true });
+        };
+        
+        onSnapshot(doc(db, "settings", "global"), (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.site_edits) {
+              for (const [key, value] of Object.entries(data.site_edits)) {
+                localStorage.setItem('site_edit_' + key, value);
+              }
+            }
+            if (data.treatments) {
+              localStorage.setItem('site_treatments', JSON.stringify(data.treatments));
+            }
+            if (data.schedule_settings) {
+              localStorage.setItem('site_schedule_settings', JSON.stringify(data.schedule_settings));
+            }
+            if (data.schedule_overrides) {
+              localStorage.setItem('site_schedule_overrides', JSON.stringify(data.schedule_overrides));
+            }
+            
+            if (typeof window.syncDOMFromLocalStorage === 'function') {
+              window.syncDOMFromLocalStorage();
+            }
+            if (typeof window.syncAdminUI === 'function') {
+              window.syncAdminUI();
+            }
+          } else {
+            window.saveGlobalSettingsToFirebase();
+          }
+        });
+        
+        onSnapshot(collection(db, "appointments"), (querySnapshot) => {
+          const appointments = [];
+          querySnapshot.forEach((doc) => {
+            appointments.push(doc.data());
+          });
+          localStorage.setItem('site_appointments', JSON.stringify(appointments));
+          
+          if (typeof window.syncDOMFromLocalStorage === 'function') {
+            window.syncDOMFromLocalStorage();
+          }
+          if (typeof window.syncAdminUI === 'function') {
+            window.syncAdminUI();
+          }
+        });
+        
+      } catch (err) {
+        console.error("Failed to load Firebase:", err);
+      }
+    })();
+  }
 </script>
 
 

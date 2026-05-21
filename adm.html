@@ -931,6 +931,17 @@
       setupPreviews();
     });
 
+    window.syncAdminUI = function() {
+      const isLogged = localStorage.getItem('adm_logged_in') === 'true' || sessionStorage.getItem('adm_logged_in') === 'true';
+      if (isLogged) {
+        loadValues();
+        renderAdminCalendar();
+        renderUpcomingList();
+        renderGeneralScheduleSettings();
+        renderTreatmentsList();
+      }
+    };
+
     function showLogin() {
       document.getElementById('login-screen').classList.remove('hidden');
       document.getElementById('dashboard-screen').classList.add('hidden');
@@ -1073,6 +1084,9 @@
           localStorage.setItem('site_edit_' + key, val);
         }
       }
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
       showToast();
     }
 
@@ -1084,10 +1098,22 @@
             localStorage.removeItem(k);
           }
         });
-        localStorage.removeItem('site_treatments');
-        localStorage.removeItem('site_schedule_settings');
+        localStorage.setItem('site_treatments', JSON.stringify(defaultTreatmentsList));
+        const defaultSched = {
+          available_weekdays: [1, 2, 3, 4, 5],
+          default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+        };
+        localStorage.setItem('site_schedule_settings', JSON.stringify(defaultSched));
         localStorage.removeItem('site_schedule_overrides');
-        window.location.reload();
+        if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+          window.saveGlobalSettingsToFirebase().then(() => {
+            window.location.reload();
+          }).catch(() => {
+            window.location.reload();
+          });
+        } else {
+          window.location.reload();
+        }
       }
     }
 
@@ -1277,6 +1303,9 @@
       
       overrides[selectedDateStr].disabled = !isDayActive;
       localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
       
       // Refresh current calendar and details panel
       renderAdminCalendar();
@@ -1338,6 +1367,9 @@
       }
       overrides[selectedDateStr].slots = daySlots;
       localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
 
       const parts = selectedDateStr.split('-');
       const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
@@ -1378,6 +1410,9 @@
       }
       overrides[selectedDateStr].slots = daySlots;
       localStorage.setItem('site_schedule_overrides', JSON.stringify(overrides));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
 
       input.value = '';
       const parts = selectedDateStr.split('-');
@@ -1388,14 +1423,19 @@
     function cancelAppointment(id) {
       if (confirm('Deseja realmente cancelar este agendamento?')) {
         let appointments = JSON.parse(localStorage.getItem('site_appointments')) || [];
+        let cancelledAppt = null;
         // Soft delete / Status change or filter
         appointments = appointments.map(a => {
           if (a.id === id) {
             a.status = 'cancelled';
+            cancelledAppt = a;
           }
           return a;
         });
         localStorage.setItem('site_appointments', JSON.stringify(appointments));
+        if (cancelledAppt && typeof window.saveAppointmentToFirebase === 'function') {
+          window.saveAppointmentToFirebase(cancelledAppt);
+        }
         showToast();
         
         // Refresh views
@@ -1519,6 +1559,9 @@
 
       scheduleSettings.available_weekdays = activeDays;
       localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
       
       renderAdminCalendar();
     }
@@ -1529,6 +1572,9 @@
 
       scheduleSettings.default_slots = scheduleSettings.default_slots.filter(s => s !== time);
       localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
       
       renderGeneralScheduleSettings();
     }
@@ -1554,6 +1600,9 @@
       scheduleSettings.default_slots.push(timeVal);
       scheduleSettings.default_slots.sort();
       localStorage.setItem('site_schedule_settings', JSON.stringify(scheduleSettings));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
 
       input.value = '';
       renderGeneralScheduleSettings();
@@ -1655,6 +1704,9 @@
       if (confirm('Deseja realmente remover o tratamento "' + t.title + '"? Isto fará com que o card e botão sumam das páginas públicas.')) {
         list.splice(index, 1);
         localStorage.setItem('site_treatments', JSON.stringify(list));
+        if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+          window.saveGlobalSettingsToFirebase();
+        }
         showToast();
         renderTreatmentsList();
       }
@@ -1706,10 +1758,14 @@
       }
 
       localStorage.setItem('site_treatments', JSON.stringify(list));
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase();
+      }
       closeTreatmentForm();
       showToast();
       renderTreatmentsList();
     }
   </script>
+${firebaseSyncScript}
 </body>
 </html>
