@@ -1034,7 +1034,6 @@
 
       errMsg.classList.add('hidden');
       if (pwInput.value === 'adm123') {
-        localStorage.setItem('thais_adm_auth', 'true');
         sessionStorage.setItem('thais_adm_auth', 'true');
         
         // Hide password gate and show dashboard
@@ -1057,12 +1056,11 @@
       }
 
       // Check for logged in state
-      const isLogged = localStorage.getItem('thais_adm_auth') === 'true' || sessionStorage.getItem('thais_adm_auth') === 'true';
+      const isLogged = sessionStorage.getItem('thais_adm_auth') === 'true';
 
       if (isLogged) {
         showDashboard();
       } else {
-        localStorage.removeItem('thais_adm_auth');
         sessionStorage.removeItem('thais_adm_auth');
         
         // Hide dashboard and show password gate
@@ -1078,7 +1076,6 @@
       if (logoutBtn && !logoutBtn._listenerAdded) {
         logoutBtn._listenerAdded = true;
         logoutBtn.addEventListener('click', () => {
-          localStorage.removeItem('thais_adm_auth');
           sessionStorage.removeItem('thais_adm_auth');
           window.location.replace(window.location.protocol === 'file:' ? 'index.html' : '/');
         });
@@ -1091,7 +1088,7 @@
 
 
     window.syncAdminUI = function() {
-      const isLogged = localStorage.getItem('thais_adm_auth') === 'true' || sessionStorage.getItem('thais_adm_auth') === 'true';
+      const isLogged = sessionStorage.getItem('thais_adm_auth') === 'true';
       if (isLogged) {
         loadValues();
         renderAdminCalendar();
