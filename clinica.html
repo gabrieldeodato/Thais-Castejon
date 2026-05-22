@@ -1216,124 +1216,175 @@
 
 <script type="module">
   (async () => {
-      try {
-        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
-        const { getFirestore, doc, onSnapshot, setDoc, getDoc, collection, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-        
-        let firebaseConfig;
-        if (window.location.protocol === 'file:') {
-          firebaseConfig = {
-            apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
-            authDomain: "thais-castejon.firebaseapp.com",
-            projectId: "thais-castejon",
-            storageBucket: "thais-castejon.firebasestorage.app",
-            messagingSenderId: "364219423720",
-            appId: "1:364219423720:web:4d08621d0b64e7548a625d",
-            measurementId: "G-FDQCRHEP1S"
-          };
-        } else {
-          try {
-            const configRes = await fetch('/api/config');
-            firebaseConfig = await configRes.json();
-          } catch (err) {
-            console.warn("Failed to fetch Firebase config, using default:", err);
-            firebaseConfig = {
-              apiKey: "AIzaSyDzax1yxIq1xWZEEOT7SPxb652JirB9Q3s",
-              authDomain: "thais-castejon.firebaseapp.com",
-              projectId: "thais-castejon",
-              storageBucket: "thais-castejon.firebasestorage.app",
-              messagingSenderId: "364219423720",
-              appId: "1:364219423720:web:4d08621d0b64e7548a625d",
-              measurementId: "G-FDQCRHEP1S"
-            };
-          }
+    try {
+      const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
+      
+      let supabaseUrl, supabaseKey;
+      if (window.location.protocol === 'file:') {
+        supabaseUrl = "https://your-supabase-url.supabase.co";
+        supabaseKey = "your-supabase-anon-key";
+      } else {
+        try {
+          const configRes = await fetch('/api/config');
+          const config = await configRes.json();
+          supabaseUrl = config.supabaseUrl;
+          supabaseKey = config.supabaseKey;
+        } catch (err) {
+          console.warn("Failed to fetch Supabase config, using placeholder:", err);
+          supabaseUrl = "https://your-supabase-url.supabase.co";
+          supabaseKey = "your-supabase-anon-key";
         }
-        
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        
-        window.firebaseDb = db;
-        window.firebaseDoc = doc;
-        window.firebaseGetDoc = getDoc;
-        window.firebaseSetDoc = setDoc;
-        window.firebaseUpdateDoc = updateDoc;
-        window.firebaseOnSnapshot = onSnapshot;
-        window.firebaseCollection = collection;
-        
-        window.saveGlobalSettingsToFirebase = async function() {
-        const docRef = doc(db, "settings", "global");
-        await setDoc(docRef, {
-          site_edits: window.siteState.site_edits,
-          treatments: window.siteState.treatments,
-          schedule_settings: window.siteState.schedule_settings,
-          schedule_overrides: window.siteState.schedule_overrides
-        }, { merge: true });
+      }
+      
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      window.supabaseClient = supabase;
+      
+      window.saveGlobalSettingsToFirebase = async function() {
+        try {
+          const { error } = await supabase
+            .from('settings')
+            .upsert({
+              id: 'global',
+              site_edits: window.siteState.site_edits || {},
+              treatments: window.siteState.treatments || [],
+              schedule_settings: window.siteState.schedule_settings || {},
+              schedule_overrides: window.siteState.schedule_overrides || {},
+              updated_at: new Date().toISOString()
+            });
+          if (error) throw error;
+        } catch (err) {
+          console.error("Erro ao salvar configuracoes no Supabase:", err);
+          alert("Erro ao sincronizar com o banco de dados (Supabase). Suas alteracoes nao foram salvas na nuvem! Erro: " + err.message);
+          throw err;
+        }
       };
       
       window.saveAppointmentToFirebase = async function(appt) {
         if (!appt || !appt.id) return;
-        const docRef = doc(db, "appointments", appt.id);
-        await setDoc(docRef, appt, { merge: true });
+        try {
+          const { error } = await supabase
+            .from('appointments')
+            .upsert(appt);
+          if (error) throw error;
+        } catch (err) {
+          console.error("Erro ao salvar agendamento no Supabase:", err);
+          alert("Erro ao salvar o agendamento no Supabase. Erro: " + err.message);
+          throw err;
+        }
       };
       
-      onSnapshot(doc(db, "settings", "global"), (docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          if (data.site_edits) {
-            window.siteState.site_edits = data.site_edits;
-          }
-          if (data.treatments) {
-            window.siteState.treatments = data.treatments;
-          }
-          if (data.schedule_settings) {
-            window.siteState.schedule_settings = data.schedule_settings;
-          }
-          if (data.schedule_overrides) {
-            window.siteState.schedule_overrides = data.schedule_overrides;
-          }
+      // Fetch initial settings
+      try {
+        const { data: settingsData, error } = await supabase
+          .from('settings')
+          .select('*')
+          .eq('id', 'global')
+          .maybeSingle();
           
-          if (typeof window.syncDOMFromLocalStorage === 'function') {
-            window.syncDOMFromLocalStorage();
-          }
-          
-          // Re-render modal calendar if it is open
-          const bookingModal = document.getElementById('booking-modal');
-          if (bookingModal && !bookingModal.classList.contains('hidden')) {
-            if (typeof renderModalCalendar === 'function') {
-              renderModalCalendar();
+        if (error) {
+          console.error("Error loading settings from Supabase:", error);
+        } else if (settingsData) {
+          if (settingsData.site_edits) window.siteState.site_edits = settingsData.site_edits;
+          if (settingsData.treatments) window.siteState.treatments = settingsData.treatments;
+          if (settingsData.schedule_settings) window.siteState.schedule_settings = settingsData.schedule_settings;
+          if (settingsData.schedule_overrides) window.siteState.schedule_overrides = settingsData.schedule_overrides;
+        } else {
+          // Document global doesn't exist, create it with initial/default values
+          await window.saveGlobalSettingsToFirebase().catch(err => {
+            console.error("Error creating initial settings in Supabase:", err);
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching initial settings from Supabase:", err);
+      }
+      
+      // Fetch initial appointments
+      try {
+        const { data: apptsData, error } = await supabase
+          .from('appointments')
+          .select('*');
+        if (error) {
+          console.error("Error loading appointments from Supabase:", error);
+        } else if (apptsData) {
+          window.siteState.appointments = apptsData;
+        }
+      } catch (err) {
+        console.error("Error fetching initial appointments from Supabase:", err);
+      }
+      
+      if (typeof window.syncDOMFromLocalStorage === 'function') {
+        window.syncDOMFromLocalStorage();
+      }
+      if (typeof window.syncAdminUI === 'function') {
+        window.syncAdminUI();
+      }
+      
+      // Subscribe to real-time changes in settings
+      supabase
+        .channel('schema-db-changes-settings')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'settings', filter: 'id=eq.global' },
+          (payload) => {
+            const newData = payload.new;
+            if (newData) {
+              if (newData.site_edits) window.siteState.site_edits = newData.site_edits;
+              if (newData.treatments) window.siteState.treatments = newData.treatments;
+              if (newData.schedule_settings) window.siteState.schedule_settings = newData.schedule_settings;
+              if (newData.schedule_overrides) window.siteState.schedule_overrides = newData.schedule_overrides;
+              
+              if (typeof window.syncDOMFromLocalStorage === 'function') {
+                window.syncDOMFromLocalStorage();
+              }
+              if (typeof window.syncAdminUI === 'function') {
+                window.syncAdminUI();
+              }
+              
+              // Re-render modal calendar if it is open
+              const bookingModal = document.getElementById('booking-modal');
+              if (bookingModal && !bookingModal.classList.contains('hidden')) {
+                if (typeof renderModalCalendar === 'function') {
+                  renderModalCalendar();
+                }
+              }
             }
           }
-        } else {
-          window.saveGlobalSettingsToFirebase().catch(err => console.error("Error creating global settings:", err));
-        }
-      }, (err) => {
-        console.error("Firestore settings snapshot error:", err);
-      });
-      
-      onSnapshot(collection(db, "appointments"), (querySnapshot) => {
-        const appointments = [];
-        querySnapshot.forEach((doc) => {
-          appointments.push(doc.data());
-        });
-        window.siteState.appointments = appointments;
+        )
+        .subscribe();
         
-        if (typeof window.syncDOMFromLocalStorage === 'function') {
-          window.syncDOMFromLocalStorage();
-        }
-        
-        // Re-render modal calendar if it is open
-        const bookingModal = document.getElementById('booking-modal');
-        if (bookingModal && !bookingModal.classList.contains('hidden')) {
-          if (typeof renderModalCalendar === 'function') {
-            renderModalCalendar();
+      // Subscribe to real-time changes in appointments
+      supabase
+        .channel('schema-db-changes-appointments')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'appointments' },
+          async () => {
+            // Re-fetch all appointments to ensure we have the complete list
+            const { data: apptsData } = await supabase.from('appointments').select('*');
+            if (apptsData) {
+              window.siteState.appointments = apptsData;
+              
+              if (typeof window.syncDOMFromLocalStorage === 'function') {
+                window.syncDOMFromLocalStorage();
+              }
+              if (typeof window.syncAdminUI === 'function') {
+                window.syncAdminUI();
+              }
+              
+              // Re-render modal calendar if it is open
+              const bookingModal = document.getElementById('booking-modal');
+              if (bookingModal && !bookingModal.classList.contains('hidden')) {
+                if (typeof renderModalCalendar === 'function') {
+                  renderModalCalendar();
+                }
+              }
+            }
           }
-        }
-      }, (err) => {
-        console.error("Firestore appointments snapshot error:", err);
-      });
+        )
+        .subscribe();
       
     } catch (err) {
-      console.error("Failed to load Firebase:", err);
+      console.error("Failed to load Supabase:", err);
     }
   })();
 </script>
