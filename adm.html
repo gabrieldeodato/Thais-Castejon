@@ -278,7 +278,7 @@
                         Selecionar Imagem
                       </button>
                       <span id="status_t_image" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
-                      <input type="file" id="file_t_image" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleTreatmentImageUpload(this)"/>
+                      <input type="file" id="file_t_image" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleTreatmentImageUpload(this)"/>
                     </div>
                     <div class="mt-2">
                       <img id="preview_t_image" class="h-12 w-20 object-cover rounded border border-slate-200 shadow-sm hidden"/>
@@ -351,7 +351,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_hero" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_hero')"/>
+                    <input type="file" id="file_img_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_hero')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -369,7 +369,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_about_portrait" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_about_portrait')"/>
+                    <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_about_portrait')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -387,7 +387,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_bio_portrait" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_bio_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_bio_portrait')"/>
+                    <input type="file" id="file_img_bio_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_bio_portrait')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -405,7 +405,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_clinica_hero" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_clinica_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_clinica_hero')"/>
+                    <input type="file" id="file_img_clinica_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_clinica_hero')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -423,7 +423,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_env_1" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_env_1" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_env_1')"/>
+                    <input type="file" id="file_img_env_1" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_env_1')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -440,7 +440,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_env_2" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_env_2" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_env_2')"/>
+                    <input type="file" id="file_img_env_2" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_env_2')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -457,7 +457,7 @@
                       Selecionar PNG/JPG
                     </button>
                     <span id="status_img_env_3" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_env_3" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="handleCmsImageUpload(this, 'img_env_3')"/>
+                    <input type="file" id="file_img_env_3" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_env_3')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
@@ -1981,29 +1981,131 @@
   </script>
 
 <script type="module">
+  // --- File Upload & Helper Logic ---
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadFileToSupabase(file, folder) {
+    const supabase = window.supabaseClient;
+    if (!supabase || window.supabaseClientIsPlaceholder) {
+      console.warn("Supabase is not initialized or is placeholder. Falling back to base64...");
+      return await readFileAsBase64(file);
+    }
+    try {
+      const filename = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, "_")}`;
+      const filepath = `${folder}/${filename}`;
+      
+      const { data, error } = await supabase.storage
+        .from('site-assets')
+        .upload(filepath, file, { cacheControl: '3600', upsert: false });
+        
+      if (error) throw error;
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('site-assets')
+        .getPublicUrl(filepath);
+        
+      return publicUrl;
+    } catch (err) {
+      console.error("Supabase upload failed:", err);
+      if (!window.supabaseClientIsPlaceholder) {
+        alert("Erro ao fazer upload da imagem no Supabase Storage: " + (err.message || err));
+        throw err;
+      }
+      return await readFileAsBase64(file);
+    }
+  }
+
+  window.handleTreatmentImageUpload = async function(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const statusEl = document.getElementById('status_t_image');
+    const previewEl = document.getElementById('preview_t_image');
+    const valueInput = document.getElementById('crud_t_image');
+    
+    if (statusEl) statusEl.textContent = "Carregando...";
+    
+    try {
+      const url = await uploadFileToSupabase(file, 'treatments');
+      valueInput.value = url;
+      if (previewEl) {
+        previewEl.src = url;
+        previewEl.classList.remove('hidden');
+      }
+      if (statusEl) statusEl.textContent = "Imagem carregada";
+    } catch (err) {
+      console.error("Error uploading treatment image:", err);
+      if (statusEl) statusEl.textContent = "Erro ao carregar imagem";
+    }
+  };
+
+  window.handleCmsImageUpload = async function(input, key) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const statusEl = document.getElementById('status_' + key);
+    const previewEl = document.getElementById('preview_' + key);
+    const valueInput = document.getElementById('field_' + key);
+    
+    if (statusEl) statusEl.textContent = "Carregando...";
+    
+    try {
+      const url = await uploadFileToSupabase(file, 'cms');
+      valueInput.value = url;
+      if (previewEl) {
+        previewEl.src = url;
+        previewEl.classList.remove('hidden');
+      }
+      if (statusEl) statusEl.textContent = "Imagem carregada";
+      
+      // Update window.siteState.site_edits immediately to ensure state consistency
+      if (!window.siteState) window.siteState = {};
+      if (!window.siteState.site_edits) window.siteState.site_edits = {};
+      window.siteState.site_edits[key] = url;
+    } catch (err) {
+      console.error("Error uploading CMS image:", err);
+      if (statusEl) statusEl.textContent = "Erro ao carregar imagem";
+    }
+  };
+
+  // --- Supabase Database Client & Sync Logic ---
   (async () => {
     try {
       const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
       
       let supabaseUrl, supabaseKey;
+      let isPlaceholder = false;
       if (window.location.protocol === 'file:') {
         supabaseUrl = "https://your-supabase-url.supabase.co";
         supabaseKey = "your-supabase-anon-key";
+        isPlaceholder = true;
       } else {
         try {
           const configRes = await fetch('/api/config');
           const config = await configRes.json();
           supabaseUrl = config.supabaseUrl;
           supabaseKey = config.supabaseKey;
+          if (!supabaseUrl || supabaseUrl.includes("your-supabase-url")) {
+            isPlaceholder = true;
+          }
         } catch (err) {
           console.warn("Failed to fetch Supabase config, using placeholder:", err);
           supabaseUrl = "https://your-supabase-url.supabase.co";
           supabaseKey = "your-supabase-anon-key";
+          isPlaceholder = true;
         }
       }
       
       const supabase = createClient(supabaseUrl, supabaseKey);
       window.supabaseClient = supabase;
+      window.supabaseClientIsPlaceholder = isPlaceholder;
       
       window.saveGlobalSettingsToFirebase = async function() {
         try {
@@ -2133,8 +2235,14 @@
               if (typeof window.syncDOMFromLocalStorage === 'function') {
                 window.syncDOMFromLocalStorage();
               }
-              if (typeof window.syncAdminUI === 'function') {
-                window.syncAdminUI();
+              
+              // Isolate updates: only re-render the calendar and appointments lists
+              // to prevent resetting unsaved CMS text or image input fields.
+              if (typeof renderAdminCalendar === 'function') {
+                renderAdminCalendar();
+              }
+              if (typeof renderUpcomingList === 'function') {
+                renderUpcomingList();
               }
               
               // Re-render modal calendar if it is open
@@ -2148,90 +2256,6 @@
           }
         )
         .subscribe();
-
-      // --- File Upload Logic Helpers ---
-      async function uploadFileToSupabase(file, folder) {
-        if (!supabase) {
-          console.warn("Supabase is not initialized. Falling back to base64...");
-          return await readFileAsBase64(file);
-        }
-        try {
-          const filename = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, "_")}`;
-          const filepath = `${folder}/${filename}`;
-          
-          const { data, error } = await supabase.storage
-            .from('site-assets')
-            .upload(filepath, file, { cacheControl: '3600', upsert: false });
-            
-          if (error) throw error;
-          
-          const { data: { publicUrl } } = supabase.storage
-            .from('site-assets')
-            .getPublicUrl(filepath);
-            
-          return publicUrl;
-        } catch (err) {
-          console.error("Supabase upload failed, falling back to base64:", err);
-          return await readFileAsBase64(file);
-        }
-      }
-      
-      function readFileAsBase64(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = error => reject(error);
-          reader.readAsDataURL(file);
-        });
-      }
-
-      window.handleTreatmentImageUpload = async function(input) {
-        const file = input.files[0];
-        if (!file) return;
-        
-        const statusEl = document.getElementById('status_t_image');
-        const previewEl = document.getElementById('preview_t_image');
-        const valueInput = document.getElementById('crud_t_image');
-        
-        if (statusEl) statusEl.textContent = "Carregando...";
-        
-        try {
-          const url = await uploadFileToSupabase(file, 'treatments');
-          valueInput.value = url;
-          if (previewEl) {
-            previewEl.src = url;
-            previewEl.classList.remove('hidden');
-          }
-          if (statusEl) statusEl.textContent = "Imagem carregada";
-        } catch (err) {
-          console.error("Error uploading treatment image:", err);
-          if (statusEl) statusEl.textContent = "Erro ao carregar imagem";
-        }
-      };
-
-      window.handleCmsImageUpload = async function(input, key) {
-        const file = input.files[0];
-        if (!file) return;
-        
-        const statusEl = document.getElementById('status_' + key);
-        const previewEl = document.getElementById('preview_' + key);
-        const valueInput = document.getElementById('field_' + key);
-        
-        if (statusEl) statusEl.textContent = "Carregando...";
-        
-        try {
-          const url = await uploadFileToSupabase(file, 'cms');
-          valueInput.value = url;
-          if (previewEl) {
-            previewEl.src = url;
-            previewEl.classList.remove('hidden');
-          }
-          if (statusEl) statusEl.textContent = "Imagem carregada";
-        } catch (err) {
-          console.error("Error uploading CMS image:", err);
-          if (statusEl) statusEl.textContent = "Erro ao carregar imagem";
-        }
-      };
       
     } catch (err) {
       console.error("Failed to load Supabase:", err);
