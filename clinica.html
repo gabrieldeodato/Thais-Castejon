@@ -1072,6 +1072,7 @@
   ];
 
     // Global site state initialized with default values
+  sessionStorage.removeItem('thais_adm_auth');
   window.siteState = {
     treatments: defaultTreatmentsList,
     schedule_settings: {
@@ -1106,7 +1107,7 @@
     document.querySelectorAll('[data-edit-key]').forEach(el => {
       const key = el.getAttribute('data-edit-key');
             const savedValue = window.siteState.site_edits[key];
-      if (savedValue !== null) {
+      if (savedValue !== undefined && savedValue !== null) {
         if (el.tagName === 'IMG') {
           el.src = savedValue;
         } else if (el.tagName === 'IFRAME') {
@@ -1285,8 +1286,8 @@
           console.error("Error loading settings from Supabase:", error);
         } else if (settingsData) {
           if (settingsData.site_edits) window.siteState.site_edits = settingsData.site_edits;
-          if (settingsData.treatments) window.siteState.treatments = settingsData.treatments;
-          if (settingsData.schedule_settings) window.siteState.schedule_settings = settingsData.schedule_settings;
+          if (settingsData.treatments && settingsData.treatments.length > 0) window.siteState.treatments = settingsData.treatments;
+          if (settingsData.schedule_settings && settingsData.schedule_settings.available_weekdays) window.siteState.schedule_settings = settingsData.schedule_settings;
           if (settingsData.schedule_overrides) window.siteState.schedule_overrides = settingsData.schedule_overrides;
         } else {
           // Document global doesn't exist, create it with initial/default values
@@ -1329,8 +1330,8 @@
             const newData = payload.new;
             if (newData) {
               if (newData.site_edits) window.siteState.site_edits = newData.site_edits;
-              if (newData.treatments) window.siteState.treatments = newData.treatments;
-              if (newData.schedule_settings) window.siteState.schedule_settings = newData.schedule_settings;
+              if (newData.treatments && newData.treatments.length > 0) window.siteState.treatments = newData.treatments;
+              if (newData.schedule_settings && newData.schedule_settings.available_weekdays) window.siteState.schedule_settings = newData.schedule_settings;
               if (newData.schedule_overrides) window.siteState.schedule_overrides = newData.schedule_overrides;
               
               if (typeof window.syncDOMFromLocalStorage === 'function') {
