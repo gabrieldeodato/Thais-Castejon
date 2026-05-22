@@ -119,7 +119,7 @@
           <a data-edit-key="clinic_email" href="mailto:contato@drathaiscastejon.com.br" class="text-body-md font-body-md text-surface-dim opacity-80 hover:opacity-100 transition-opacity">contato@drathaiscastejon.com.br</a>
         </li>
         <li class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-inverse-primary text-[20px]">photo_camera</span>
+          <svg class="w-5 h-5 text-inverse-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           <a data-edit-key="clinic_instagram" href="https://instagram.com/dra.thaiscastejon" target="_blank" class="text-body-md font-body-md text-surface-dim opacity-80 hover:opacity-100 transition-opacity">@dra.thaiscastejon</a>
         </li>
       </ul>
@@ -350,14 +350,12 @@
 
     <!-- Modal Content -->
     <div class="p-6 md:p-8">
-      <div class="flex items-center gap-3 mb-6">
-        <div id="detail-modal-icon-bg" class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary shrink-0">
-          <span id="detail-modal-icon" class="material-symbols-outlined text-[28px]">spa</span>
+      <div class="mb-6">
+        <div class="hidden">
+          <span id="detail-modal-icon">spa</span>
+          <span id="detail-modal-category">Facial</span>
         </div>
-        <div>
-          <span id="detail-modal-category" class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider">Facial</span>
-          <h2 id="detail-modal-title" class="text-headline-md font-headline-md text-primary mt-1 text-xl md:text-2xl">Tratamento</h2>
-        </div>
+        <h2 id="detail-modal-title" class="text-headline-md font-headline-md text-primary text-xl md:text-2xl">Tratamento</h2>
       </div>
 
       <div class="space-y-6 text-body-md font-body-md text-secondary">
