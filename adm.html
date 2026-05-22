@@ -53,6 +53,20 @@
 </head>
 <body class="bg-background min-h-screen flex flex-col">
 
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#faf8ff] transition-opacity duration-300">
+    <div class="flex flex-col items-center gap-4 animate-pulse">
+      <div class="relative w-16 h-16 flex items-center justify-center">
+        <div class="absolute inset-0 rounded-full border-4 border-[#00236f]/10"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-t-[#00236f] animate-spin"></div>
+      </div>
+      <div class="text-center mt-2">
+        <h2 class="text-xs font-semibold text-[#00236f] tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
+        <p class="text-[10px] text-secondary tracking-wider mt-1 opacity-70">Carregando...</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Password Gate Screen -->
   <div id="password-gate-screen" class="hidden flex-grow flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl border border-outline-variant/30 shadow-2xl p-10 max-w-md w-full text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
@@ -250,7 +264,7 @@
               <form id="treatment-crud-form" class="space-y-4" onsubmit="saveTreatmentSubmit(event)">
                 <!-- Unique ID identifier -->
                 <input type="hidden" id="crud_t_index" value="-1"/>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label class="block text-[11px] font-bold text-secondary uppercase mb-1">ID Único (Slug Alfanumérico)</label>
                     <input type="text" id="crud_t_id" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="ex: clareamento" required/>
@@ -259,10 +273,10 @@
                     <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Nome do Tratamento</label>
                     <input type="text" id="crud_t_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="ex: Clareamento Dental" required/>
                   </div>
-                  <div>
+                  <div class="hidden">
                     <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Categoria</label>
                     <select id="crud_t_category" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" onchange="syncCrudCategoryLabel()">
-                      <option value="facial">Facial</option>
+                      <option value="facial" selected>Facial</option>
                       <option value="skin-care">Skin Care</option>
                       <option value="dental">Dental</option>
                     </select>
@@ -487,6 +501,10 @@
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">E-mail de Contato</label>
                 <input type="text" id="field_clinic_email" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Instagram (Link do Perfil)</label>
+                <input type="text" id="field_clinic_instagram" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm" placeholder="https://instagram.com/dra.thaiscastejon"/>
               </div>
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Telefone Fixo 1</label>
@@ -852,6 +870,7 @@
       "clinic_address": "Rua Visconde de Pirajá, 351 - Sala 620\nGaleria Fórum de Ipanema, Rio de Janeiro - RJ",
       "clinic_whatsapp": "(21) 98292-1357",
       "clinic_email": "contato@drathaiscastejon.com.br",
+      "clinic_instagram": "https://instagram.com/dra.thaiscastejon",
       "hours_weekdays": "09:00 - 19:00",
       "hours_saturday": "09:00 - 13:00",
       "clinic_cro": "CRO-SP 123456",
@@ -2259,6 +2278,14 @@
       
     } catch (err) {
       console.error("Failed to load Supabase:", err);
+    } finally {
+      const loader = document.getElementById('loading-screen');
+      if (loader) {
+        loader.classList.add('opacity-0');
+        setTimeout(() => {
+          loader.classList.add('hidden');
+        }, 300);
+      }
     }
   })();
 </script>
