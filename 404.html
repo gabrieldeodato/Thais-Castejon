@@ -441,30 +441,30 @@
             <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold/10 text-gold border border-gold/30 text-sm font-bold">1</span>
             Tratamento
           </h3>
-          <div class="relative border border-stone-300 rounded-full px-5 py-0.5 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold bg-white transition-all">
-            <style>
-              #modal-treatment-select {
-                background-image: none !important;
-                background-position: unset !important;
-                background-repeat: unset !important;
-                background-size: unset !important;
-                padding-right: 2.5rem !important;
-                -webkit-appearance: none !important;
-                -moz-appearance: none !important;
-                appearance: none !important;
-              }
-            </style>
-            <select id="modal-treatment-select" class="w-full bg-transparent bg-none border-0 focus:ring-0 px-0 py-3 text-body-md font-body-md text-black cursor-pointer appearance-none" required>
-              <option disabled="" selected="" value="" class="text-black bg-white">Selecione um tratamento...</option>
-              <option value="toxina" class="text-black bg-white">Toxina Botulínica</option>
-              <option value="preenchimento" class="text-black bg-white">Preenchimento Facial</option>
-              <option value="fios" class="text-black bg-white">Fios de PDO</option>
-              <option value="bioestimulador" class="text-black bg-white">Bioestimuladores de Colágeno</option>
-              <option value="skinbooster" class="text-black bg-white">Skinbooster Hidratação Profunda</option>
-              <option value="dental" class="text-black bg-white">Tratamento Dentário (Clareamento / Lentes)</option>
-              <option value="avaliacao" class="text-black bg-white">Avaliação Geral</option>
+          <!-- Custom Premium Select Dropdown -->
+          <div class="relative">
+            <!-- Hidden native select for compatibility -->
+            <select id="modal-treatment-select" class="hidden" required>
+              <option disabled="" selected="" value="">Selecione um tratamento...</option>
+              <option value="toxina">Toxina Botulínica</option>
+              <option value="preenchimento">Preenchimento Facial</option>
+              <option value="fios">Fios de PDO</option>
+              <option value="bioestimulador">Bioestimuladores de Colágeno</option>
+              <option value="skinbooster">Skinbooster Hidratação Profunda</option>
+              <option value="dental">Tratamento Dentário (Clareamento / Lentes)</option>
+              <option value="avaliacao">Avaliação Geral</option>
             </select>
-            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-black pointer-events-none">expand_more</span>
+            
+            <!-- Custom Trigger Button -->
+            <div id="custom-treatment-select-trigger" class="flex items-center justify-between border border-stone-200 rounded-2xl px-5 py-3.5 bg-stone-50 hover:bg-stone-100/50 cursor-pointer transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-gold/30">
+              <span id="custom-treatment-select-label" class="text-body-md font-body-md text-stone-500">Selecione um tratamento...</span>
+              <span id="custom-treatment-select-arrow" class="material-symbols-outlined text-stone-600 transition-transform duration-200 pointer-events-none">expand_more</span>
+            </div>
+            
+            <!-- Custom Options List -->
+            <div id="custom-treatment-select-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-stone-200/85 shadow-xl z-50 py-2 hidden max-h-60 overflow-y-auto transform origin-top scale-95 opacity-0 transition-all duration-150">
+              <!-- Dynamically populated options -->
+            </div>
           </div>
         </div>
 
@@ -694,8 +694,9 @@
     
     // Pre-select treatment
     const selectEl = document.getElementById('modal-treatment-select');
-    if (treatmentVal && selectEl) {
-      selectEl.value = treatmentVal;
+    if (selectEl) {
+      selectEl.value = treatmentVal || '';
+      selectEl.dispatchEvent(new Event('change'));
     }
     
     // Render calendar
@@ -771,7 +772,12 @@
 
       // Determine availability
       let isAvailable = true;
-      let daySlots = [...scheduleSettings.default_slots];
+      let daySlots = [];
+      if (scheduleSettings.weekday_slots && scheduleSettings.weekday_slots[weekday]) {
+        daySlots = [...scheduleSettings.weekday_slots[weekday]];
+      } else {
+        daySlots = [...(scheduleSettings.default_slots || [])];
+      }
 
       // Check day override
       if (overrides[dateStr]) {
@@ -1408,7 +1414,16 @@
     treatments: defaultTreatmentsList,
     schedule_settings: {
       available_weekdays: [1, 2, 3, 4, 5],
-      default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+      weekday_slots: {
+        "0": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        "1": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        "2": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        "3": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        "4": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        "5": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        "6": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+      }
     },
     schedule_overrides: {},
     appointments: [],
@@ -1554,12 +1569,140 @@
       optEval.value = 'avaliacao';
       optEval.textContent = 'Avaliação Geral';
       selectEl.appendChild(optEval);
+      
+      // Update custom select options
+      if (typeof window.updateCustomTreatmentSelect === 'function') {
+        window.updateCustomTreatmentSelect();
+      }
     }
   };
+
+  // Custom Premium Select Logic
+  window.updateCustomTreatmentSelect = function() {
+    const nativeSelect = document.getElementById('modal-treatment-select');
+    const dropdown = document.getElementById('custom-treatment-select-dropdown');
+    const label = document.getElementById('custom-treatment-select-label');
+    if (!nativeSelect || !dropdown || !label) return;
+
+    dropdown.innerHTML = '';
+    const options = Array.from(nativeSelect.options);
+    
+    options.forEach(opt => {
+      // Skip the placeholder
+      if (opt.disabled) return;
+      
+      const item = document.createElement('div');
+      item.className = 'px-5 py-3 text-sm text-stone-700 hover:bg-gold/10 hover:text-gold-dark cursor-pointer transition-colors flex items-center justify-between border-b border-stone-50/50 last:border-0';
+      item.innerHTML = `
+        <span class="font-medium">${opt.textContent}</span>
+        <span class="material-symbols-outlined text-gold text-lg check-icon hidden">check</span>
+      `;
+      
+      item.onclick = (e) => {
+        e.stopPropagation();
+        nativeSelect.value = opt.value;
+        nativeSelect.dispatchEvent(new Event('change'));
+        closeDropdown();
+      };
+      
+      dropdown.appendChild(item);
+    });
+
+    syncCustomSelectLabel();
+  };
+
+  function syncCustomSelectLabel() {
+    const nativeSelect = document.getElementById('modal-treatment-select');
+    const label = document.getElementById('custom-treatment-select-label');
+    const dropdown = document.getElementById('custom-treatment-select-dropdown');
+    if (!nativeSelect || !label || !dropdown) return;
+    
+    const val = nativeSelect.value;
+    const selectedOption = Array.from(nativeSelect.options).find(o => o.value === val);
+    
+    if (selectedOption && val) {
+      label.textContent = selectedOption.textContent;
+      label.classList.remove('text-stone-500');
+      label.classList.add('text-black', 'font-semibold');
+    } else {
+      label.textContent = 'Selecione um tratamento...';
+      label.classList.remove('text-black', 'font-semibold');
+      label.classList.add('text-stone-500');
+    }
+
+    // Highlight selected item in custom dropdown
+    Array.from(dropdown.children).forEach(child => {
+      const optionText = child.querySelector('span').textContent;
+      const isSelected = selectedOption && optionText === selectedOption.textContent;
+      const checkIcon = child.querySelector('.check-icon');
+      if (isSelected) {
+        child.classList.add('bg-gold/10', 'text-gold-dark', 'font-semibold');
+        if (checkIcon) checkIcon.classList.remove('hidden');
+      } else {
+        child.classList.remove('bg-gold/10', 'text-gold-dark', 'font-semibold');
+        if (checkIcon) checkIcon.classList.add('hidden');
+      }
+    });
+  }
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById('custom-treatment-select-dropdown');
+    const arrow = document.getElementById('custom-treatment-select-arrow');
+    const trigger = document.getElementById('custom-treatment-select-trigger');
+    if (!dropdown || !arrow || !trigger) return;
+
+    if (dropdown.classList.contains('hidden')) {
+      // Open
+      dropdown.classList.remove('hidden');
+      trigger.classList.add('border-gold', 'ring-2', 'ring-gold/30');
+      setTimeout(() => {
+        dropdown.classList.remove('scale-95', 'opacity-0');
+        dropdown.classList.add('scale-100', 'opacity-100');
+        arrow.classList.add('rotate-180');
+      }, 10);
+    } else {
+      closeDropdown();
+    }
+  }
+
+  function closeDropdown() {
+    const dropdown = document.getElementById('custom-treatment-select-dropdown');
+    const arrow = document.getElementById('custom-treatment-select-arrow');
+    const trigger = document.getElementById('custom-treatment-select-trigger');
+    if (!dropdown || !arrow || !trigger) return;
+
+    dropdown.classList.remove('scale-100', 'opacity-100');
+    dropdown.classList.add('scale-95', 'opacity-0');
+    arrow.classList.remove('rotate-180');
+    trigger.classList.remove('border-gold', 'ring-2', 'ring-gold/30');
+    setTimeout(() => {
+      dropdown.classList.add('hidden');
+    }, 150);
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
     syncUrlsAndGear();
     window.syncDOMFromLocalStorage();
+
+    const trigger = document.getElementById('custom-treatment-select-trigger');
+    if (trigger) {
+      trigger.onclick = (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      };
+    }
+
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('custom-treatment-select-dropdown');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        closeDropdown();
+      }
+    });
+
+    const nativeSelect = document.getElementById('modal-treatment-select');
+    if (nativeSelect) {
+      nativeSelect.addEventListener('change', syncCustomSelectLabel);
+    }
   });
 </script>
 

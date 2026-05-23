@@ -270,8 +270,8 @@
 
               <!-- Default daily slot hours list -->
               <div class="space-y-4 border border-slate-100 rounded-xl p-5 bg-slate-50/50">
-                <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Horários Padrão (Slots de Consulta)</h4>
-                <p class="text-xs text-secondary">Defina os slots de horários oferecidos no site por padrão.</p>
+                <h4 id="general-slots-section-title" class="font-semibold text-sm text-primary uppercase tracking-wider">Horários Padrão (Slots de Consulta)</h4>
+                <p id="general-slots-section-subtitle" class="text-xs text-secondary">Defina os slots de horários oferecidos no site por padrão.</p>
                 
                 <div id="general-default-slots-list" class="grid grid-cols-4 gap-2 py-2 max-h-48 overflow-y-auto pr-1"></div>
                 
@@ -1220,7 +1220,16 @@
       treatments: defaultTreatmentsList,
       schedule_settings: {
         available_weekdays: [1, 2, 3, 4, 5],
-        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+        default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+        weekday_slots: {
+          "0": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+          "1": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+          "2": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+          "3": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+          "4": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+          "5": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"],
+          "6": ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
+        }
       },
       schedule_overrides: {},
       appointments: [],
@@ -1676,7 +1685,13 @@
       };
       const overrides = window.siteState.schedule_overrides || {};
 
-      let daySlots = [...scheduleSettings.default_slots];
+      const weekday = dateObj.getDay();
+      let daySlots = [];
+      if (scheduleSettings.weekday_slots && scheduleSettings.weekday_slots[weekday]) {
+        daySlots = [...scheduleSettings.weekday_slots[weekday]];
+      } else {
+        daySlots = [...(scheduleSettings.default_slots || [])];
+      }
       if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
         daySlots = [...overrides[selectedDateStr].slots];
       }
@@ -1703,7 +1718,16 @@
       };
       const overrides = window.siteState.schedule_overrides || {};
 
-      let daySlots = [...scheduleSettings.default_slots];
+      const parts = selectedDateStr.split('-');
+      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      const weekday = dateObj.getDay();
+
+      let daySlots = [];
+      if (scheduleSettings.weekday_slots && scheduleSettings.weekday_slots[weekday]) {
+        daySlots = [...scheduleSettings.weekday_slots[weekday]];
+      } else {
+        daySlots = [...(scheduleSettings.default_slots || [])];
+      }
       if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
         daySlots = [...overrides[selectedDateStr].slots];
       }
@@ -1717,12 +1741,10 @@
       window.siteState.schedule_overrides = overrides;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
         window.saveGlobalSettingsToFirebase().catch(err => {
-          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+          alert("Erro ao salvar no banco de dados (Supabase). Suas alterações não foram salvas na nuvem! Erro: " + err.message);
         });
       }
 
-      const parts = selectedDateStr.split('-');
-      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
       renderDaySlotsSetup(dateObj);
     }
 
@@ -1742,7 +1764,16 @@
       };
       const overrides = window.siteState.schedule_overrides || {};
 
-      let daySlots = [...scheduleSettings.default_slots];
+      const parts = selectedDateStr.split('-');
+      const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+      const weekday = dateObj.getDay();
+
+      let daySlots = [];
+      if (scheduleSettings.weekday_slots && scheduleSettings.weekday_slots[weekday]) {
+        daySlots = [...scheduleSettings.weekday_slots[weekday]];
+      } else {
+        daySlots = [...(scheduleSettings.default_slots || [])];
+      }
       if (overrides[selectedDateStr] && overrides[selectedDateStr].slots) {
         daySlots = [...overrides[selectedDateStr].slots];
       }
@@ -1762,7 +1793,7 @@
       window.siteState.schedule_overrides = overrides;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
         window.saveGlobalSettingsToFirebase().catch(err => {
-          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+          alert("Erro ao salvar no banco de dados (Supabase). Suas alterações não foram salvas na nuvem! Erro: " + err.message);
         });
       }
 
@@ -1861,6 +1892,7 @@
 
     // --- Tab 2: General Availability Settings ---
     const weekdaysPT = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+    let currentSelectedWeekday = 1; // Default to Segunda-feira (1)
 
     function renderGeneralScheduleSettings() {
       const weekdaysContainer = document.getElementById('general-weekdays-checks-container');
@@ -1872,24 +1904,59 @@
         default_slots: ["09:00", "10:30", "11:00", "14:00", "15:30", "16:00", "17:30"]
       };
 
+      // Auto-migrate if weekday_slots doesn't exist
+      if (!scheduleSettings.weekday_slots) {
+        scheduleSettings.weekday_slots = {};
+        [0, 1, 2, 3, 4, 5, 6].forEach(d => {
+          scheduleSettings.weekday_slots[d] = [...(scheduleSettings.default_slots || [])];
+        });
+      }
+
+      // Update slots header title dynamically
+      const slotsTitle = document.getElementById('general-slots-section-title');
+      const slotsSubtitle = document.getElementById('general-slots-section-subtitle');
+      if (slotsTitle) {
+        slotsTitle.textContent = `Horários de ${weekdaysPT[currentSelectedWeekday]}`;
+      }
+      if (slotsSubtitle) {
+        slotsSubtitle.textContent = `Defina os slots de horários padrão para todas as ${weekdaysPT[currentSelectedWeekday].toLowerCase()}s.`;
+      }
+
       // 1. Weekdays
       weekdaysContainer.innerHTML = '';
       weekdaysPT.forEach((dayLabel, idx) => {
         const checked = scheduleSettings.available_weekdays.includes(idx) ? 'checked' : '';
-        const row = document.createElement('label');
-        row.className = 'flex items-center gap-3 p-2 bg-white rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer text-xs font-semibold text-secondary';
+        const isSelected = idx === currentSelectedWeekday;
+        const activeClass = isSelected 
+          ? 'border-gold bg-gold/5 ring-1 ring-gold shadow-sm' 
+          : 'border-slate-100 bg-white hover:bg-slate-50';
+
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${activeClass}`;
+        
+        row.onclick = (e) => {
+          if (e.target.tagName !== 'INPUT') {
+            currentSelectedWeekday = idx;
+            renderGeneralScheduleSettings();
+          }
+        };
+
         row.innerHTML = `
-          <input type="checkbox" data-wday="${idx}" ${checked} class="rounded text-primary focus:ring-primary" onchange="saveGeneralSettingsToStorage()"/>
-          <span>${dayLabel}</span>
+          <div class="flex items-center gap-3">
+            <input type="checkbox" data-wday="${idx}" ${checked} class="rounded text-primary focus:ring-primary w-4 h-4 cursor-pointer" onchange="saveGeneralSettingsToStorage()"/>
+            <span class="text-xs font-bold text-secondary uppercase tracking-wide select-none">${dayLabel}</span>
+          </div>
+          ${isSelected ? '<span class="text-[10px] bg-gold/20 text-gold-dark font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Selecionado</span>' : ''}
         `;
         weekdaysContainer.appendChild(row);
       });
 
-      // 2. Default slots
+      // 2. Default slots for selected day
       slotsContainer.innerHTML = '';
-      scheduleSettings.default_slots.forEach(time => {
+      const daySlots = scheduleSettings.weekday_slots[currentSelectedWeekday] || [];
+      daySlots.forEach(time => {
         const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-2 bg-white border border-slate-100 rounded-lg text-xs font-semibold text-primary';
+        item.className = 'flex items-center justify-between p-2 bg-white border border-slate-100 rounded-lg text-xs font-semibold text-primary shadow-sm hover:border-red-100 transition-all';
         item.innerHTML = `
           <span>${time}</span>
           <button type="button" onclick="removeDefaultSlot('${time}')" class="text-red-500 hover:text-red-700 ml-1.5 focus:outline-none rounded-full">
@@ -1918,7 +1985,7 @@
       window.siteState.schedule_settings = scheduleSettings;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
         window.saveGlobalSettingsToFirebase().catch(err => {
-          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+          alert("Erro ao salvar no banco de dados (Supabase). Suas alterações não foram salvas na nuvem! Erro: " + err.message);
         });
       }
       
@@ -1929,11 +1996,24 @@
       const scheduleSettings = window.siteState.schedule_settings;
       if (!scheduleSettings) return;
 
-      scheduleSettings.default_slots = scheduleSettings.default_slots.filter(s => s !== time);
+      if (!scheduleSettings.weekday_slots) {
+        scheduleSettings.weekday_slots = {};
+        [0, 1, 2, 3, 4, 5, 6].forEach(d => {
+          scheduleSettings.weekday_slots[d] = [...(scheduleSettings.default_slots || [])];
+        });
+      }
+
+      scheduleSettings.weekday_slots[currentSelectedWeekday] = (scheduleSettings.weekday_slots[currentSelectedWeekday] || []).filter(s => s !== time);
+      
+      // Keep default_slots in sync for backward compatibility (e.g. using Monday's slots)
+      if (currentSelectedWeekday === 1) {
+        scheduleSettings.default_slots = scheduleSettings.weekday_slots[currentSelectedWeekday];
+      }
+
       window.siteState.schedule_settings = scheduleSettings;
       if (typeof window.saveGlobalSettingsToFirebase === 'function') {
         window.saveGlobalSettingsToFirebase().catch(err => {
-          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+          alert("Erro ao salvar no banco de dados (Supabase). Suas alterações não foram salvas na nuvem! Erro: " + err.message);
         });
       }
       
@@ -1953,21 +2033,37 @@
       const scheduleSettings = window.siteState.schedule_settings;
       if (!scheduleSettings) return;
 
-      if (scheduleSettings.default_slots.includes(timeVal)) {
-        alert('Este horário padrão já está cadastrado.');
-        return;
-      }
-
-      scheduleSettings.default_slots.push(timeVal);
-      scheduleSettings.default_slots.sort();
-      window.siteState.schedule_settings = scheduleSettings;
-      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
-        window.saveGlobalSettingsToFirebase().catch(err => {
-          alert("Erro ao salvar no banco de dados (Firebase). Suas alterações não foram salvas na nuvem! Erro: " + err.message + ". Por favor, verifique as regras de segurança do seu banco de dados no console do Firebase.");
+      if (!scheduleSettings.weekday_slots) {
+        scheduleSettings.weekday_slots = {};
+        [0, 1, 2, 3, 4, 5, 6].forEach(d => {
+          scheduleSettings.weekday_slots[d] = [...(scheduleSettings.default_slots || [])];
         });
       }
 
-      input.value = '';
+      if (!scheduleSettings.weekday_slots[currentSelectedWeekday]) {
+        scheduleSettings.weekday_slots[currentSelectedWeekday] = [];
+      }
+
+      if (scheduleSettings.weekday_slots[currentSelectedWeekday].includes(timeVal)) {
+        alert('Este horário padrão já está cadastrado para este dia.');
+        return;
+      }
+
+      scheduleSettings.weekday_slots[currentSelectedWeekday].push(timeVal);
+      scheduleSettings.weekday_slots[currentSelectedWeekday].sort();
+
+      // Keep default_slots in sync for backward compatibility (e.g. using Monday's slots)
+      if (currentSelectedWeekday === 1) {
+        scheduleSettings.default_slots = scheduleSettings.weekday_slots[currentSelectedWeekday];
+      }
+
+      window.siteState.schedule_settings = scheduleSettings;
+      if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+        window.saveGlobalSettingsToFirebase().catch(err => {
+          alert("Erro ao salvar no banco de dados (Supabase). Suas alterações não foram salvas na nuvem! Erro: " + err.message);
+        });
+      }
+
       renderGeneralScheduleSettings();
     }
 
