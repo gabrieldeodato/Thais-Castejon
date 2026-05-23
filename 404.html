@@ -1,256 +1,499 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Página não encontrada • Dra. Thais Castejon</title>
-  <meta name="description" content="A página solicitada não pôde ser encontrada."/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#1E293B',
-            secondary: '#64748B',
-            background: '#F8FAFC',
-            surface: '#FFFFFF',
-            accent: '#0F172A',
-            'accent-border': '#E2E8F0',
-            'sterile-white': '#FFFFFF',
-            'clinical-blue-light': '#F1F5F9',
-          },
-          fontFamily: {
-            sans: ['Montserrat', 'sans-serif'],
-            headline: ['Playfair Display', 'serif'],
-          }
-        }
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/png" href="/assets/icon.png"/>
+<title>Página não encontrada • Dra. Thais Castejon</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#FDFCF7",
+                    "surface-container-highest": "#3E3431",
+                    "secondary-fixed": "#EFE8DC",
+                    "primary-fixed": "#EFE8DC",
+                    "inverse-on-surface": "#FDFCF7",
+                    "on-secondary-container": "#A59B90",
+                    "on-tertiary-fixed": "#191c1e",
+                    "sterile-white": "#FFFFFF",
+                    "secondary-fixed-dim": "#C2B187",
+                    "surface-dim": "#2C2523",
+                    "surface-tint": "#7A6855",
+                    "primary": "#7A6855",
+                    "primary-hover": "#635344",
+                    "gold": "#D9C89D",
+                    "gold-hover": "#CBB78C",
+                    "outline": "#757682",
+                    "surface-container": "#251E1C",
+                    "inverse-surface": "#161110",
+                    "on-background": "#FAF8F5",
+                    "outline-variant": "#4E413D",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#FDFCF7",
+                    "secondary": "#A59B90",
+                    "on-primary-fixed-variant": "#C2B187",
+                    "tertiary-container": "#3d4143",
+                    "primary-fixed-dim": "#C2B187",
+                    "primary-container": "#2A2220",
+                    "charcoal-text": "#FAF8F5",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#aaadaf",
+                    "surface": "#1A1513",
+                    "background": "#0F0908",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "on-primary-container": "#EFE8DC",
+                    "on-surface-variant": "#D1C7BD",
+                    "tertiary": "#272b2d",
+                    "surface-container-low": "#171211",
+                    "on-secondary-fixed-variant": "#A59B90",
+                    "clinical-blue-light": "#221C1A",
+                    "surface-container-lowest": "#0D0807",
+                    "inverse-primary": "#D9C89D",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#e0e3e5",
+                    "surface-variant": "#3E3431",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "accent-border": "#3A302D",
+                    "secondary-container": "#2E2522",
+                    "surface-bright": "#221C1A",
+                    "on-surface": "#FAF8F5"
+            },
+            "borderRadius": {
+                        "DEFAULT": "9999px",
+                        "lg": "16px",
+                        "xl": "24px",
+                        "full": "9999px"
+                    },
+            "spacing": {
+                    "gutter": "24px",
+                    "section-padding-mobile": "40px",
+                    "base": "8px",
+                    "container-max": "1200px",
+                    "section-padding-desktop": "80px"
+            },
+            "fontFamily": {
+                    "headline-md": [
+                            "EB Garamond"
+                    ],
+                    "body-md": [
+                            "Hanken Grotesk"
+                    ],
+                    "body-lg": [
+                            "Hanken Grotesk"
+                    ],
+                    "headline-display": [
+                            "EB Garamond"
+                    ],
+                    "headline-lg": [
+                            "EB Garamond"
+                    ],
+                    "label-caps": [
+                            "Hanken Grotesk"
+                    ],
+                    "headline-lg-mobile": [
+                            "EB Garamond"
+                    ],
+                    "button": [
+                            "Hanken Grotesk"
+                    ]
+            },
+            "fontSize": {
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-display": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg": [
+                            "36px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "28px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "button": [
+                            "14px",
+                            {
+                                    "lineHeight": "1",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+        },
+        },
       }
-    }
-  </script>
-  <style>
+    </script>
+<style>
+        body {
+            background-color: #faf8ff;
+            color: #131b2e;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hero-pattern {
+            background-image: radial-gradient(#E2E8F0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Hide scrollbar for carousel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Custom scrollbar for modals to keep them clean and inside */
+        #booking-modal-scroll::-webkit-scrollbar,
+        #catalog-modal-scroll::-webkit-scrollbar,
+        #detail-modal-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        #booking-modal-scroll::-webkit-scrollbar-track,
+        #catalog-modal-scroll::-webkit-scrollbar-track,
+        #detail-modal-scroll::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 16px 0;
+        }
+        #booking-modal-scroll::-webkit-scrollbar-thumb,
+        #catalog-modal-scroll::-webkit-scrollbar-thumb,
+        #detail-modal-scroll::-webkit-scrollbar-thumb {
+            background-color: rgba(217, 200, 157, 0.4);
+            border-radius: 9999px;
+        }
+        #booking-modal-scroll::-webkit-scrollbar-thumb:hover,
+        #catalog-modal-scroll::-webkit-scrollbar-thumb:hover,
+        #detail-modal-scroll::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(217, 200, 157, 0.7);
+        }
+    </style>
+<style>
     body {
-      font-family: 'Montserrat', sans-serif;
+      min-height: max(884px, 100dvh);
     }
   </style>
-  <link rel="stylesheet" href="global.css">
-  <script src="global.js" defer></script>
-</head>
-<body class="bg-background min-h-screen flex flex-col">
+  <link rel="stylesheet" href="/global.css">
+  <script src="/global.js" defer></script>
+  </head>
+<body class="flex flex-col min-h-screen">
 <!-- Loading Screen -->
-<div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#faf8ff] transition-opacity duration-300">
+<div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background transition-opacity duration-300">
   <div class="flex flex-col items-center gap-4 animate-pulse">
     <div class="relative w-16 h-16 flex items-center justify-center">
-      <div class="absolute inset-0 rounded-full border-4 border-[#00236f]/10"></div>
-      <div class="absolute inset-0 rounded-full border-4 border-t-[#00236f] animate-spin"></div>
+      <div class="absolute inset-0 rounded-full border-4 border-gold/10"></div>
+      <div class="absolute inset-0 rounded-full border-4 border-t-gold animate-spin"></div>
     </div>
     <div class="text-center mt-2">
-      <h2 class="text-xs font-semibold text-[#00236f] tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
+      <h2 class="text-xs font-semibold text-gold tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
       <p class="text-[10px] text-secondary tracking-wider mt-1 opacity-70">Carregando...</p>
     </div>
   </div>
 </div>
-<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline docked full-width top-0 z-40 sticky">
+<header class="bg-primary border-b border-white/10 docked full-width top-0 z-40 sticky">
   <div class="flex justify-between items-center w-full px-gutter py-4 max-w-container-max mx-auto">
-    <div class="flex items-center gap-2 cursor-pointer" onclick="location.href=(window.location.protocol==='file:'?'index.html':'/')">
-      <span class="material-symbols-outlined text-primary dark:text-inverse-primary" style="font-variation-settings: 'FILL' 1;">medical_services</span>
-      <span class="text-headline-md font-headline-md text-primary dark:text-inverse-primary tracking-tight whitespace-nowrap">Dra. Thais Castejon</span>
+    <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.href='index.html'">
+      <img src="/assets/logo.png" alt="Dra. Thais Castejon" class="h-16 md:h-24 w-auto object-contain">
     </div>
-    <!-- Desktop Nav -->
-    <nav class="hidden lg:flex items-center gap-6 lg:gap-8 xl:gap-10 shrink-0 lg:ml-12">
-      <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="index.html">Início</a>
-<a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="clinica.html">Clínica</a>
-<a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="tratamentos.html">Tratamentos</a>
-<a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="sobre.html">Dra. Thais</a>
-<a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="contato.html">Contato</a>
-    </nav>
-    <div class="flex items-center gap-2 lg:gap-4 xl:gap-6 shrink-0">
-      <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-primary text-on-primary text-button font-button px-5 py-2.5 rounded-full hover:opacity-80 transition-opacity text-sm whitespace-nowrap shrink-0">
+    <div class="flex items-center gap-3 md:gap-4 shrink-0 ml-auto">
+      <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-gold hover:bg-gold-hover text-white text-button font-button px-6 py-2.5 rounded-full transition-all text-[11px] font-bold uppercase tracking-wider whitespace-nowrap hover:scale-105 active:scale-95 shadow-sm">
+        Agendar Consulta
+      </button>
+      <button onclick="openBookingModal()" class="lg:hidden bg-gold hover:bg-gold-hover text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full hover:scale-105 active:scale-95 shadow-sm">
         Agendar
       </button>
-      <button onclick="openBookingModal()" class="lg:hidden text-primary text-button font-button font-medium text-sm">
-        Agendar
+      <button id="menu-toggle-btn" onclick="toggleMenu()" class="text-gold hover:text-white transition-colors focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5" aria-label="Abrir Menu">
+        <span class="material-symbols-outlined text-3xl">menu</span>
       </button>
     </div>
   </div>
 </header>
-  
-  <main class="flex-grow flex items-center justify-center py-20 px-4 bg-background">
-    <div class="max-w-md w-full text-center space-y-6">
-      <div class="w-20 h-20 rounded-full bg-clinical-blue-light flex items-center justify-center text-primary mx-auto shadow-sm">
-        <span class="material-symbols-outlined text-4xl">domain_error</span>
-      </div>
-      <h1 class="text-3xl font-headline font-bold text-primary">A página não pode ser encontrada.</h1>
-      <p class="text-sm text-secondary max-w-sm mx-auto">
-        Parece que nada foi encontrado neste local. Verifique o endereço digitado ou clique no botão abaixo para retornar à página inicial.
-      </p>
-      <button onclick="location.href=(window.location.protocol==='file:'?'index.html':'/')" class="bg-primary text-white text-xs px-8 py-3 rounded-full font-bold hover:opacity-90 transition-opacity shadow-sm uppercase tracking-wider">
-        Ir para o Início
-      </button>
+<!-- TopAppBar -->
+
+<main class="flex-grow flex items-center justify-center py-24 px-4 bg-[#1A1513]">
+  <div class="max-w-md w-full text-center space-y-6">
+    <div class="w-20 h-20 rounded-full bg-primary-container/10 flex items-center justify-center text-gold mx-auto shadow-sm">
+      <span class="material-symbols-outlined text-4xl">domain_error</span>
     </div>
-  </main>
+    <h1 class="text-3xl font-headline font-bold text-gold uppercase tracking-wide">Página não encontrada</h1>
+    <p class="text-sm text-secondary max-w-sm mx-auto">
+      O endereço digitado não existe ou a página foi movida. Clique no botão abaixo para retornar à página inicial.
+    </p>
+    <a href="/" class="inline-block bg-gold hover:bg-gold-hover text-white text-xs px-8 py-3.5 rounded-full font-bold transition-all shadow-sm uppercase tracking-wider">
+      Voltar para o Início
+    </a>
+  </div>
+</main>
 
+<!-- Contato Section -->
+<section class="py-16 md:py-section-padding-desktop bg-surface-container-lowest" id="contato">
+  <div class="max-w-container-max mx-auto px-gutter">
+    <!-- Header -->
+    <div class="mb-12 text-center max-w-2xl mx-auto">
+      <h2 data-edit-key="contato_hero_title" class="text-headline-lg-mobile md:text-headline-lg font-headline-display text-gold uppercase mb-2">Contato</h2>
+    </div>
 
-<!-- Footer with padding for mobile nav -->
-<footer class="bg-inverse-surface pt-16 pb-24 md:pb-16 text-inverse-on-surface" id="contato">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- Left Column: Google Map widget -->
+      <div class="bg-sterile-white rounded-xl border border-accent-border p-6 shadow-sm flex flex-col h-full">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="font-bold text-primary text-base">Clínica Dra. Thais Castejon</h3>
+            <p class="text-xs text-secondary mt-0.5" data-edit-key="clinic_address">Rua Visconde de Pirajá, 351 - Sala 620, Ipanema, Rio de Janeiro - RJ</p>
+          </div>
+          <div class="flex items-center gap-1.5 bg-yellow-50 border border-yellow-200 px-3 py-1 rounded-full text-xs font-semibold text-yellow-800 shrink-0">
+            <span>5.0</span>
+            <span class="material-symbols-outlined text-[14px] text-yellow-600 fill-1" style="font-variation-settings: 'FILL' 1;">star</span>
+            <span class="text-[10px] opacity-75 font-normal">(128 avaliações)</span>
+          </div>
+        </div>
+        
+        <!-- Interactive Map Iframe -->
+        <div class="flex-grow w-full rounded-lg overflow-hidden border border-outline-variant/30 min-h-[300px]">
+          <iframe 
+            data-edit-key="clinic_map_iframe" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.684534790076!2d-43.2023531!3d-22.9839462!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9bd53f0a514d3b%3A0x2a0d787042a98fbd!2sR.%20Visc.%20de%20Piraj%C3%A1%2C%20351%20-%20Ipanema%2C%20Rio%20de%20Janeiro%20-%20RJ%2C%2022410-003!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
+            class="w-full h-full border-0" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        
+        <div class="mt-4 flex justify-between items-center text-xs text-secondary border-t border-outline-variant/10 pt-3">
+          <span>Atalhos do teclado</span>
+          <a data-edit-key="clinic_map_link" href="https://maps.google.com/?q=Rua+Visconde+de+Piraja,+351+-+Ipanema,+Rio+de+Janeiro+-+RJ" target="_blank" class="text-primary font-semibold hover:underline">Ver no Google Maps</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Contact info details -->
+      <div class="flex flex-col justify-center h-full space-y-8 py-4">
+        <div class="space-y-6">
+          <!-- WhatsApp -->
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-gold shrink-0">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
+            </div>
+            <div>
+              <p class="text-xs font-label-caps text-gold font-bold">WhatsApp Direct</p>
+              <a data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="text-body-md font-semibold text-white hover:text-gold transition-colors hover:underline">(21) 98292-1357</a>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-gold shrink-0">
+              <span class="material-symbols-outlined">mail</span>
+            </div>
+            <div>
+              <p class="text-xs font-label-caps text-gold font-bold">E-mail de Contato</p>
+              <a data-edit-key="clinic_email" href="mailto:contato@drathaiscastejon.com.br" class="text-body-md font-semibold text-white hover:text-gold transition-colors hover:underline">contato@drathaiscastejon.com.br</a>
+            </div>
+          </div>
+
+          <!-- Instagram -->
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-gold shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </div>
+            <div>
+              <p class="text-xs font-label-caps text-gold font-bold">Instagram</p>
+              <a data-edit-key="clinic_instagram" href="https://instagram.com/dra.thaiscastejon" target="_blank" class="text-body-md font-semibold text-white hover:text-gold transition-colors hover:underline">@dra.thaiscastejon</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to Action button -->
+        <div class="pt-6 border-t border-white/10">
+          <button onclick="openBookingModal()" class="w-full bg-gold hover:bg-gold-hover text-white font-bold text-button font-button py-4 rounded-full transition-colors shadow-sm">
+            AGENDAR CONSULTA
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-inverse-surface pt-16 pb-24 lg:pb-16 text-inverse-on-surface">
   <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-outline/20 pb-12 mb-8">
     <div>
-      <div class="flex items-center gap-2 mb-6">
-        <span class="material-symbols-outlined text-inverse-primary">medical_services</span>
-        <span class="text-headline-md font-headline-md text-sterile-white tracking-tight">Dra. Thais Castejon</span>
+      <div class="flex items-center gap-3 mb-6">
+        <img src="/assets/logo.png" alt="Dra. Thais Castejon" class="h-20 md:h-30 w-auto object-contain">
       </div>
-      <p class="text-body-md font-body-md text-surface-dim opacity-80 mb-6">
+      <p class="text-body-md font-body-md text-white mb-6">
         Excelência e precisão em harmonização orofacial, realçando a sua beleza natural com segurança e sofisticação.
       </p>
     </div>
     <div>
-      <h4 class="text-headline-md font-headline-md text-sterile-white mb-6 text-lg">Contato</h4>
+      <h3 class="text-title-lg font-title-lg text-white mb-6 font-bold">Contato</h3>
       <ul class="space-y-4">
         <li class="flex items-start gap-3">
-          <span class="material-symbols-outlined text-inverse-primary text-[20px] mt-1">location_on</span>
-          <span data-edit-key="clinic_address" class="text-body-md font-body-md text-surface-dim opacity-80">Rua Visconde de Pirajá, 351 - Sala 620<br/>Galeria Fórum de Ipanema, Rio de Janeiro - RJ</span>
+          <span class="material-symbols-outlined text-gold mt-0.5">location_on</span>
+          <span class="text-body-md font-body-md text-white" data-edit-key="clinic_address">Rua Visconde de Pirajá, 351 - Sala 620<br>Galeria Fórum de Ipanema, Rio de Janeiro - RJ</span>
         </li>
         <li class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-inverse-primary text-[20px]">phone_iphone</span>
-          <a data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="text-body-md font-body-md text-surface-dim opacity-80 hover:opacity-100 transition-opacity">(21) 98292-1357</a>
+          <span class="material-symbols-outlined text-gold">call</span>
+          <a class="text-body-md font-body-md text-white hover:text-gold transition-colors" href="tel:+5521982921357" data-edit-key="clinic_whatsapp">(21) 98292-1357</a>
         </li>
         <li class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-inverse-primary text-[20px]">mail</span>
-          <a data-edit-key="clinic_email" href="mailto:contato@drathaiscastejon.com.br" class="text-body-md font-body-md text-surface-dim opacity-80 hover:opacity-100 transition-opacity">contato@drathaiscastejon.com.br</a>
+          <span class="material-symbols-outlined text-gold">mail</span>
+          <a class="text-body-md font-body-md text-white hover:text-gold transition-colors" href="mailto:contato@drathaiscastejon.com.br" data-edit-key="clinic_email">contato@drathaiscastejon.com.br</a>
         </li>
         <li class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-inverse-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          <a data-edit-key="clinic_instagram" href="https://instagram.com/dra.thaiscastejon" target="_blank" class="text-body-md font-body-md text-surface-dim opacity-80 hover:opacity-100 transition-opacity">@dra.thaiscastejon</a>
+          <svg class="w-5 h-5 text-gold shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          <a class="text-body-md font-body-md text-white hover:text-gold transition-colors" href="https://instagram.com/dra.thaiscastejon" data-edit-key="clinic_instagram" target="_blank">@dra.thaiscastejon</a>
         </li>
       </ul>
     </div>
     <div>
-      <h4 class="text-headline-md font-headline-md text-sterile-white mb-6 text-lg">Horário de Atendimento</h4>
-      <ul class="space-y-2">
-        <li class="flex justify-between text-body-md font-body-md text-surface-dim opacity-80 border-b border-outline/10 pb-2">
+      <h3 class="text-title-lg font-title-lg text-white mb-6 font-bold">Horário de Funcionamento</h3>
+      <ul class="space-y-3 text-body-md font-body-md text-white">
+        <li class="flex justify-between border-b border-outline/10 pb-2">
           <span>Segunda a Sexta</span>
           <span data-edit-key="hours_weekdays">09:00 - 19:00</span>
         </li>
-        <li class="flex justify-between text-body-md font-body-md text-surface-dim opacity-80 pt-2">
+        <li class="flex justify-between border-b border-outline/10 pb-2">
           <span>Sábado</span>
           <span data-edit-key="hours_saturday">09:00 - 13:00</span>
         </li>
       </ul>
-      <button onclick="openBookingModal()" class="mt-6 w-full bg-sterile-white text-primary font-bold text-button font-button px-6 py-3 rounded-full hover:bg-primary-fixed-dim transition-colors shadow-md">
+      <button onclick="openBookingModal()" class="mt-6 w-full bg-white text-black font-bold text-button font-button px-6 py-3 rounded-full hover:bg-gold hover:text-black transition-colors shadow-md">
         Agendar Consulta
       </button>
     </div>
   </div>
   <div class="max-w-container-max mx-auto px-gutter text-center">
-    <p class="text-[12px] font-body-md text-surface-dim opacity-50">
+    <p class="text-[12px] font-body-md text-white/50">
       © 2024 Dra. Thais Castejon. <span data-edit-key="clinic_cro">CRO-SP 123456</span>. Todos os direitos reservados.
     </p>
   </div>
 </footer>
-<!-- BottomNavBar (Mobile Only) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-base bg-surface border-t border-outline-variant z-50">
 
-  <a id="nav-mobile-home" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="index.html">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >home</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Início</span>
-  </a>
-  <a id="nav-mobile-clinica" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="clinica.html">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >domain</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Clínica</span>
-  </a>
-  <a id="nav-mobile-tratamentos" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="tratamentos.html">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >content_cut</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Tratamentos</span>
-  </a>
-  <a id="nav-mobile-sobre" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="sobre.html">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >person</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Dra. Thais</span>
-  </a>
-  <a id="nav-mobile-contato" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="contato.html">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >chat_bubble</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Contato</span>
-  </a>
-</nav>
 
 <!-- Booking Modal -->
 <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-  <div class="bg-sterile-white rounded-xl max-w-2xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+  <div class="bg-sterile-white rounded-xl max-w-2xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
     <!-- Close Button -->
-    <button onclick="closeBookingModal()" class="absolute right-6 top-6 text-outline hover:text-primary transition-colors focus:outline-none" type="button">
+    <button onclick="closeBookingModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none z-30" type="button">
       <span class="material-symbols-outlined text-2xl">close</span>
     </button>
 
-    <!-- Modal Content -->
-    <div class="p-6 md:p-8">
+    <!-- Scrollable content wrapper inside -->
+    <div id="booking-modal-scroll" class="overflow-y-auto p-6 md:p-8 pr-8 md:pr-10 h-full w-full">
       <!-- Title -->
       <div class="text-center mb-8 pr-8">
-        <h2 class="text-headline-md font-headline-md text-primary mb-2">Agendar Consulta</h2>
-        <p class="text-body-md font-body-md text-secondary text-sm">Selecione o tratamento, data e horário desejados. Nossa equipe entrará em contato para confirmar.</p>
+        <h2 class="text-headline-md font-headline-md text-black mb-2">Agendar Consulta</h2>
+        <p class="text-body-md font-body-md text-black/80 text-sm">Selecione o tratamento, data e horário desejados. Nossa equipe entrará em contato para confirmar.</p>
       </div>
 
       <!-- Booking Form -->
       <form id="booking-form" class="space-y-6">
         <!-- Step 1: Treatment Selection -->
         <div>
-          <h3 class="text-body-lg font-body-lg text-charcoal-text font-medium mb-4 flex items-center gap-2">
-            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-surface-container-highest text-primary text-sm font-bold">1</span>
+          <h3 class="text-body-lg font-body-lg text-black font-semibold mb-4 flex items-center gap-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold/10 text-gold border border-gold/30 text-sm font-bold">1</span>
             Tratamento
           </h3>
-          <div class="relative border-b border-outline-variant focus-within:border-primary transition-colors">
+          <div class="relative border border-stone-300 rounded-full px-5 py-0.5 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold bg-white transition-all">
             <style>
               #modal-treatment-select {
                 background-image: none !important;
                 background-position: unset !important;
                 background-repeat: unset !important;
                 background-size: unset !important;
-                padding-right: 2rem !important;
+                padding-right: 2.5rem !important;
                 -webkit-appearance: none !important;
                 -moz-appearance: none !important;
                 appearance: none !important;
               }
             </style>
-            <select id="modal-treatment-select" class="w-full bg-transparent bg-none border-0 focus:ring-0 px-0 py-3 text-body-md font-body-md text-on-surface cursor-pointer appearance-none" required>
-              <option disabled="" selected="" value="">Selecione um tratamento...</option>
-              <option value="toxina">Toxina Botulínica</option>
-              <option value="preenchimento">Preenchimento Facial</option>
-              <option value="fios">Fios de PDO</option>
-              <option value="bioestimulador">Bioestimuladores de Colágeno</option>
-              <option value="skinbooster">Skinbooster Hidratação Profunda</option>
-              <option value="dental">Tratamento Dentário (Clareamento / Lentes)</option>
-              <option value="avaliacao">Avaliação Geral</option>
-              </select>
-            <span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-outline pointer-events-none">expand_more</span>
+            <select id="modal-treatment-select" class="w-full bg-transparent bg-none border-0 focus:ring-0 px-0 py-3 text-body-md font-body-md text-black cursor-pointer appearance-none" required>
+              <option disabled="" selected="" value="" class="text-black bg-white">Selecione um tratamento...</option>
+              <option value="toxina" class="text-black bg-white">Toxina Botulínica</option>
+              <option value="preenchimento" class="text-black bg-white">Preenchimento Facial</option>
+              <option value="fios" class="text-black bg-white">Fios de PDO</option>
+              <option value="bioestimulador" class="text-black bg-white">Bioestimuladores de Colágeno</option>
+              <option value="skinbooster" class="text-black bg-white">Skinbooster Hidratação Profunda</option>
+              <option value="dental" class="text-black bg-white">Tratamento Dentário (Clareamento / Lentes)</option>
+              <option value="avaliacao" class="text-black bg-white">Avaliação Geral</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-black pointer-events-none">expand_more</span>
           </div>
         </div>
 
         <!-- Step 2: Date & Time -->
         <div>
-          <h3 class="text-body-lg font-body-lg text-charcoal-text font-medium mb-4 flex items-center gap-2">
-            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-surface-container-highest text-primary text-sm font-bold">2</span>
+          <h3 class="text-body-lg font-body-lg text-black font-semibold mb-4 flex items-center gap-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold/10 text-gold border border-gold/30 text-sm font-bold">2</span>
             Data e Horário
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Calendar -->
-            <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
+            <div class="bg-stone-50 border border-stone-200 rounded-xl p-4">
               <div class="flex items-center justify-between mb-4">
-                <button id="modal-prev-month-btn" class="p-1 text-secondary hover:text-primary transition-colors" type="button">
+                <button id="modal-prev-month-btn" class="p-1 text-black hover:text-gold transition-colors" type="button">
                   <span class="material-symbols-outlined">chevron_left</span>
                 </button>
-                <span id="modal-calendar-month-year" class="text-body-md font-body-md font-medium text-primary">Novembro 2023</span>
-                <button id="modal-next-month-btn" class="p-1 text-secondary hover:text-primary transition-colors" type="button">
+                <span id="modal-calendar-month-year" class="text-body-md font-body-md font-bold text-black">Novembro 2023</span>
+                <button id="modal-next-month-btn" class="p-1 text-black hover:text-gold transition-colors" type="button">
                   <span class="material-symbols-outlined">chevron_right</span>
                 </button>
               </div>
               <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">DOM</div>
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">SEG</div>
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">TER</div>
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">QUA</div>
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">QUI</div>
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">SEX</div>
-                <div class="text-label-caps font-label-caps text-outline text-[10px]">SÁB</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">DOM</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">SEG</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">TER</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">QUA</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">QUI</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">SEX</div>
+                <div class="text-label-caps font-label-caps text-black/70 text-[10px] font-semibold">SÁB</div>
               </div>
               <div id="modal-calendar-grid" class="grid grid-cols-7 gap-1 text-center text-body-md font-body-md"></div>
             </div>
@@ -258,23 +501,16 @@
             <!-- Time Slots -->
             <div class="flex flex-col justify-between">
               <div>
-                <p id="modal-selected-date-text" class="text-body-md font-body-md text-primary font-medium mb-4">Selecione uma data no calendário</p>
+                <p id="modal-selected-date-text" class="text-body-md font-body-md text-black font-bold mb-4">Selecione uma data no calendário</p>
                 <div id="modal-slots-container" class="hidden">
                   <div class="mb-4">
-                    <p class="text-label-caps font-label-caps text-outline text-[10px] mb-2">MANHÃ</p>
+                    <p class="text-label-caps font-label-caps text-black/70 text-[10px] mb-2 font-semibold">MANHÃ</p>
                     <div class="grid grid-cols-3 gap-2" id="modal-morning-slots">
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center" type="button" data-time="09:00">09:00</button>
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center" type="button" data-time="10:30">10:30</button>
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center" type="button" data-time="11:00">11:00</button>
                     </div>
                   </div>
                   <div>
-                    <p class="text-label-caps font-label-caps text-outline text-[10px] mb-2">TARDE</p>
+                    <p class="text-label-caps font-label-caps text-black/70 text-[10px] mb-2 font-semibold">TARDE</p>
                     <div class="grid grid-cols-3 gap-2" id="modal-afternoon-slots">
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center" type="button" data-time="14:00">14:00</button>
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center" type="button" data-time="15:30">15:30</button>
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center" type="button" data-time="16:00">16:00</button>
-                      <button class="modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-sterile-white text-xs text-center col-span-3" type="button" data-time="17:30">17:30</button>
                     </div>
                   </div>
                 </div>
@@ -285,23 +521,23 @@
 
         <!-- Step 3: Patient Info -->
         <div>
-          <h3 class="text-body-lg font-body-lg text-charcoal-text font-medium mb-4 flex items-center gap-2">
-            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-surface-container-highest text-primary text-sm font-bold">3</span>
+          <h3 class="text-body-lg font-body-lg text-black font-semibold mb-4 flex items-center gap-2">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold/10 text-gold border border-gold/30 text-sm font-bold">3</span>
             Seus Dados
           </h3>
           <div class="space-y-4">
-            <div class="relative border-b border-outline-variant focus-within:border-primary transition-colors">
-              <input class="peer w-full bg-transparent border-0 focus:ring-0 px-0 py-2 text-body-md font-body-md text-on-surface placeholder-transparent" id="modal-name-input" placeholder="Nome Completo" type="text" required />
-              <label class="absolute left-0 -top-3.5 text-xs text-outline transition-all peer-placeholder-shown:text-body-md peer-placeholder-shown:text-outline-variant peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-primary font-body-md" for="modal-name-input">Nome Completo</label>
+            <div class="relative border-b border-stone-300 focus-within:border-gold transition-colors">
+              <input class="peer w-full bg-transparent border-0 focus:ring-0 px-0 py-2 text-body-md font-body-md text-black placeholder-transparent" id="modal-name-input" placeholder="Nome Completo" type="text" required />
+              <label class="absolute left-0 -top-3.5 text-xs text-stone-500 transition-all peer-placeholder-shown:text-body-md peer-placeholder-shown:text-stone-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-gold font-body-md" for="modal-name-input">Nome Completo</label>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="relative border-b border-outline-variant focus-within:border-primary transition-colors">
-                <input class="peer w-full bg-transparent border-0 focus:ring-0 px-0 py-2 text-body-md font-body-md text-on-surface placeholder-transparent" id="modal-phone-input" placeholder="Telefone / WhatsApp" type="tel" required />
-                <label class="absolute left-0 -top-3.5 text-xs text-outline transition-all peer-placeholder-shown:text-body-md peer-placeholder-shown:text-outline-variant peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-primary font-body-md" for="modal-phone-input">Telefone / WhatsApp</label>
+              <div class="relative border-b border-stone-300 focus-within:border-gold transition-colors">
+                <input class="peer w-full bg-transparent border-0 focus:ring-0 px-0 py-2 text-body-md font-body-md text-black placeholder-transparent" id="modal-phone-input" placeholder="Telefone / WhatsApp" type="tel" required />
+                <label class="absolute left-0 -top-3.5 text-xs text-stone-500 transition-all peer-placeholder-shown:text-body-md peer-placeholder-shown:text-stone-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-gold font-body-md" for="modal-phone-input">Telefone / WhatsApp</label>
               </div>
-              <div class="relative border-b border-outline-variant focus-within:border-primary transition-colors">
-                <input class="peer w-full bg-transparent border-0 focus:ring-0 px-0 py-2 text-body-md font-body-md text-on-surface placeholder-transparent" id="modal-email-input" placeholder="E-mail" type="email" required />
-                <label class="absolute left-0 -top-3.5 text-xs text-outline transition-all peer-placeholder-shown:text-body-md peer-placeholder-shown:text-outline-variant peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-primary font-body-md" for="modal-email-input">E-mail</label>
+              <div class="relative border-b border-stone-300 focus-within:border-gold transition-colors">
+                <input class="peer w-full bg-transparent border-0 focus:ring-0 px-0 py-2 text-body-md font-body-md text-black placeholder-transparent" id="modal-email-input" placeholder="E-mail" type="email" required />
+                <label class="absolute left-0 -top-3.5 text-xs text-stone-500 transition-all peer-placeholder-shown:text-body-md peer-placeholder-shown:text-stone-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-gold font-body-md" for="modal-email-input">E-mail</label>
               </div>
             </div>
           </div>
@@ -309,8 +545,8 @@
 
         <!-- Submit Button -->
         <div class="pt-6 border-t border-accent-border flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p class="text-body-md font-body-md text-secondary text-xs">
-            <span class="material-symbols-outlined text-[14px] inline-block align-text-bottom mr-1">lock</span>
+          <p class="text-body-md font-body-md text-black/70 text-xs">
+            <span class="material-symbols-outlined text-[14px] inline-block align-text-bottom mr-1 text-gold">lock</span>
             Seus dados são confidenciais e protegidos.
           </p>
           <button type="submit" class="w-full sm:w-auto bg-primary text-on-primary px-8 py-3 rounded-full hover:opacity-90 transition-opacity font-button text-button shadow-sm">
@@ -324,61 +560,92 @@
         <div class="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-6 border border-green-200">
           <span class="material-symbols-outlined text-green-600 text-3xl font-bold" style="font-variation-settings: 'FILL' 1;">check_circle</span>
         </div>
-        <h4 class="text-headline-md font-headline-md text-primary mb-3">Agendamento Solicitado!</h4>
-        <p class="text-body-md font-body-md text-secondary mb-6 leading-relaxed">
-          Olá <strong id="modal-success-patient-name" class="text-on-background"></strong>. Recebemos sua solicitação de agendamento para 
-          <strong id="modal-success-treatment" class="text-on-background"></strong> no dia <strong id="modal-success-date" class="text-on-background"></strong> às 
-          <strong id="modal-success-time" class="text-on-background"></strong>.
+        <h4 class="text-headline-md font-headline-md text-black mb-3">Agendamento Solicitado!</h4>
+        <p class="text-body-md font-body-md text-black mb-6 leading-relaxed">
+          Olá <strong id="modal-success-patient-name" class="text-black"></strong>. Recebemos sua solicitação de agendamento para 
+          <strong id="modal-success-treatment" class="text-black"></strong> no dia <strong id="modal-success-date" class="text-black"></strong> às 
+          <strong id="modal-success-time" class="text-black"></strong>.
         </p>
-        <p class="text-body-md font-body-md text-secondary text-xs mb-8 leading-relaxed">
+        <p class="text-body-md font-body-md text-black/80 text-xs mb-8 leading-relaxed">
           Nossa equipe entrará em contato via WhatsApp no número informado para confirmar seu horário.
         </p>
         <button onclick="closeBookingModal()" type="button" class="w-full bg-primary text-on-primary py-3 rounded-full hover:opacity-90 transition-opacity font-button text-button shadow-sm">
           Entendido, obrigado!
         </button>
       </div>
-    </div>
+    </div> <!-- Closes booking-modal-scroll -->
+  </div>
+</div>
+
+
+<!-- Catalog Modal (All Treatments) -->
+<div id="catalog-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+  <div class="bg-sterile-white rounded-2xl max-w-6xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <!-- Close Button -->
+    <button onclick="closeCatalogModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none z-30" type="button">
+      <span class="material-symbols-outlined text-2xl">close</span>
+    </button>
+
+    <!-- Scrollable content wrapper inside -->
+    <div id="catalog-modal-scroll" class="overflow-y-auto p-6 md:p-10 pr-8 md:pr-12 h-full w-full">
+      <div class="text-center mb-8 max-w-2xl mx-auto">
+        <h2 data-edit-key="tratamentos_hero_title" class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-black text-2xl md:text-3xl">Nossos Tratamentos</h2>
+        <p data-edit-key="tratamentos_hero_subtitle" class="text-body-md text-black mt-2 font-normal">
+          Procedimentos de alta performance em estética orofacial e dermatologia clínica.
+        </p>
+      </div>
+
+      <!-- Treatments Grid (populated dynamically) -->
+      <div id="treatments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8"></div>
+
+      <div class="mt-10 pt-6 border-t border-stone-200 text-center">
+        <button onclick="closeCatalogModal()" class="border border-stone-300 text-black font-bold text-button font-button px-8 py-3 rounded-full hover:bg-stone-50 transition-colors bg-white shadow-sm uppercase tracking-wider text-xs">
+          Fechar Catálogo
+        </button>
+      </div>
+      </div>
+    </div> <!-- Closes catalog-modal-scroll -->
   </div>
 </div>
 
 
 <!-- Detail Modal -->
 <div id="detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-  <div class="bg-sterile-white rounded-2xl max-w-xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+  <div class="bg-sterile-white rounded-2xl max-w-xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
     <!-- Close Button -->
-    <button onclick="closeDetailModal()" class="absolute right-6 top-6 text-outline hover:text-primary transition-colors focus:outline-none" type="button">
+    <button onclick="closeDetailModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none z-30" type="button">
       <span class="material-symbols-outlined text-2xl">close</span>
     </button>
 
-    <!-- Modal Content -->
-    <div class="p-6 md:p-8">
+    <!-- Scrollable content wrapper inside -->
+    <div id="detail-modal-scroll" class="overflow-y-auto p-6 md:p-8 pr-8 md:pr-10 h-full w-full">
       <div class="mb-6">
         <div class="hidden">
           <span id="detail-modal-icon">spa</span>
           <span id="detail-modal-category">Facial</span>
         </div>
-        <h2 id="detail-modal-title" class="text-headline-md font-headline-md text-primary text-xl md:text-2xl">Tratamento</h2>
+        <h2 id="detail-modal-title" class="text-headline-md font-headline-md text-black text-xl md:text-2xl font-bold">Tratamento</h2>
       </div>
 
-      <div class="space-y-6 text-body-md font-body-md text-secondary">
+      <div class="space-y-6 text-body-md font-body-md text-black">
         <div>
-          <h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-2">O que é</h4>
-          <p id="detail-modal-description" class="leading-relaxed"></p>
+          <h4 class="font-bold text-gold text-sm uppercase tracking-wider mb-2">O que é</h4>
+          <p id="detail-modal-description" class="leading-relaxed text-black font-normal"></p>
         </div>
 
         <div>
-          <h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-2">Indicações</h4>
-          <p id="detail-modal-indications" class="leading-relaxed"></p>
+          <h4 class="font-bold text-gold text-sm uppercase tracking-wider mb-2">Indicações</h4>
+          <p id="detail-modal-indications" class="leading-relaxed text-black font-normal"></p>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 border-t border-b border-outline-variant/20 py-4 my-6">
+        <div class="grid grid-cols-2 gap-4 border-t border-b border-stone-200 py-4 my-6">
           <div>
-            <h5 class="text-xs font-label-caps text-outline uppercase tracking-wider">Duração</h5>
-            <p id="detail-modal-duration" class="font-semibold text-primary mt-0.5"></p>
+            <h5 class="text-xs font-label-caps text-black/60 uppercase tracking-wider font-semibold">Duração</h5>
+            <p id="detail-modal-duration" class="font-bold text-black mt-0.5"></p>
           </div>
           <div>
-            <h5 class="text-xs font-label-caps text-outline uppercase tracking-wider">Recuperação</h5>
-            <p id="detail-modal-recovery" class="font-semibold text-primary mt-0.5"></p>
+            <h5 class="text-xs font-label-caps text-black/60 uppercase tracking-wider font-semibold">Recuperação</h5>
+            <p id="detail-modal-recovery" class="font-bold text-black mt-0.5"></p>
           </div>
         </div>
 
@@ -386,19 +653,28 @@
           <button id="detail-modal-book-btn" class="w-full bg-primary text-on-primary font-bold text-button font-button py-3.5 rounded-full hover:opacity-90 transition-opacity shadow-sm uppercase tracking-wider text-xs">
             Agendar Este Tratamento
           </button>
-          <button onclick="closeDetailModal()" class="w-full border border-outline-variant text-secondary font-bold text-button font-button py-3.5 rounded-full hover:bg-surface-container-low transition-colors uppercase tracking-wider text-xs bg-sterile-white">
+          <button onclick="closeDetailModal()" class="w-full border border-stone-300 text-black font-bold text-button font-button py-3.5 rounded-full hover:bg-stone-50 transition-colors uppercase tracking-wider text-xs bg-white">
             Fechar Detalhes
           </button>
         </div>
       </div>
-    </div>
+    </div> <!-- Closes detail-modal-scroll -->
   </div>
 </div>
 
 
 
+
+
 <script>
   function openBookingModal(treatmentVal) {
+    // Close other modals first to prevent overlaps
+    if (typeof closeCatalogModal === 'function') closeCatalogModal();
+    if (typeof closeDetailModal === 'function') {
+      window.detailOpenedFromCatalog = false; // Prevent reopening the catalog
+      closeDetailModal();
+    }
+
     const modal = document.getElementById('booking-modal');
     const form = document.getElementById('booking-form');
     const successScreen = document.getElementById('booking-success-screen');
@@ -530,15 +806,15 @@
         dayButton.className = 'p-2 text-red-400 bg-red-50/50 border border-red-100/30 text-xs rounded-full aspect-square flex items-center justify-center cursor-not-allowed select-none';
         dayButton.disabled = true;
       } else {
-        // Clinical blue theme for available days
-        let btnClass = 'p-2 text-[#00236f] bg-blue-50 border border-blue-100 hover:bg-[#00236f] hover:text-white transition-colors text-xs font-semibold rounded-full aspect-square flex items-center justify-center cursor-pointer';
+        // Premium bronze/gold theme for available days
+        let btnClass = 'p-2 text-black bg-gold/20 border border-gold/40 hover:bg-gold hover:text-black transition-colors text-xs font-semibold rounded-full aspect-square flex items-center justify-center cursor-pointer';
         
         // Highlight selected day
         if (window.modalSelectedDate && 
             window.modalSelectedDate.getDate() === day && 
             window.modalSelectedDate.getMonth() === month && 
             window.modalSelectedDate.getFullYear() === year) {
-          btnClass = 'p-2 bg-[#00236f] text-white border border-[#00236f] text-xs font-semibold rounded-full aspect-square flex items-center justify-center shadow-md';
+          btnClass = 'p-2 bg-gold text-black border border-gold text-xs font-semibold rounded-full aspect-square flex items-center justify-center shadow-md';
         }
 
         dayButton.className = btnClass;
@@ -581,12 +857,12 @@
       btn.setAttribute('data-time', time);
 
       if (isBooked) {
-        btn.className = 'py-2 px-1 border border-slate-100 rounded-full text-slate-300 bg-slate-50 text-xs text-center cursor-not-allowed opacity-50';
+        btn.className = 'py-2 px-1 border border-stone-200 rounded-full text-stone-300 bg-stone-50 text-xs text-center cursor-not-allowed opacity-40';
         btn.disabled = true;
       } else {
-        let btnClass = 'modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-[#00236f] hover:text-[#00236f] transition-colors bg-white text-xs text-center cursor-pointer';
+        let btnClass = 'modal-time-slot-btn py-2 px-1 border border-stone-300 rounded-full text-black hover:border-gold hover:text-gold transition-colors bg-white text-xs text-center cursor-pointer';
         if (window.modalSelectedTime === time) {
-          btnClass = 'modal-time-slot-btn py-2 px-1 border-2 border-[#00236f] rounded-full text-body-md font-body-md text-[#00236f] font-semibold bg-blue-50/50 text-xs text-center';
+          btnClass = 'modal-time-slot-btn py-2 px-1 border-2 border-gold rounded-full text-black font-semibold bg-gold/20 text-xs text-center';
         }
         btn.className = btnClass;
         btn.addEventListener('click', () => {
@@ -688,6 +964,9 @@
       const treatment = urlParams.get('treatment');
       openBookingModal(treatment);
       window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('catalog') === 'open') {
+      openCatalogModal();
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   });
 </script>
@@ -751,9 +1030,33 @@
     }
   };
 
-  function openDetailModal(id) {
+  // Catalog Modal State
+  window.detailOpenedFromCatalog = false;
+
+  function openCatalogModal() {
+    const modal = document.getElementById('catalog-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeCatalogModal() {
+    const modal = document.getElementById('catalog-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+    document.body.style.overflow = '';
+  }
+
+  function openDetailModal(id, fromCatalog = false) {
     const data = treatmentDetails[id];
     if (!data) return;
+
+    window.detailOpenedFromCatalog = fromCatalog;
+    if (fromCatalog) {
+      closeCatalogModal();
+    }
 
     document.getElementById('detail-modal-title').textContent = data.title;
     document.getElementById('detail-modal-category').textContent = data.category;
@@ -768,6 +1071,7 @@
     if (bookBtn) {
       bookBtn.onclick = () => {
         closeDetailModal();
+        window.detailOpenedFromCatalog = false; // Reset to avoid reopening catalog
         setTimeout(() => {
           openBookingModal(id);
         }, 100);
@@ -786,13 +1090,154 @@
     if (modal) {
       modal.classList.add('hidden');
     }
-    document.body.style.overflow = '';
+    
+    if (window.detailOpenedFromCatalog) {
+      openCatalogModal();
+      window.detailOpenedFromCatalog = false;
+    } else {
+      document.body.style.overflow = '';
+    }
   }
+
+  // Carousel sliding logic for A Clinica
+  let currentClinicaIndex = 0;
+  window.slideClinica = function(direction) {
+    const carousel = document.getElementById('clinica-carousel');
+    if (!carousel) return;
+    const items = carousel.querySelectorAll('.shrink-0');
+    const isMobile = window.innerWidth < 768;
+    const itemsToShow = isMobile ? 1 : 2;
+    const maxIndex = items.length - itemsToShow;
+    
+    currentClinicaIndex += direction;
+    if (currentClinicaIndex < 0) currentClinicaIndex = 0;
+    if (currentClinicaIndex > maxIndex) currentClinicaIndex = maxIndex;
+    
+    const itemWidth = items[0].offsetWidth + 24; // width + gap
+    carousel.scrollTo({
+      left: currentClinicaIndex * itemWidth,
+      behavior: 'smooth'
+    });
+  };
+
+  window.goToSlide = function(index) {
+    const isMobile = window.innerWidth < 768;
+    const itemsToShow = isMobile ? 1 : 2;
+    const totalItems = 3;
+    const maxIndex = totalItems - itemsToShow;
+    
+    let targetIndex = index;
+    if (targetIndex > maxIndex) targetIndex = maxIndex;
+    
+    window.slideClinica(targetIndex - currentClinicaIndex);
+  };
+
+  // Drag-to-scroll, auto-play, and loop logic for Clinica Carousel
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('clinica-carousel');
+    if (carousel) {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+      let autoPlayInterval;
+      
+      const startAutoPlay = () => {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(() => {
+          const items = carousel.querySelectorAll('.shrink-0');
+          if (items.length === 0) return;
+          const itemWidth = items[0].offsetWidth + 24;
+          const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+          
+          if (carousel.scrollLeft >= maxScroll - 10) {
+            carousel.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+          }
+        }, 4000);
+      };
+
+      const stopAutoPlay = () => {
+        if (autoPlayInterval) {
+          clearInterval(autoPlayInterval);
+        }
+      };
+
+      carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        stopAutoPlay();
+        carousel.classList.remove('scroll-smooth');
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+      });
+
+      carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.classList.add('scroll-smooth');
+        startAutoPlay();
+      });
+
+      carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.classList.add('scroll-smooth');
+        startAutoPlay();
+      });
+
+      carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        carousel.scrollLeft = scrollLeft - walk;
+      });
+
+      // Touch events support for mobile devices autoplay pause/resume
+      carousel.addEventListener('touchstart', () => {
+        stopAutoPlay();
+      }, { passive: true });
+
+      carousel.addEventListener('touchend', () => {
+        startAutoPlay();
+      }, { passive: true });
+
+      // Wrap-around on manual scroll drag past boundaries
+      let wrapTimeout;
+      carousel.addEventListener('scroll', () => {
+        const dots = document.getElementById('clinica-dots')?.children;
+        if (!dots) return;
+        const scrollPos = carousel.scrollLeft;
+        const itemWidth = carousel.firstElementChild?.offsetWidth + 24 || carousel.offsetWidth;
+        const activeIndex = Math.round(scrollPos / itemWidth);
+        
+        currentClinicaIndex = activeIndex;
+
+        for (let i = 0; i < dots.length; i++) {
+          if (i === activeIndex) {
+            dots[i].classList.add('bg-gold');
+            dots[i].classList.remove('bg-slate-300');
+          } else {
+            dots[i].classList.remove('bg-gold');
+            dots[i].classList.add('bg-slate-300');
+          }
+        }
+
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        if (isDown) {
+          clearTimeout(wrapTimeout);
+          wrapTimeout = setTimeout(() => {
+            if (carousel.scrollLeft >= maxScroll + 50) {
+              carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (carousel.scrollLeft <= -50) {
+              carousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            }
+          }, 100);
+        }
+      });
+
+      startAutoPlay();
+    }
+  });
 </script>
-
-
-<!-- Auth script removed -->
-<!-- Chat script removed -->
 
 
 <script>
@@ -957,15 +1402,21 @@
           el.src = savedValue;
         } else if (el.tagName === 'A') {
           if (key === 'clinic_whatsapp') {
-            el.textContent = savedValue;
             const digits = savedValue.replace(/\D/g, '');
             const waNum = digits.startsWith('55') ? digits : '55' + digits;
             el.href = 'https://wa.me/' + waNum;
+            if (el.children.length === 0) {
+              el.textContent = savedValue;
+            }
           } else if (key === 'clinic_email') {
-            el.textContent = savedValue;
+            if (el.children.length === 0) {
+              el.textContent = savedValue;
+            }
             el.href = 'mailto:' + savedValue.trim();
           } else if (key.startsWith('clinic_phone_')) {
-            el.textContent = savedValue;
+            if (el.children.length === 0) {
+              el.textContent = savedValue;
+            }
             const digits = savedValue.replace(/\D/g, '');
             el.href = 'tel:' + digits;
           } else if (key === 'clinic_map_link') {
@@ -978,10 +1429,14 @@
               handle = parts[parts.length - 1].split('?')[0].replace(/\//g, '');
             }
             if (handle.startsWith('@')) handle = handle.substring(1);
-            el.textContent = '@' + handle;
+            if (el.children.length === 0) {
+              el.textContent = '@' + handle;
+            }
             el.href = val.startsWith('http') ? val : 'https://instagram.com/' + handle;
           } else {
-            el.textContent = savedValue;
+            if (el.children.length === 0) {
+              el.textContent = savedValue;
+            }
           }
         } else {
           if (savedValue.includes('\\n')) {
@@ -1000,18 +1455,19 @@
       featuredList.forEach(t => {
         const catLabel = t.categoryLabel || capitalize(t.category);
         const card = document.createElement('article');
-        card.className = 'bg-sterile-white p-6 md:p-8 rounded-xl border border-outline-variant/30 flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300';
+        card.className = 'bg-surface rounded-xl border border-outline-variant/30 overflow-hidden flex flex-col h-full hover:shadow-[0_12px_24px_rgba(122,104,85,0.15)] transition-all duration-300';
         card.innerHTML = `
-          <div class="w-20 h-20 rounded-full overflow-hidden border border-[#00236f]/10 mb-6 shadow-sm shrink-0">
-            <img src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}" alt="${t.title}" class="w-full h-full object-cover"/>
+          <div class="relative h-48 overflow-hidden w-full shrink-0">
+            <img src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}" alt="${t.title}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"/>
           </div>
-          <span class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider mb-3">${catLabel}</span>
-          <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl">${t.title}</h3>
-          <p class="text-body-md font-body-md text-secondary text-sm mb-6 max-w-xs">${t.shortDesc || t.description}</p>
-          <button onclick="openDetailModal('${t.id}')" class="text-primary text-button font-button flex items-center gap-1 hover:opacity-75 transition-opacity border-b border-primary pb-0.5 mt-auto">
-            Conhecer detalhes
-            <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
-          </button>
+          <div class="p-6 md:p-8 flex flex-col flex-grow items-center text-center">
+            <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl font-semibold">${t.title}</h3>
+            <p class="text-body-md font-body-md text-secondary text-sm mb-6 max-w-xs flex-grow">${t.shortDesc || t.description}</p>
+            <button onclick="openDetailModal('${t.id}')" class="text-primary text-button font-button flex items-center gap-1 hover:opacity-75 transition-opacity border-b border-primary pb-0.5 mt-auto">
+              Conhecer detalhes
+              <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
+            </button>
+          </div>
         `;
         featuredGrid.appendChild(card);
       });
@@ -1024,18 +1480,15 @@
         const catLabel = t.categoryLabel || capitalize(t.category);
         const card = document.createElement('article');
         card.setAttribute('data-category', t.category || 'facial');
-        card.className = 'group border border-outline-variant rounded-xl overflow-hidden bg-surface hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 flex flex-col h-full';
+        card.className = 'group border border-stone-200 rounded-xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col h-full';
         card.innerHTML = `
           <div class="relative h-64 overflow-hidden">
             <img alt="${t.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}"/>
-            <div class="absolute top-4 left-4">
-              <span class="bg-clinical-blue-light text-primary text-label-caps font-label-caps px-3 py-1.5 rounded uppercase tracking-wider backdrop-blur-sm bg-opacity-90">&nbsp;${catLabel}&nbsp;</span>
-            </div>
           </div>
           <div class="p-6 md:p-8 flex flex-col flex-grow">
-            <h3 class="text-headline-md font-headline-md text-primary mb-3">${t.title}</h3>
-            <p class="text-body-md font-body-md text-secondary mb-6 flex-grow">${t.shortDesc || t.description}</p>
-            <a class="inline-flex items-center text-primary text-button font-button group/btn w-fit mt-auto border-b border-transparent hover:border-primary pb-0.5 transition-all" href="javascript:void(0)" onclick="openDetailModal('${t.id}')">
+            <h3 class="text-headline-md font-headline-md text-black font-bold text-lg md:text-xl mb-3">${t.title}</h3>
+            <p class="text-body-md font-body-md text-black/80 text-sm mb-6 flex-grow leading-relaxed">${t.shortDesc || t.description}</p>
+            <a class="inline-flex items-center text-[#9B8554] hover:text-black text-button font-button group/btn w-fit mt-auto border-b border-transparent hover:border-black pb-0.5 transition-all" href="javascript:void(0)" onclick="openDetailModal('${t.id}', true)">
               Ver detalhes
               <span class="material-symbols-outlined text-lg ml-1 group-hover/btn:translate-x-1 transition-transform">arrow_right_alt</span>
             </a>
@@ -1252,5 +1705,110 @@
 </script>
 
 
-</body>
-</html>
+<!-- WhatsApp Floating Widget (Direct Link) -->
+<a id="whatsapp-widget" data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="fixed bottom-6 right-6 z-[9999] w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_30px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-transform focus:outline-none" aria-label="Fale conosco no WhatsApp">
+  <!-- Pulse animation ring -->
+  <span class="absolute inset-0 rounded-full bg-[#25D366]/40 animate-ping opacity-75"></span>
+  <!-- WhatsApp Icon -->
+  <svg class="w-7 h-7 fill-currentColor relative z-10" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+  </svg>
+</a>
+
+<!-- Hamburger Menu Drawer -->
+<div id="hamburger-menu" class="fixed inset-y-0 right-0 w-80 bg-[#0F0908]/95 backdrop-blur-md z-[9999] transform translate-x-full transition-transform duration-300 border-l border-white/10 shadow-2xl flex flex-col p-8 hidden">
+  <!-- Close Button -->
+  <div class="flex justify-end mb-10">
+    <button onclick="toggleMenu()" class="text-gold hover:text-white transition-colors focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5" aria-label="Fechar Menu">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+  </div>
+  <!-- Menu Links -->
+  <nav class="flex flex-col space-y-6 text-left">
+    <a href="#inicio" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Início</a>
+    <a href="#clinica" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Nossa estrutura</a>
+    <a href="#tratamentos" onclick="handleTratamentosMenuClick(event)" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Tratamentos</a>
+    <a href="#sobre" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Sobre mim</a>
+    <a href="#contato" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Contato</a>
+  </nav>
+  
+  <!-- CTA Button inside drawer -->
+  <div class="mt-auto pt-8">
+    <button onclick="closeMenu(); openBookingModal();" class="w-full bg-gold hover:bg-gold-hover text-white text-button font-button py-4 rounded-full font-bold uppercase tracking-wider text-xs shadow-md">
+      Agendar Consulta
+    </button>
+  </div>
+</div>
+
+<!-- Backdrop Overlay -->
+<div id="menu-backdrop" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-[9998] hidden backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+<script>
+  function toggleWhatsAppPopup() {
+    const popup = document.getElementById('whatsapp-popup');
+    if (popup) {
+      popup.classList.toggle('hidden');
+    }
+  }
+
+  function toggleMenu() {
+    const menu = document.getElementById('hamburger-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    if (!menu || !backdrop) return;
+
+    const isHidden = menu.classList.contains('hidden');
+    if (isHidden) {
+      // Open
+      menu.classList.remove('hidden');
+      backdrop.classList.remove('hidden');
+      // trigger reflow
+      menu.offsetWidth;
+      backdrop.offsetWidth;
+      menu.classList.remove('translate-x-full');
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Close
+      menu.classList.add('translate-x-full');
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        menu.classList.add('hidden');
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+  }
+
+  // Close hamburger menu drawer
+  function closeMenu() {
+    const menu = document.getElementById('hamburger-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    if (menu && !menu.classList.contains('hidden')) {
+      menu.classList.add('translate-x-full');
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        menu.classList.add('hidden');
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+  }
+
+  // Action for clicking on Treatments inside menu drawer (scroll + open catalog modal)
+  function handleTratamentosMenuClick(event) {
+    event.preventDefault();
+    closeMenu();
+    setTimeout(() => {
+      const el = document.getElementById('tratamentos');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+      openCatalogModal();
+    }, 350);
+  }
+</script>
+
+</body></html>
