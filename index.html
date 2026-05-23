@@ -14,58 +14,59 @@
         theme: {
           extend: {
             "colors": {
-                    "on-primary-fixed": "#00164e",
-                    "surface-container-highest": "#dae2fd",
-                    "secondary-fixed": "#d3e4fe",
-                    "primary-fixed": "#dce1ff",
-                    "inverse-on-surface": "#eef0ff",
-                    "on-secondary-container": "#54647a",
+                    "on-primary-fixed": "#FDFCF7",
+                    "surface-container-highest": "#3E3431",
+                    "secondary-fixed": "#EFE8DC",
+                    "primary-fixed": "#EFE8DC",
+                    "inverse-on-surface": "#FDFCF7",
+                    "on-secondary-container": "#A59B90",
                     "on-tertiary-fixed": "#191c1e",
                     "sterile-white": "#FFFFFF",
-                    "secondary-fixed-dim": "#b7c8e1",
-                    "surface-dim": "#d2d9f4",
-                    "surface-tint": "#4059aa",
-                    "primary": "#00236f",
-                    "gold": "#c5a880",
-                    "gold-hover": "#b79a72",
+                    "secondary-fixed-dim": "#C2B187",
+                    "surface-dim": "#2C2523",
+                    "surface-tint": "#7A6855",
+                    "primary": "#7A6855",
+                    "primary-hover": "#635344",
+                    "gold": "#D9C89D",
+                    "gold-hover": "#CBB78C",
                     "outline": "#757682",
-                    "surface-container": "#eaedff",
-                    "inverse-surface": "#283044",
-                    "on-background": "#131b2e",
-                    "outline-variant": "#c5c5d3",
+                    "surface-container": "#251E1C",
+                    "inverse-surface": "#161110",
+                    "on-background": "#FAF8F5",
+                    "outline-variant": "#4E413D",
                     "on-error-container": "#93000a",
-                    "on-secondary-fixed": "#0b1c30",
-                    "secondary": "#505f76",
-                    "on-primary-fixed-variant": "#264191",
+                    "on-secondary-fixed": "#FDFCF7",
+                    "secondary": "#A59B90",
+                    "on-primary-fixed-variant": "#C2B187",
                     "tertiary-container": "#3d4143",
-                    "primary-fixed-dim": "#b6c4ff",
-                    "primary-container": "#1e3a8a",
-                    "charcoal-text": "#1E293B",
+                    "primary-fixed-dim": "#C2B187",
+                    "primary-container": "#2A2220",
+                    "charcoal-text": "#FAF8F5",
                     "on-secondary": "#ffffff",
                     "on-tertiary-container": "#aaadaf",
-                    "surface": "#FAF8F5",
-                    "background": "#FAF8F5",
+                    "surface": "#1A1513",
+                    "background": "#0F0908",
                     "on-primary": "#ffffff",
                     "on-tertiary-fixed-variant": "#444749",
-                    "on-primary-container": "#90a8ff",
-                    "on-surface-variant": "#444651",
+                    "on-primary-container": "#EFE8DC",
+                    "on-surface-variant": "#D1C7BD",
                     "tertiary": "#272b2d",
-                    "surface-container-low": "#F3EFE6",
-                    "on-secondary-fixed-variant": "#38485d",
-                    "clinical-blue-light": "#EFECE5",
-                    "surface-container-lowest": "#FDFCF7",
-                    "inverse-primary": "#b6c4ff",
+                    "surface-container-low": "#171211",
+                    "on-secondary-fixed-variant": "#A59B90",
+                    "clinical-blue-light": "#221C1A",
+                    "surface-container-lowest": "#0D0807",
+                    "inverse-primary": "#D9C89D",
                     "error-container": "#ffdad6",
                     "error": "#ba1a1a",
                     "tertiary-fixed": "#e0e3e5",
-                    "surface-variant": "#dae2fd",
+                    "surface-variant": "#3E3431",
                     "on-error": "#ffffff",
                     "on-tertiary": "#ffffff",
                     "tertiary-fixed-dim": "#c4c7c9",
-                    "accent-border": "#E2E8F0",
-                    "secondary-container": "#d0e1fb",
-                    "surface-bright": "#faf8ff",
-                    "on-surface": "#131b2e"
+                    "accent-border": "#3A302D",
+                    "secondary-container": "#2E2522",
+                    "surface-bright": "#221C1A",
+                    "on-surface": "#FAF8F5"
             },
             "borderRadius": {
                         "DEFAULT": "9999px",
@@ -200,14 +201,14 @@
   </head>
 <body class="flex flex-col min-h-screen">
 <!-- Loading Screen -->
-<div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#faf8ff] transition-opacity duration-300">
+<div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background transition-opacity duration-300">
   <div class="flex flex-col items-center gap-4 animate-pulse">
     <div class="relative w-16 h-16 flex items-center justify-center">
-      <div class="absolute inset-0 rounded-full border-4 border-[#00236f]/10"></div>
-      <div class="absolute inset-0 rounded-full border-4 border-t-[#00236f] animate-spin"></div>
+      <div class="absolute inset-0 rounded-full border-4 border-gold/10"></div>
+      <div class="absolute inset-0 rounded-full border-4 border-t-gold animate-spin"></div>
     </div>
     <div class="text-center mt-2">
-      <h2 class="text-xs font-semibold text-[#00236f] tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
+      <h2 class="text-xs font-semibold text-gold tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
       <p class="text-[10px] text-secondary tracking-wider mt-1 opacity-70">Carregando...</p>
     </div>
   </div>
@@ -215,31 +216,17 @@
 <header class="bg-primary border-b border-white/10 docked full-width top-0 z-40 sticky">
   <div class="flex justify-between items-center w-full px-gutter py-4 max-w-container-max mx-auto">
     <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.href='index.html'">
-      <div class="flex flex-col text-left leading-none">
-        <span class="text-[9px] uppercase tracking-widest text-gold font-sans font-bold">Dra.</span>
-        <span class="text-base md:text-lg font-headline-display tracking-wider text-white uppercase font-medium">Thais Castejon</span>
-      </div>
-      <div class="h-8 w-[1px] bg-gold/30 self-center hidden sm:block"></div>
-      <div class="flex flex-col text-left leading-none hidden sm:flex">
-        <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold">Especialista Em</span>
-        <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold mt-0.5">Harmonização Orofacial</span>
-      </div>
+      <img src="assets/logo.png" alt="Dra. Thais Castejon" class="h-10 md:h-12 w-auto object-contain">
     </div>
-    <!-- Desktop Nav -->
-    <nav class="hidden lg:flex items-center gap-2 lg:gap-4 shrink-0 lg:ml-8">
-      <a class="text-gold font-bold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#inicio">Início</a>
-      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#clinica">Clínica</a>
-      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#tratamentos">Tratamentos</a>
-      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#trabalhos">Casos</a>
-      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#sobre">Dra. Thais</a>
-      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#contato">Contato</a>
-    </nav>
-    <div class="flex items-center gap-2 lg:gap-4 shrink-0">
-      <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-gold hover:bg-gold-hover text-white text-button font-button px-6 py-2.5 rounded-full transition-all text-[11px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 hover:scale-105 active:scale-95 shadow-sm">
+    <div class="flex items-center gap-3 md:gap-4 shrink-0 ml-auto">
+      <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-gold hover:bg-gold-hover text-white text-button font-button px-6 py-2.5 rounded-full transition-all text-[11px] font-bold uppercase tracking-wider whitespace-nowrap hover:scale-105 active:scale-95 shadow-sm">
         Agendar Consulta
       </button>
-      <button onclick="openBookingModal()" class="lg:hidden text-gold text-button font-button font-bold text-xs uppercase tracking-wider">
+      <button onclick="openBookingModal()" class="lg:hidden bg-gold hover:bg-gold-hover text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full hover:scale-105 active:scale-95 shadow-sm">
         Agendar
+      </button>
+      <button id="menu-toggle-btn" onclick="toggleMenu()" class="text-gold hover:text-white transition-colors focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5" aria-label="Abrir Menu">
+        <span class="material-symbols-outlined text-3xl">menu</span>
       </button>
     </div>
   </div>
@@ -250,12 +237,12 @@
 <!-- Hero Section -->
 <section id="inicio" class="relative min-h-[85vh] lg:min-h-screen flex items-center justify-start overflow-hidden bg-black text-white">
   <!-- Full-bleed background image -->
-  <img data-edit-key="img_hero" alt="Paciente em clínica estética" class="absolute inset-0 w-full h-full object-cover object-center z-0" data-alt="A highly detailed, premium photograph of a serene, modern clinical setting for orofacial aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
-  <!-- Dark premium blue/black gradient overlay for legibility -->
-  <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/55 to-black/30 lg:from-[#001745]/90 lg:via-[#001745]/45 lg:to-transparent z-10"></div>
+  <img data-edit-key="img_hero" alt="Paciente em clínica estética" class="absolute inset-0 w-full h-full object-cover object-center lg:object-right z-0" data-alt="A highly detailed, premium photograph of a serene, modern clinical setting for orofacial aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
+  <!-- Dark premium neutral gradient overlay for legibility -->
+  <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/60 to-black/20 lg:from-black/90 lg:via-black/40 lg:to-transparent z-10"></div>
   
   <div class="max-w-container-max mx-auto px-5 md:px-gutter w-full relative z-20 pt-20 pb-16 lg:pt-32 lg:pb-24">
-    <div class="max-w-2xl flex flex-col items-start space-y-6 lg:space-y-8">
+    <div class="max-w-xl lg:max-w-lg flex flex-col items-start space-y-6 lg:space-y-8">
       <div class="inline-flex items-center gap-2 px-3 py-1 bg-gold/15 text-gold rounded-full text-xs font-semibold tracking-widest uppercase border border-gold/30">
         <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
         <span data-edit-key="hero_badge">Excelência em Harmonização</span>
@@ -292,7 +279,7 @@
       <div id="clinica-carousel" class="flex gap-6 overflow-hidden scroll-smooth">
         <!-- Room 1 -->
         <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
-          <img data-edit-key="img_env_1" alt="Recepção" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
+          <img data-edit-key="img_env_1" alt="Recepção" class="w-full h-[350px] md:h-[400px] lg:h-[450px] object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
           <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white text-left">
             <h4 class="font-headline-display text-lg font-semibold tracking-wide" data-edit-key="clinica_env1_title">Recepção Acolhedora</h4>
             <p class="text-xs text-slate-200 mt-1 font-light" data-edit-key="clinica_env1_desc">Ambiente leve para seu conforto antes do atendimento.</p>
@@ -301,7 +288,7 @@
         
         <!-- Room 2 -->
         <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
-          <img data-edit-key="img_env_2" alt="Consultório" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc"/>
+          <img data-edit-key="img_env_2" alt="Consultório" class="w-full h-[350px] md:h-[400px] lg:h-[450px] object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc"/>
           <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white text-left">
             <h4 class="font-headline-display text-lg font-semibold tracking-wide" data-edit-key="clinica_env2_title">Consultório de Alta Performance</h4>
             <p class="text-xs text-slate-200 mt-1 font-light" data-edit-key="clinica_env2_desc">Equipado para procedimentos precisos e seguros.</p>
@@ -310,7 +297,7 @@
 
         <!-- Room 3 -->
         <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
-          <img data-edit-key="img_env_3" alt="Sala de Biossegurança" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG"/>
+          <img data-edit-key="img_env_3" alt="Sala de Biossegurança" class="w-full h-[350px] md:h-[400px] lg:h-[450px] object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG"/>
           <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white text-left">
             <h4 class="font-headline-display text-lg font-semibold tracking-wide" data-edit-key="clinica_env3_title">Sala de Biossegurança</h4>
             <p class="text-xs text-slate-200 mt-1 font-light" data-edit-key="clinica_env3_desc">Esterilização completa com autoclave e insumos descartáveis.</p>
@@ -605,22 +592,14 @@
   <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-outline/20 pb-12 mb-8">
     <div>
       <div class="flex items-center gap-3 mb-6">
-        <div class="flex flex-col text-left leading-none">
-          <span class="text-[9px] uppercase tracking-widest text-gold font-sans font-bold">Dra.</span>
-          <span class="text-base font-headline-display tracking-wider text-white uppercase font-medium">Thais Castejon</span>
-        </div>
-        <div class="h-8 w-[1px] bg-gold/30 self-center"></div>
-        <div class="flex flex-col text-left leading-none">
-          <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold">Especialista Em</span>
-          <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold mt-0.5">Harmonização Orofacial</span>
-        </div>
+        <img src="assets/logo.png" alt="Dra. Thais Castejon" class="h-10 md:h-12 w-auto object-contain">
       </div>
       <p class="text-body-md font-body-md text-surface-dim opacity-80 mb-6">
         Excelência e precisão em harmonização orofacial, realçando a sua beleza natural com segurança e sofisticação.
       </p>
     </div>
     <div>
-      <h3 class="text-title-lg font-title-lg text-sterile-white mb-6">Contato</h3>
+      <h3 class="text-title-lg font-title-lg text-white mb-6">Contato</h3>
       <ul class="space-y-4">
         <li class="flex items-start gap-3">
           <span class="material-symbols-outlined text-inverse-primary mt-0.5">location_on</span>
@@ -628,20 +607,20 @@
         </li>
         <li class="flex items-center gap-3">
           <span class="material-symbols-outlined text-inverse-primary">call</span>
-          <a class="text-body-md font-body-md text-surface-dim hover:text-sterile-white transition-colors" href="tel:+5521982921357" data-edit-key="clinic_whatsapp">(21) 98292-1357</a>
+          <a class="text-body-md font-body-md text-surface-dim hover:text-white transition-colors" href="tel:+5521982921357" data-edit-key="clinic_whatsapp">(21) 98292-1357</a>
         </li>
         <li class="flex items-center gap-3">
           <span class="material-symbols-outlined text-inverse-primary">mail</span>
-          <a class="text-body-md font-body-md text-surface-dim hover:text-sterile-white transition-colors" href="mailto:contato@drathaiscastejon.com.br" data-edit-key="clinic_email">contato@drathaiscastejon.com.br</a>
+          <a class="text-body-md font-body-md text-surface-dim hover:text-white transition-colors" href="mailto:contato@drathaiscastejon.com.br" data-edit-key="clinic_email">contato@drathaiscastejon.com.br</a>
         </li>
         <li class="flex items-center gap-3">
           <svg class="w-5 h-5 text-inverse-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          <a class="text-body-md font-body-md text-surface-dim hover:text-sterile-white transition-colors" href="https://instagram.com/dra.thaiscastejon" data-edit-key="clinic_instagram" target="_blank">@dra.thaiscastejon</a>
+          <a class="text-body-md font-body-md text-surface-dim hover:text-white transition-colors" href="https://instagram.com/dra.thaiscastejon" data-edit-key="clinic_instagram" target="_blank">@dra.thaiscastejon</a>
         </li>
       </ul>
     </div>
     <div>
-      <h3 class="text-title-lg font-title-lg text-sterile-white mb-6">Horário de Funcionamento</h3>
+      <h3 class="text-title-lg font-title-lg text-white mb-6">Horário de Funcionamento</h3>
       <ul class="space-y-3 text-body-md font-body-md text-surface-dim opacity-80">
         <li class="flex justify-between border-b border-outline/10 pb-2">
           <span>Segunda a Sexta</span>
@@ -652,7 +631,7 @@
           <span data-edit-key="hours_saturday">09:00 - 13:00</span>
         </li>
       </ul>
-      <button onclick="openBookingModal()" class="mt-6 w-full bg-sterile-white text-primary font-bold text-button font-button px-6 py-3 rounded-full hover:bg-primary-fixed-dim transition-colors shadow-md">
+      <button onclick="openBookingModal()" class="mt-6 w-full bg-white text-primary font-bold text-button font-button px-6 py-3 rounded-full hover:bg-primary-fixed-dim transition-colors shadow-md">
         Agendar Consulta
       </button>
     </div>
@@ -663,34 +642,7 @@
     </p>
   </div>
 </footer>
-<!-- BottomNavBar (Mobile Only) -->
-<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-base bg-[#F5F3ED] border-t border-gold/25 z-50">
 
-  <a id="nav-mobile-home" class="flex flex-col items-center justify-center text-gold font-bold scale-95 transition-transform duration-150 w-14 h-14" href="#inicio">
-    <span class="material-symbols-outlined mb-1 text-[22px]" style="font-variation-settings: 'FILL' 1;">home</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Início</span>
-  </a>
-  <a id="nav-mobile-clinica" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#clinica">
-    <span class="material-symbols-outlined mb-1 text-[22px]" >domain</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Clínica</span>
-  </a>
-  <a id="nav-mobile-tratamentos" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#tratamentos">
-    <span class="material-symbols-outlined mb-1 text-[22px]" >spa</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Tratamentos</span>
-  </a>
-  <a id="nav-mobile-trabalhos" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#trabalhos">
-    <span class="material-symbols-outlined mb-1 text-[22px]" >photo_library</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Casos</span>
-  </a>
-  <a id="nav-mobile-sobre" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#sobre">
-    <span class="material-symbols-outlined mb-1 text-[22px]" >person</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Dra. Thais</span>
-  </a>
-  <a id="nav-mobile-contato" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#contato">
-    <span class="material-symbols-outlined mb-1 text-[22px]" >chat_bubble</span>
-    <span class="text-[9px] font-label-caps tracking-wide">Contato</span>
-  </a>
-</nav>
 
 <!-- Booking Modal -->
 <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
@@ -935,7 +887,7 @@
           <button id="detail-modal-book-btn" class="w-full bg-primary text-on-primary font-bold text-button font-button py-3.5 rounded-full hover:opacity-90 transition-opacity shadow-sm uppercase tracking-wider text-xs">
             Agendar Este Tratamento
           </button>
-          <button onclick="closeDetailModal()" class="w-full border border-outline-variant text-secondary font-bold text-button font-button py-3.5 rounded-full hover:bg-surface-container-low transition-colors uppercase tracking-wider text-xs bg-sterile-white">
+          <button onclick="closeDetailModal()" class="w-full border border-outline-variant text-secondary font-bold text-button font-button py-3.5 rounded-full hover:bg-surface-container-low transition-colors uppercase tracking-wider text-xs bg-white">
             Fechar Detalhes
           </button>
         </div>
@@ -1088,15 +1040,15 @@
         dayButton.className = 'p-2 text-red-400 bg-red-50/50 border border-red-100/30 text-xs rounded-full aspect-square flex items-center justify-center cursor-not-allowed select-none';
         dayButton.disabled = true;
       } else {
-        // Clinical blue theme for available days
-        let btnClass = 'p-2 text-[#00236f] bg-blue-50 border border-blue-100 hover:bg-[#00236f] hover:text-white transition-colors text-xs font-semibold rounded-full aspect-square flex items-center justify-center cursor-pointer';
+        // Premium bronze/gold theme for available days
+        let btnClass = 'p-2 text-gold bg-primary/10 border border-primary/20 hover:bg-primary hover:text-white transition-colors text-xs font-semibold rounded-full aspect-square flex items-center justify-center cursor-pointer';
         
         // Highlight selected day
         if (window.modalSelectedDate && 
             window.modalSelectedDate.getDate() === day && 
             window.modalSelectedDate.getMonth() === month && 
             window.modalSelectedDate.getFullYear() === year) {
-          btnClass = 'p-2 bg-[#00236f] text-white border border-[#00236f] text-xs font-semibold rounded-full aspect-square flex items-center justify-center shadow-md';
+          btnClass = 'p-2 bg-primary text-white border border-primary text-xs font-semibold rounded-full aspect-square flex items-center justify-center shadow-md';
         }
 
         dayButton.className = btnClass;
@@ -1139,12 +1091,12 @@
       btn.setAttribute('data-time', time);
 
       if (isBooked) {
-        btn.className = 'py-2 px-1 border border-slate-100 rounded-full text-slate-300 bg-slate-50 text-xs text-center cursor-not-allowed opacity-50';
+        btn.className = 'py-2 px-1 border border-outline/10 rounded-full text-secondary/40 bg-surface-container-low text-xs text-center cursor-not-allowed opacity-40';
         btn.disabled = true;
       } else {
-        let btnClass = 'modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-[#00236f] hover:text-[#00236f] transition-colors bg-white text-xs text-center cursor-pointer';
+        let btnClass = 'modal-time-slot-btn py-2 px-1 border border-outline-variant rounded-full text-body-md font-body-md text-on-surface hover:border-primary hover:text-primary transition-colors bg-surface-container text-xs text-center cursor-pointer';
         if (window.modalSelectedTime === time) {
-          btnClass = 'modal-time-slot-btn py-2 px-1 border-2 border-[#00236f] rounded-full text-body-md font-body-md text-[#00236f] font-semibold bg-blue-50/50 text-xs text-center';
+          btnClass = 'modal-time-slot-btn py-2 px-1 border-2 border-primary rounded-full text-body-md font-body-md text-gold font-semibold bg-primary/20 text-xs text-center';
         }
         btn.className = btnClass;
         btn.addEventListener('click', () => {
@@ -1642,18 +1594,22 @@
       featuredList.forEach(t => {
         const catLabel = t.categoryLabel || capitalize(t.category);
         const card = document.createElement('article');
-        card.className = 'bg-sterile-white p-6 md:p-8 rounded-xl border border-outline-variant/30 flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300';
+        card.className = 'bg-surface rounded-xl border border-outline-variant/30 overflow-hidden flex flex-col h-full hover:shadow-[0_12px_24px_rgba(122,104,85,0.15)] transition-all duration-300';
         card.innerHTML = `
-          <div class="w-20 h-20 rounded-full overflow-hidden border border-[#00236f]/10 mb-6 shadow-sm shrink-0">
-            <img src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}" alt="${t.title}" class="w-full h-full object-cover"/>
+          <div class="relative h-48 overflow-hidden w-full shrink-0">
+            <img src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}" alt="${t.title}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"/>
+            <div class="absolute top-4 left-4">
+              <span class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider backdrop-blur-sm bg-opacity-90">${catLabel}</span>
+            </div>
           </div>
-          <span class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider mb-3">${catLabel}</span>
-          <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl">${t.title}</h3>
-          <p class="text-body-md font-body-md text-secondary text-sm mb-6 max-w-xs">${t.shortDesc || t.description}</p>
-          <button onclick="openDetailModal('${t.id}')" class="text-primary text-button font-button flex items-center gap-1 hover:opacity-75 transition-opacity border-b border-primary pb-0.5 mt-auto">
-            Conhecer detalhes
-            <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
-          </button>
+          <div class="p-6 md:p-8 flex flex-col flex-grow items-center text-center">
+            <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl font-semibold">${t.title}</h3>
+            <p class="text-body-md font-body-md text-secondary text-sm mb-6 max-w-xs flex-grow">${t.shortDesc || t.description}</p>
+            <button onclick="openDetailModal('${t.id}')" class="text-primary text-button font-button flex items-center gap-1 hover:opacity-75 transition-opacity border-b border-primary pb-0.5 mt-auto">
+              Conhecer detalhes
+              <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
+            </button>
+          </div>
         `;
         featuredGrid.appendChild(card);
       });
@@ -1895,7 +1851,7 @@
 
 
 <!-- WhatsApp Floating Widget (Direct Link) -->
-<a id="whatsapp-widget" data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="fixed bottom-20 lg:bottom-6 right-6 z-[9999] w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_30px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-transform relative focus:outline-none" aria-label="Fale conosco no WhatsApp">
+<a id="whatsapp-widget" data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="fixed bottom-6 right-6 z-[9999] w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_30px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-transform focus:outline-none" aria-label="Fale conosco no WhatsApp">
   <!-- Pulse animation ring -->
   <span class="absolute inset-0 rounded-full bg-[#25D366]/40 animate-ping opacity-75"></span>
   <!-- WhatsApp Icon -->
@@ -1904,12 +1860,99 @@
   </svg>
 </a>
 
+<!-- Hamburger Menu Drawer -->
+<div id="hamburger-menu" class="fixed inset-y-0 right-0 w-80 bg-[#0F0908]/95 backdrop-blur-md z-[9999] transform translate-x-full transition-transform duration-300 border-l border-white/10 shadow-2xl flex flex-col p-8 hidden">
+  <!-- Close Button -->
+  <div class="flex justify-end mb-10">
+    <button onclick="toggleMenu()" class="text-gold hover:text-white transition-colors focus:outline-none w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5" aria-label="Fechar Menu">
+      <span class="material-symbols-outlined text-3xl">close</span>
+    </button>
+  </div>
+  <!-- Menu Links -->
+  <nav class="flex flex-col space-y-6 text-left">
+    <a href="#inicio" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Início</a>
+    <a href="#clinica" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Nossa estrutura</a>
+    <a href="#tratamentos" onclick="handleTratamentosMenuClick(event)" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Tratamentos</a>
+    <a href="#sobre" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Sobre mim</a>
+    <a href="#contato" onclick="closeMenu()" class="text-white hover:text-gold text-xl font-headline-display tracking-wider border-b border-white/5 pb-2 transition-colors">Contato</a>
+  </nav>
+  
+  <!-- CTA Button inside drawer -->
+  <div class="mt-auto pt-8">
+    <button onclick="closeMenu(); openBookingModal();" class="w-full bg-gold hover:bg-gold-hover text-white text-button font-button py-4 rounded-full font-bold uppercase tracking-wider text-xs shadow-md">
+      Agendar Consulta
+    </button>
+  </div>
+</div>
+
+<!-- Backdrop Overlay -->
+<div id="menu-backdrop" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-[9998] hidden backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
 <script>
   function toggleWhatsAppPopup() {
     const popup = document.getElementById('whatsapp-popup');
     if (popup) {
       popup.classList.toggle('hidden');
     }
+  }
+
+  function toggleMenu() {
+    const menu = document.getElementById('hamburger-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    if (!menu || !backdrop) return;
+
+    const isHidden = menu.classList.contains('hidden');
+    if (isHidden) {
+      // Open
+      menu.classList.remove('hidden');
+      backdrop.classList.remove('hidden');
+      // trigger reflow
+      menu.offsetWidth;
+      backdrop.offsetWidth;
+      menu.classList.remove('translate-x-full');
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Close
+      menu.classList.add('translate-x-full');
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        menu.classList.add('hidden');
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+  }
+
+  // Close hamburger menu drawer
+  function closeMenu() {
+    const menu = document.getElementById('hamburger-menu');
+    const backdrop = document.getElementById('menu-backdrop');
+    if (menu && !menu.classList.contains('hidden')) {
+      menu.classList.add('translate-x-full');
+      backdrop.classList.remove('opacity-100');
+      backdrop.classList.add('opacity-0');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        menu.classList.add('hidden');
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+  }
+
+  // Action for clicking on Treatments inside menu drawer (scroll + open catalog modal)
+  function handleTratamentosMenuClick(event) {
+    event.preventDefault();
+    closeMenu();
+    setTimeout(() => {
+      const el = document.getElementById('tratamentos');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+      openCatalogModal();
+    }, 350);
   }
 </script>
 

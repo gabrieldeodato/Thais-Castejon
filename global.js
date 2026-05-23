@@ -78,13 +78,10 @@
     });
   }
 
-  }
-
   // ScrollSpy function to highlight active navbar links during scroll
   function initScrollSpy() {
     const sections = document.querySelectorAll('section[id], header[id]');
-    const navLinks = document.querySelectorAll('header nav a');
-    const mobileLinks = document.querySelectorAll('nav.lg\\:hidden a');
+    const navLinks = document.querySelectorAll('#hamburger-menu a, header nav a');
     if (sections.length === 0) return;
 
     window.addEventListener('scroll', () => {
@@ -104,7 +101,6 @@
       }
 
       if (currentSectionId) {
-        // Desktop Spy
         navLinks.forEach(link => {
           link.classList.remove('text-gold', 'font-bold');
           link.classList.add('text-white/70');
@@ -112,24 +108,6 @@
           if (href === `#${currentSectionId}`) {
             link.classList.add('text-gold', 'font-bold');
             link.classList.remove('text-white/70');
-          }
-        });
-
-        // Mobile Spy
-        mobileLinks.forEach(link => {
-          link.classList.remove('text-gold', 'font-bold');
-          link.classList.add('text-secondary');
-          const icon = link.querySelector('.material-symbols-outlined');
-          if (icon) {
-            icon.style.fontVariationSettings = "'FILL' 0";
-          }
-          const href = link.getAttribute('href');
-          if (href === `#${currentSectionId}`) {
-            link.classList.add('text-gold', 'font-bold');
-            link.classList.remove('text-secondary');
-            if (icon) {
-              icon.style.fontVariationSettings = "'FILL' 1";
-            }
           }
         });
       }

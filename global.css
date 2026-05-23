@@ -30,7 +30,7 @@ button:hover,
 :not(nav) > a[class*="bg-[#20bd5a]"]:hover {
   transform: scale(1.04) translateY(-2px) !important;
   filter: brightness(1.08) !important;
-  box-shadow: 0 12px 24px -8px rgba(0, 35, 111, 0.22) !important;
+  box-shadow: 0 12px 24px -8px rgba(122, 104, 85, 0.22) !important;
 }
 
 /* Botão específico do WhatsApp (sombra verde suave) */
@@ -47,7 +47,7 @@ button:active,
 :not(nav) > a[class*="bg-[#25D366]"]:active,
 :not(nav) > a[class*="bg-[#20bd5a]"]:active {
   transform: scale(0.97) translateY(0) !important;
-  box-shadow: 0 4px 10px -4px rgba(0, 35, 111, 0.15) !important;
+  box-shadow: 0 4px 10px -4px rgba(122, 104, 85, 0.15) !important;
   filter: brightness(0.98) !important;
 }
 
