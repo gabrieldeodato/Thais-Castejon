@@ -43,18 +43,17 @@
                     "charcoal-text": "#1E293B",
                     "on-secondary": "#ffffff",
                     "on-tertiary-container": "#aaadaf",
-                    "surface-container-high": "#e2e7ff",
-                    "surface": "#faf8ff",
-                    "background": "#faf8ff",
+                    "surface": "#FAF8F5",
+                    "background": "#FAF8F5",
                     "on-primary": "#ffffff",
                     "on-tertiary-fixed-variant": "#444749",
                     "on-primary-container": "#90a8ff",
                     "on-surface-variant": "#444651",
                     "tertiary": "#272b2d",
-                    "surface-container-low": "#f2f3ff",
+                    "surface-container-low": "#F3EFE6",
                     "on-secondary-fixed-variant": "#38485d",
-                    "clinical-blue-light": "#DBEAFE",
-                    "surface-container-lowest": "#ffffff",
+                    "clinical-blue-light": "#EFECE5",
+                    "surface-container-lowest": "#FDFCF7",
                     "inverse-primary": "#b6c4ff",
                     "error-container": "#ffdad6",
                     "error": "#ba1a1a",
@@ -213,25 +212,33 @@
     </div>
   </div>
 </div>
-<header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline docked full-width top-0 z-40 sticky">
+<header class="bg-primary border-b border-white/10 docked full-width top-0 z-40 sticky">
   <div class="flex justify-between items-center w-full px-gutter py-4 max-w-container-max mx-auto">
-    <div class="flex items-center gap-2 cursor-pointer shrink-0" onclick="location.href='index.html'">
-      <span class="material-symbols-outlined text-primary dark:text-inverse-primary" style="font-variation-settings: 'FILL' 1;">medical_services</span>
-      <span class="text-headline-md font-headline-md text-primary dark:text-inverse-primary tracking-tight whitespace-nowrap">Dra. Thais Castejon</span>
+    <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.href='index.html'">
+      <div class="flex flex-col text-left leading-none">
+        <span class="text-[9px] uppercase tracking-widest text-gold font-sans font-bold">Dra.</span>
+        <span class="text-base md:text-lg font-headline-display tracking-wider text-white uppercase font-medium">Thais Castejon</span>
+      </div>
+      <div class="h-8 w-[1px] bg-gold/30 self-center hidden sm:block"></div>
+      <div class="flex flex-col text-left leading-none hidden sm:flex">
+        <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold">Especialista Em</span>
+        <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold mt-0.5">Harmonização Orofacial</span>
+      </div>
     </div>
     <!-- Desktop Nav -->
-    <nav class="hidden lg:flex items-center gap-6 lg:gap-8 xl:gap-10 shrink-0 lg:ml-12">
-      <a class="text-primary dark:text-inverse-primary font-bold text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#inicio">Início</a>
-      <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#clinica">Clínica</a>
-      <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#tratamentos">Tratamentos</a>
-      <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#sobre">Dra. Thais</a>
-      <a class="text-secondary dark:text-secondary-fixed-dim text-body-md font-body-md hover:bg-primary-container/10 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#contato">Contato</a>
+    <nav class="hidden lg:flex items-center gap-2 lg:gap-4 shrink-0 lg:ml-8">
+      <a class="text-gold font-bold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#inicio">Início</a>
+      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#clinica">Clínica</a>
+      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#tratamentos">Tratamentos</a>
+      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#trabalhos">Casos</a>
+      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#sobre">Dra. Thais</a>
+      <a class="text-white/70 hover:text-gold text-body-md font-body-md hover:bg-white/5 transition-colors px-3 py-2 rounded-full whitespace-nowrap shrink-0" href="#contato">Contato</a>
     </nav>
-    <div class="flex items-center gap-2 lg:gap-4 xl:gap-6 shrink-0">
-      <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-primary text-on-primary text-button font-button px-5 py-2.5 rounded-full hover:opacity-80 transition-opacity text-sm whitespace-nowrap shrink-0">
-        Agendar
+    <div class="flex items-center gap-2 lg:gap-4 shrink-0">
+      <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-gold hover:bg-gold-hover text-white text-button font-button px-6 py-2.5 rounded-full transition-all text-[11px] font-bold uppercase tracking-wider whitespace-nowrap shrink-0 hover:scale-105 active:scale-95 shadow-sm">
+        Agendar Consulta
       </button>
-      <button onclick="openBookingModal()" class="lg:hidden text-primary text-button font-button font-medium text-sm">
+      <button onclick="openBookingModal()" class="lg:hidden text-gold text-button font-button font-bold text-xs uppercase tracking-wider">
         Agendar
       </button>
     </div>
@@ -241,119 +248,98 @@
 
 <main class="flex-grow">
 <!-- Hero Section -->
-<section id="inicio" class="relative pt-12 pb-24 md:pt-24 md:pb-32 overflow-hidden hero-pattern">
-<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-<div class="flex flex-col items-start z-10 space-y-6">
-<div class="inline-flex items-center gap-2 px-3 py-1 bg-clinical-blue-light text-primary rounded-full text-label-caps font-label-caps border border-primary-fixed">
-<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-<span data-edit-key="hero_badge">Excelência em Harmonização</span>
-                    </div>
-<h1 data-edit-key="hero_title" class="text-headline-display font-headline-display text-on-background md:hidden">Beleza <br/>Elevada com <br/>Naturalidade</h1>
-<h1 data-edit-key="hero_title" class="hidden md:block text-headline-display font-headline-display text-on-background">Beleza Elevada<br/> com Naturalidade</h1>
-<p data-edit-key="hero_subtitle" class="text-body-lg font-body-lg text-secondary max-w-md">
-                        Descubra a sua melhor versão através de procedimentos estéticos avançados, focados em realçar a sua beleza natural com precisão e segurança clínica.
-                    </p>
-<div class="pt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-<button onclick="openBookingModal()" class="bg-primary text-on-primary text-button font-button px-8 py-4 rounded-full hover:opacity-90 transition-opacity w-full sm:w-auto shadow-sm">Agendar Consulta</button>
-<button onclick="location.href=(window.location.protocol==='file:'?'tratamentos.html':'tratamentos')" class="border border-outline-variant text-primary text-button font-button px-8 py-4 rounded-full hover:bg-surface-container-low transition-colors w-full sm:w-auto bg-sterile-white">Conhecer Tratamentos</button>
-</div>
-</div>
-<div class="relative z-10 mt-8 md:mt-0">
-<div class="absolute inset-0 bg-primary/5 rounded-2xl transform translate-x-4 translate-y-4 -z-10"></div>
-<img data-edit-key="img_hero" alt="Paciente em clínica estética" class="w-full h-auto object-cover rounded-2xl border border-accent-border shadow-sm aspect-[4/5] md:aspect-[3/4]" data-alt="A highly detailed, premium photograph of a serene, modern clinical setting for orofacial aesthetics. A beautiful patient with flawless, glowing skin is resting comfortably in a pristine white medical chair. The lighting is soft, high-key, and diffused, creating a light-mode, sterile yet luxurious atmosphere. The color palette features predominantly clinical whites and subtle pale blues, reflecting the brand's sophisticated and expert aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
-</div>
-</div>
-<!-- Decorative blur -->
-<div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-fixed/30 rounded-full blur-3xl -z-10"></div>
+<section id="inicio" class="relative min-h-[85vh] lg:min-h-screen flex items-center justify-start overflow-hidden bg-black text-white">
+  <!-- Full-bleed background image -->
+  <img data-edit-key="img_hero" alt="Paciente em clínica estética" class="absolute inset-0 w-full h-full object-cover object-center z-0" data-alt="A highly detailed, premium photograph of a serene, modern clinical setting for orofacial aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
+  <!-- Dark premium blue/black gradient overlay for legibility -->
+  <div class="absolute inset-0 bg-gradient-to-r from-black/95 via-black/55 to-black/30 lg:from-[#001745]/90 lg:via-[#001745]/45 lg:to-transparent z-10"></div>
+  
+  <div class="max-w-container-max mx-auto px-5 md:px-gutter w-full relative z-20 pt-20 pb-16 lg:pt-32 lg:pb-24">
+    <div class="max-w-2xl flex flex-col items-start space-y-6 lg:space-y-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-gold/15 text-gold rounded-full text-xs font-semibold tracking-widest uppercase border border-gold/30">
+        <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+        <span data-edit-key="hero_badge">Excelência em Harmonização</span>
+      </div>
+      <h1 data-edit-key="hero_title" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-headline-display text-white uppercase tracking-wide leading-tight font-medium">
+        Beleza Elevada com Naturalidade
+      </h1>
+      <p data-edit-key="hero_subtitle" class="text-sm md:text-lg font-light text-slate-200 max-w-lg leading-relaxed font-sans">
+        Descubra a sua melhor versão através de procedimentos estéticos avançados, focados em realçar a sua beleza natural com precisão e segurança clínica.
+      </p>
+      <div class="pt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+        <button onclick="openBookingModal()" class="bg-gold hover:bg-gold-hover text-white text-button font-button px-8 py-4 rounded-full transition-all w-full sm:w-auto shadow-lg uppercase tracking-wider text-xs font-bold hover:scale-105 active:scale-95">
+          Agendar Consulta
+        </button>
+        <a href="#tratamentos" class="border border-white/30 text-white hover:bg-white/10 text-button font-button px-8 py-4 rounded-full transition-all w-full sm:w-auto text-center flex items-center justify-center uppercase tracking-wider text-xs font-bold hover:scale-105 active:scale-95">
+          Conhecer Tratamentos
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- A Clinica Section -->
-<section class="py-16 md:py-section-padding-desktop bg-surface relative overflow-hidden" id="clinica">
-  <div class="max-w-container-max mx-auto px-5 md:px-gutter">
-    <!-- Title/Header Section -->
-    <div class="mb-12 md:mb-16 text-center max-w-2xl mx-auto">
-      <span class="inline-block text-label-caps font-label-caps text-gold border border-gold/30 px-3 py-1 rounded-full mb-4">Nossa Estrutura</span>
-      <h2 data-edit-key="clinica_hero_title" class="text-headline-lg-mobile md:text-headline-display font-headline-display text-primary mb-4">A Clínica</h2>
-      <p data-edit-key="clinica_hero_subtitle" class="text-body-md md:text-body-lg font-body-lg text-secondary">
-        Um espaço planejado nos mínimos detalhes para acolher você com conforto, sofisticação e total biossegurança. Conheça o nosso conceito.
-      </p>
-    </div>
-
-    <!-- Space Introduction & Differentiators Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16 md:mb-24">
-      <div class="relative shrink-0">
-        <div class="absolute inset-0 bg-primary/5 rounded-xl transform translate-x-3 translate-y-3 -z-10"></div>
-        <img data-edit-key="img_clinica_hero" alt="Clínica Estética" class="w-full h-auto object-cover rounded-xl border border-accent-border shadow-sm aspect-[4/3]" data-alt="A luxurious aesthetic clinic waiting area. High ceilings, plush minimalist furniture in white and pale beige, clean marble floor, a warm soft ambient light, pristine white orchid decoration, and subtle clinical details, giving a sense of modern, sterile yet extremely premium and welcoming boutique medical spa." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmE9440hCiWhkjCZHktBFQkY-1s2MgRPHmnMLdKlguqRiwsXsJ9zVn_YebzkXraF-9BzPG-BiFWu-9bIpiOZ7NebvJfWJlnkcQUtqZ_o2Dt2DVXMHZ64k7ITkMRKmMlBBUR4tDTVQNefT-CSPsdyqZvMnhttVzhqKqIOX3-JzA49hcQPBSakK6lhfX6ijBYJZM2EG1zKf3AUJF9z5gI-BErtGfEgIr7_flmWDGY2A9eSkBN5YeTkHWmX4ZVYwe5-QR4z589MKGpu1c"/>
-      </div>
-      <div class="space-y-6">
-        <h3 data-edit-key="clinica_section_title" class="text-headline-md font-headline-md text-primary">Tecnologia e Cuidado Integrados</h3>
-        <p data-edit-key="clinica_description" class="text-body-md font-body-md text-secondary leading-relaxed">
-          Localizada no coração de Ipanema, no Rio de Janeiro, a Clínica Dra. Thais Castejon combina elegância minimalista com tecnologia de última geração. Desenvolvemos uma estrutura que assegura diagnósticos rápidos e precisos, aliada a protocolos de biossegurança de nível hospitalar.
-        </p>
+<section class="py-16 md:py-24 bg-surface relative overflow-hidden" id="clinica">
+  <div class="max-w-container-max mx-auto px-5 md:px-gutter text-center">
+    <!-- Title -->
+    <h2 class="text-3xl md:text-5xl font-headline-display text-primary uppercase tracking-wide mb-12">
+      Nossa estrutura!
+    </h2>
+    
+    <!-- Carousel Wrapper -->
+    <div class="relative max-w-5xl mx-auto px-4">
+      <!-- Carousel Container -->
+      <div id="clinica-carousel" class="flex gap-6 overflow-hidden scroll-smooth">
+        <!-- Room 1 -->
+        <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
+          <img data-edit-key="img_env_1" alt="Recepção" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
+          <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white text-left">
+            <h4 class="font-headline-display text-lg font-semibold tracking-wide" data-edit-key="clinica_env1_title">Recepção Acolhedora</h4>
+            <p class="text-xs text-slate-200 mt-1 font-light" data-edit-key="clinica_env1_desc">Ambiente leve para seu conforto antes do atendimento.</p>
+          </div>
+        </div>
         
-        <!-- Differentiators List -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-          <div class="flex gap-3">
-            <span class="material-symbols-outlined text-gold text-[28px] shrink-0">biotech</span>
-            <div>
-              <h4 class="text-body-md font-body-md font-semibold text-primary" data-edit-key="clinica_feat1_title">Tecnologia Avançada</h4>
-              <p class="text-xs text-secondary mt-1" data-edit-key="clinica_feat1_desc">Scanner intraoral e equipamentos modernos para procedimentos precisos.</p>
-            </div>
+        <!-- Room 2 -->
+        <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
+          <img data-edit-key="img_env_2" alt="Consultório" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc"/>
+          <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white text-left">
+            <h4 class="font-headline-display text-lg font-semibold tracking-wide" data-edit-key="clinica_env2_title">Consultório de Alta Performance</h4>
+            <p class="text-xs text-slate-200 mt-1 font-light" data-edit-key="clinica_env2_desc">Equipado para procedimentos precisos e seguros.</p>
           </div>
-          <div class="flex gap-3">
-            <span class="material-symbols-outlined text-gold text-[28px] shrink-0">sanitizer</span>
-            <div>
-              <h4 class="text-body-md font-body-md font-semibold text-primary" data-edit-key="clinica_feat2_title">Biossegurança</h4>
-              <p class="text-xs text-secondary mt-1" data-edit-key="clinica_feat2_desc">Esterilização rigorosa e fluxos controlados para sua total segurança.</p>
-            </div>
-          </div>
-          <div class="flex gap-3">
-            <span class="material-symbols-outlined text-gold text-[28px] shrink-0">spa</span>
-            <div>
-              <h4 class="text-body-md font-body-md font-semibold text-primary" data-edit-key="clinica_feat3_title">Conforto e Spa</h4>
-              <p class="text-xs text-secondary mt-1" data-edit-key="clinica_feat3_desc">Sala de espera intimista com café premium e som ambiente relaxante.</p>
-            </div>
-          </div>
-          <div class="flex gap-3">
-            <span class="material-symbols-outlined text-gold text-[28px] shrink-0">pin_drop</span>
-            <div>
-              <h4 class="text-body-md font-body-md font-semibold text-primary" data-edit-key="clinica_feat4_title">Acesso Premium</h4>
-              <p class="text-xs text-secondary mt-1" data-edit-key="clinica_feat4_desc">Localização nobre com estacionamento privativo e manobrista.</p>
-            </div>
+        </div>
+
+        <!-- Room 3 -->
+        <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
+          <img data-edit-key="img_env_3" alt="Sala de Biossegurança" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG"/>
+          <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent text-white text-left">
+            <h4 class="font-headline-display text-lg font-semibold tracking-wide" data-edit-key="clinica_env3_title">Sala de Biossegurança</h4>
+            <p class="text-xs text-slate-200 mt-1 font-light" data-edit-key="clinica_env3_desc">Esterilização completa com autoclave e insumos descartáveis.</p>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Gallery Bento Section -->
-    <div class="border-t border-outline-variant/30 pt-16">
-      <h3 class="text-headline-md font-headline-md text-primary mb-8 text-center">Nossos Ambientes</h3>
       
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="relative rounded-xl overflow-hidden group border border-accent-border shadow-sm">
-          <img data-edit-key="img_env_1" alt="Recepção" class="w-full h-64 object-cover group-hover:scale-102 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
-          <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
-            <h4 class="font-semibold text-sm" data-edit-key="clinica_env1_title">Recepção Acolhedora</h4>
-            <p class="text-[11px] opacity-80" data-edit-key="clinica_env1_desc">Ambiente leve para seu conforto antes do atendimento.</p>
-          </div>
-        </div>
-        
-        <div class="relative rounded-xl overflow-hidden group border border-accent-border shadow-sm">
-          <img data-edit-key="img_env_2" alt="Consultório" class="w-full h-64 object-cover group-hover:scale-102 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgd2TVuoSygwDuDW7AFgj4O8gHA_MK0MUaLmS8fajE_PIOAXRwwCakEWLix1L7wYEsjtGwUnT2Ph2MHfVSo_gJyMjR1iq4__A41xGx96Om3etIyvz2HdamEoaB_MwQAeQ7mw1JqvEq_tPzD2Kqk2EkrntDX28YndkTdNQHp6Edco58FXBVl33x4dyjFRIuXWMRHPBmVceeuMdq-ycs5hQwgJdulDxVUHW1SP3yEq-pgiduAtQzPIJEOWx6EUgGNivaF9lvhXnISfCc"/>
-          <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
-            <h4 class="font-semibold text-sm" data-edit-key="clinica_env2_title">Consultório de Alta Performance</h4>
-            <p class="text-[11px] opacity-80" data-edit-key="clinica_env2_desc">Equipado para procedimentos precisos e seguros.</p>
-          </div>
-        </div>
-
-        <div class="relative rounded-xl overflow-hidden group border border-accent-border shadow-sm">
-          <img data-edit-key="img_env_3" alt="Sala de Esterilização" class="w-full h-64 object-cover group-hover:scale-102 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5wO3dFJgM-0j9wTHw2dZS3lskKHFBmoXAs3Nv6ubm2Mkda3ZalrFIij6Fb5sn1rhrsfs4Ft8ZChwLPBTn8vgG3xqcLVEMjuqvTZrW0QKEFPWWh8iN78iih4PoA9Wmv7CYWZq1JfWxVskcd6eGKBAnhGb1Kgvxxc8QASW8SZN4LeDyFnwvy0uHv_4IFq3TzSFHd2oIWAtbS9MNeCmcjYYlz86pApf8rEOmV-GuXycBQm4wKOSvmfwBLkLcKoG5d7PnFnmqJC-JLhUG"/>
-          <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
-            <h4 class="font-semibold text-sm" data-edit-key="clinica_env3_title">Sala de Biossegurança</h4>
-            <p class="text-[11px] opacity-80" data-edit-key="clinica_env3_desc">Esterilização completa com autoclave e insumos descartáveis.</p>
-          </div>
-        </div>
-      </div>
+      <!-- Nav Arrows -->
+      <button onclick="slideClinica(-1)" class="absolute left-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-primary border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-white transition-colors shadow-md z-20 focus:outline-none" type="button">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      <button onclick="slideClinica(1)" class="absolute right-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-primary border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-white transition-colors shadow-md z-20 focus:outline-none" type="button">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </div>
+    
+    <!-- Dots Indicators -->
+    <div class="flex justify-center gap-2 mt-6" id="clinica-dots">
+      <span class="w-2.5 h-2.5 rounded-full bg-gold cursor-pointer" onclick="goToSlide(0)"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-slate-300 cursor-pointer" onclick="goToSlide(1)"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-slate-300 cursor-pointer" onclick="goToSlide(2)"></span>
+    </div>
+    
+    <!-- CTA Button underneath -->
+    <div class="mt-12">
+      <button onclick="openBookingModal()" class="inline-flex items-center gap-2 bg-gold hover:bg-gold-hover text-white text-button font-button px-10 py-4 rounded-full transition-all shadow-md uppercase tracking-wider text-xs font-bold hover:scale-105 active:scale-95" type="button">
+        <span class="material-symbols-outlined text-sm">calendar_month</span>
+        Agendar Consulta
+      </button>
     </div>
   </div>
 </section>
@@ -370,6 +356,56 @@
 <button onclick="openCatalogModal()" class="border border-outline-variant text-primary text-button font-button px-8 py-3 rounded-full hover:bg-surface-container-low transition-colors bg-sterile-white shadow-sm">Ver Todos os Tratamentos</button>
 </div>
 </div>
+</section>
+
+<!-- Trabalhos Realizados Section -->
+<section id="trabalhos" class="py-16 md:py-24 bg-surface-container-lowest relative overflow-hidden">
+  <div class="max-w-container-max mx-auto px-5 md:px-gutter">
+    <!-- Section Header -->
+    <div class="mb-12 text-center max-w-2xl mx-auto">
+      <span class="inline-block text-label-caps font-label-caps text-gold border border-gold/30 px-3 py-1 rounded-full mb-4">Galeria de Resultados</span>
+      <h2 data-edit-key="trabalhos_title" class="text-3xl md:text-5xl font-headline-display text-primary uppercase tracking-wide mb-4">Trabalhos Realizados</h2>
+      <p data-edit-key="trabalhos_subtitle" class="text-body-md text-secondary max-w-xl mx-auto">
+        Transformações sutilmente planejadas para realçar o que cada paciente tem de melhor.
+      </p>
+    </div>
+    
+    <!-- Grid of Cases -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Case 1 -->
+      <div class="bg-surface rounded-2xl overflow-hidden border border-gold/10 shadow-md group hover:shadow-lg transition-shadow duration-300">
+        <div class="h-64 overflow-hidden relative">
+          <img data-edit-key="img_case_1" alt="Resultado 1" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800"/>
+        </div>
+        <div class="p-6">
+          <h3 data-edit-key="case1_title" class="font-headline-display text-lg font-bold text-primary mb-2">Harmonização Orofacial</h3>
+          <p data-edit-key="case1_desc" class="text-xs text-secondary leading-relaxed">Definição de contornos e volumetria sutil, respeitando a anatomia natural.</p>
+        </div>
+      </div>
+      
+      <!-- Case 2 -->
+      <div class="bg-surface rounded-2xl overflow-hidden border border-gold/10 shadow-md group hover:shadow-lg transition-shadow duration-300">
+        <div class="h-64 overflow-hidden relative">
+          <img data-edit-key="img_case_2" alt="Resultado 2" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800"/>
+        </div>
+        <div class="p-6">
+          <h3 data-edit-key="case2_title" class="font-headline-display text-lg font-bold text-primary mb-2">Rejuvenescimento Facial</h3>
+          <p data-edit-key="case2_desc" class="text-xs text-secondary leading-relaxed">Suavização de rugas dinâmicas e estímulo profundo de colágeno local.</p>
+        </div>
+      </div>
+      
+      <!-- Case 3 -->
+      <div class="bg-surface rounded-2xl overflow-hidden border border-gold/10 shadow-md group hover:shadow-lg transition-shadow duration-300">
+        <div class="h-64 overflow-hidden relative">
+          <img data-edit-key="img_case_3" alt="Resultado 3" class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" src="https://images.unsplash.com/photo-1584515901367-f134706ef532?auto=format&fit=crop&q=80&w=800"/>
+        </div>
+        <div class="p-6">
+          <h3 data-edit-key="case3_title" class="font-headline-display text-lg font-bold text-primary mb-2">Lifting e Contorno</h3>
+          <p data-edit-key="case3_desc" class="text-xs text-secondary leading-relaxed">Aplicação estratégica de fios de PDO para sustentação facial.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="py-16 md:py-section-padding-desktop bg-surface relative overflow-hidden" id="sobre">
@@ -568,9 +604,16 @@
 <footer class="bg-inverse-surface pt-16 pb-24 lg:pb-16 text-inverse-on-surface">
   <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-outline/20 pb-12 mb-8">
     <div>
-      <div class="flex items-center gap-2 mb-6">
-        <span class="material-symbols-outlined text-inverse-primary">medical_services</span>
-        <span class="text-headline-md font-headline-md text-sterile-white tracking-tight">Dra. Thais Castejon</span>
+      <div class="flex items-center gap-3 mb-6">
+        <div class="flex flex-col text-left leading-none">
+          <span class="text-[9px] uppercase tracking-widest text-gold font-sans font-bold">Dra.</span>
+          <span class="text-base font-headline-display tracking-wider text-white uppercase font-medium">Thais Castejon</span>
+        </div>
+        <div class="h-8 w-[1px] bg-gold/30 self-center"></div>
+        <div class="flex flex-col text-left leading-none">
+          <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold">Especialista Em</span>
+          <span class="text-[8px] uppercase tracking-widest text-slate-300 font-sans font-semibold mt-0.5">Harmonização Orofacial</span>
+        </div>
       </div>
       <p class="text-body-md font-body-md text-surface-dim opacity-80 mb-6">
         Excelência e precisão em harmonização orofacial, realçando a sua beleza natural com segurança e sofisticação.
@@ -621,26 +664,30 @@
   </div>
 </footer>
 <!-- BottomNavBar (Mobile Only) -->
-<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-base bg-surface border-t border-outline-variant z-50">
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center py-base bg-[#F5F3ED] border-t border-gold/25 z-50">
 
-  <a id="nav-mobile-home" class=" flex flex-col items-center justify-center text-primary font-bold scale-95 transition-transform duration-150 w-16 h-14" href="#inicio">
-    <span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span>
+  <a id="nav-mobile-home" class="flex flex-col items-center justify-center text-gold font-bold scale-95 transition-transform duration-150 w-14 h-14" href="#inicio">
+    <span class="material-symbols-outlined mb-1 text-[22px]" style="font-variation-settings: 'FILL' 1;">home</span>
     <span class="text-[9px] font-label-caps tracking-wide">Início</span>
   </a>
-  <a id="nav-mobile-clinica" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="#clinica">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >domain</span>
+  <a id="nav-mobile-clinica" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#clinica">
+    <span class="material-symbols-outlined mb-1 text-[22px]" >domain</span>
     <span class="text-[9px] font-label-caps tracking-wide">Clínica</span>
   </a>
-  <a id="nav-mobile-tratamentos" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="#tratamentos">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >content_cut</span>
+  <a id="nav-mobile-tratamentos" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#tratamentos">
+    <span class="material-symbols-outlined mb-1 text-[22px]" >spa</span>
     <span class="text-[9px] font-label-caps tracking-wide">Tratamentos</span>
   </a>
-  <a id="nav-mobile-sobre" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="#sobre">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >person</span>
+  <a id="nav-mobile-trabalhos" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#trabalhos">
+    <span class="material-symbols-outlined mb-1 text-[22px]" >photo_library</span>
+    <span class="text-[9px] font-label-caps tracking-wide">Casos</span>
+  </a>
+  <a id="nav-mobile-sobre" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#sobre">
+    <span class="material-symbols-outlined mb-1 text-[22px]" >person</span>
     <span class="text-[9px] font-label-caps tracking-wide">Dra. Thais</span>
   </a>
-  <a id="nav-mobile-contato" class=" flex flex-col items-center justify-center text-secondary hover:text-primary transition-colors w-16 h-14" href="#contato">
-    <span class="material-symbols-outlined mb-1 text-[24px]" >chat_bubble</span>
+  <a id="nav-mobile-contato" class="flex flex-col items-center justify-center text-secondary hover:text-gold transition-colors w-14 h-14" href="#contato">
+    <span class="material-symbols-outlined mb-1 text-[22px]" >chat_bubble</span>
     <span class="text-[9px] font-label-caps tracking-wide">Contato</span>
   </a>
 </nav>
@@ -903,6 +950,13 @@
 
 <script>
   function openBookingModal(treatmentVal) {
+    // Close other modals first to prevent overlaps
+    if (typeof closeCatalogModal === 'function') closeCatalogModal();
+    if (typeof closeDetailModal === 'function') {
+      window.detailOpenedFromCatalog = false; // Prevent reopening the catalog
+      closeDetailModal();
+    }
+
     const modal = document.getElementById('booking-modal');
     const form = document.getElementById('booking-form');
     const successScreen = document.getElementById('booking-success-screen');
@@ -1326,6 +1380,50 @@
       document.body.style.overflow = '';
     }
   }
+
+  // Carousel sliding logic for A Clinica
+  let currentClinicaIndex = 0;
+  window.slideClinica = function(direction) {
+    const carousel = document.getElementById('clinica-carousel');
+    if (!carousel) return;
+    const items = carousel.querySelectorAll('.shrink-0');
+    const dots = document.getElementById('clinica-dots').children;
+    const isMobile = window.innerWidth < 768;
+    const itemsToShow = isMobile ? 1 : 2;
+    const maxIndex = items.length - itemsToShow;
+    
+    currentClinicaIndex += direction;
+    if (currentClinicaIndex < 0) currentClinicaIndex = 0;
+    if (currentClinicaIndex > maxIndex) currentClinicaIndex = maxIndex;
+    
+    const itemWidth = items[0].offsetWidth + 24; // width + gap
+    carousel.scrollTo({
+      left: currentClinicaIndex * itemWidth,
+      behavior: 'smooth'
+    });
+    
+    // update dots active state
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].classList.remove('bg-gold');
+      dots[i].classList.add('bg-slate-300');
+    }
+    if (dots[currentClinicaIndex]) {
+      dots[currentClinicaIndex].classList.add('bg-gold');
+      dots[currentClinicaIndex].classList.remove('bg-slate-300');
+    }
+  };
+
+  window.goToSlide = function(index) {
+    const isMobile = window.innerWidth < 768;
+    const itemsToShow = isMobile ? 1 : 2;
+    const totalItems = 3;
+    const maxIndex = totalItems - itemsToShow;
+    
+    let targetIndex = index;
+    if (targetIndex > maxIndex) targetIndex = maxIndex;
+    
+    window.slideClinica(targetIndex - currentClinicaIndex);
+  };
 </script>
 
 
@@ -1796,52 +1894,15 @@
 </script>
 
 
-<!-- WhatsApp Floating Widget -->
-<div id="whatsapp-widget" class="fixed bottom-20 lg:bottom-6 right-6 z-[9999] flex flex-col items-end gap-3 font-sans">
-  <!-- Popup Chat Window -->
-  <div id="whatsapp-popup" class="hidden w-[320px] bg-sterile-white rounded-2xl border border-accent-border shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-300">
-    <!-- Header -->
-    <div class="bg-primary p-4 text-white flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <!-- Avatar using img_bio_portrait so it is CMS editable -->
-        <div class="relative w-10 h-10 rounded-full overflow-hidden border border-white/20">
-          <img data-edit-key="img_bio_portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdtoptJYkcr0uhrx-y0_vZNR0R8cn4zCHklHa-f3b8wF51Say1Gjn3N5qLE1q7QaHwC-OTD09EidO8VNde15Fw3_iNmCrc_oVfFOeKdArJGqjzG0Aw6wkWZG1seOMU5CDLtZ6ems3Q6aflM3JhnTsFSA3nj3VuttlxI8n36bQIV0QwHeYR70GL5KM7hoj-H6GO1FI03cSd2oDIhGisn6_1SfPBOp3p4-vI_L8O0jmdXWXvWEoBv1OnEfuGiswZLV4_dMERCMfnivdf" alt="Dra. Thais Castejon" class="w-full h-full object-cover">
-          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border border-primary animate-pulse"></span>
-        </div>
-        <div>
-          <h4 class="font-semibold text-sm leading-tight text-white">Dra. Thais Castejon</h4>
-          <p class="text-[10px] text-green-300 font-medium">Online</p>
-        </div>
-      </div>
-      <button onclick="toggleWhatsAppPopup()" class="text-white/60 hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-[20px]">close</span>
-      </button>
-    </div>
-    
-    <!-- Body -->
-    <div class="p-4 bg-slate-50 min-h-[100px] flex flex-col justify-between">
-      <div class="bg-white p-3 rounded-2xl rounded-tl-none border border-slate-100 shadow-sm text-sm text-secondary leading-relaxed max-w-[90%]">
-        Olá! Seja muito bem-vindo(a). Como posso ajudar você hoje? Vamos conversar sobre o seu tratamento?
-      </div>
-      
-      <!-- CTA Button -->
-      <a data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="mt-4 flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors shadow-sm w-full">
-        <svg class="w-4 h-4 fill-currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
-        Iniciar conversa
-      </a>
-    </div>
-  </div>
-
-  <!-- Floating Button -->
-  <button onclick="toggleWhatsAppPopup()" class="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_30px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-transform relative focus:outline-none" type="button">
-    <!-- Notification badge -->
-    <span class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-red-500 border-2 border-white flex items-center justify-center text-[8px] font-bold text-white leading-none">1</span>
-    <!-- Pulse animation ring -->
-    <span class="absolute inset-0 rounded-full bg-[#25D366]/40 animate-ping opacity-75"></span>
-    <!-- WhatsApp Icon -->
-    <svg class="w-7 h-7 fill-currentColor relative z-10" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
-  </button>
-</div>
+<!-- WhatsApp Floating Widget (Direct Link) -->
+<a id="whatsapp-widget" data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="fixed bottom-20 lg:bottom-6 right-6 z-[9999] w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[0_8px_30px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-transform relative focus:outline-none" aria-label="Fale conosco no WhatsApp">
+  <!-- Pulse animation ring -->
+  <span class="absolute inset-0 rounded-full bg-[#25D366]/40 animate-ping opacity-75"></span>
+  <!-- WhatsApp Icon -->
+  <svg class="w-7 h-7 fill-currentColor relative z-10" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+  </svg>
+</a>
 
 <script>
   function toggleWhatsAppPopup() {

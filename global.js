@@ -78,10 +78,71 @@
     });
   }
 
+  }
+
+  // ScrollSpy function to highlight active navbar links during scroll
+  function initScrollSpy() {
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navLinks = document.querySelectorAll('header nav a');
+    const mobileLinks = document.querySelectorAll('nav.lg\\:hidden a');
+    if (sections.length === 0) return;
+
+    window.addEventListener('scroll', () => {
+      let currentSectionId = '';
+      const scrollPos = window.scrollY + 120; // offset for fixed header
+
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          currentSectionId = section.getAttribute('id');
+        }
+      });
+
+      if (!currentSectionId && window.scrollY < 200) {
+        currentSectionId = 'inicio';
+      }
+
+      if (currentSectionId) {
+        // Desktop Spy
+        navLinks.forEach(link => {
+          link.classList.remove('text-gold', 'font-bold');
+          link.classList.add('text-white/70');
+          const href = link.getAttribute('href');
+          if (href === `#${currentSectionId}`) {
+            link.classList.add('text-gold', 'font-bold');
+            link.classList.remove('text-white/70');
+          }
+        });
+
+        // Mobile Spy
+        mobileLinks.forEach(link => {
+          link.classList.remove('text-gold', 'font-bold');
+          link.classList.add('text-secondary');
+          const icon = link.querySelector('.material-symbols-outlined');
+          if (icon) {
+            icon.style.fontVariationSettings = "'FILL' 0";
+          }
+          const href = link.getAttribute('href');
+          if (href === `#${currentSectionId}`) {
+            link.classList.add('text-gold', 'font-bold');
+            link.classList.remove('text-secondary');
+            if (icon) {
+              icon.style.fontVariationSettings = "'FILL' 1";
+            }
+          }
+        });
+      }
+    });
+  }
+
   // Registra as funções quando o DOM estiver pronto
   function init() {
     // Escaneia os elementos estáticos iniciais
     scanAndRegister();
+    
+    // Inicializa o ScrollSpy
+    initScrollSpy();
 
     // MutationObserver: Monitora o carregamento dinâmico de elementos (ex: conteúdo do Supabase/banco)
     const mutationObserver = new MutationObserver((mutations) => {

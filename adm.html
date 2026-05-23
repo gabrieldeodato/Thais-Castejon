@@ -480,6 +480,60 @@
                   <img id="preview_img_env_3" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
                 </div>
               </div>
+
+              <!-- Case Image 1 -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-t border-slate-100 pt-6 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Trabalhos Realizados: Foto do Caso 1</label>
+                  <input type="hidden" id="field_img_case_1"/>
+                  <div class="flex items-center gap-2 mt-1">
+                    <button type="button" onclick="document.getElementById('file_img_case_1').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
+                      Selecionar PNG/JPG
+                    </button>
+                    <span id="status_img_case_1" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
+                    <input type="file" id="file_img_case_1" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_case_1')"/>
+                  </div>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_case_1" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <!-- Case Image 2 -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-t border-slate-100 pt-6 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Trabalhos Realizados: Foto do Caso 2</label>
+                  <input type="hidden" id="field_img_case_2"/>
+                  <div class="flex items-center gap-2 mt-1">
+                    <button type="button" onclick="document.getElementById('file_img_case_2').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
+                      Selecionar PNG/JPG
+                    </button>
+                    <span id="status_img_case_2" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
+                    <input type="file" id="file_img_case_2" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_case_2')"/>
+                  </div>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_case_2" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
+
+              <!-- Case Image 3 -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-t border-slate-100 pt-6 pb-6">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Trabalhos Realizados: Foto do Caso 3</label>
+                  <input type="hidden" id="field_img_case_3"/>
+                  <div class="flex items-center gap-2 mt-1">
+                    <button type="button" onclick="document.getElementById('file_img_case_3').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
+                      Selecionar PNG/JPG
+                    </button>
+                    <span id="status_img_case_3" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
+                    <input type="file" id="file_img_case_3" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_case_3')"/>
+                  </div>
+                </div>
+                <div class="flex justify-center">
+                  <img id="preview_img_case_3" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -839,6 +893,46 @@
                 </div>
               </div>
 
+              <!-- Accordion 7: Trabalhos Realizados -->
+              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
+                <button type="button" onclick="toggleAccordion('acc-trabalhos')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
+                  Trabalhos Realizados
+                </button>
+                <div id="acc-trabalhos" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Título da Seção</label>
+                      <input type="text" id="field_trabalhos_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo da Seção</label>
+                      <input type="text" id="field_trabalhos_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                    </div>
+                    
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2 md:col-span-2">
+                      <span class="text-xs font-bold text-primary">Caso 1: Título</span>
+                      <input type="text" id="field_case1_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <span class="text-xs font-bold text-primary">Caso 1: Descrição</span>
+                      <textarea id="field_case1_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2 md:col-span-2">
+                      <span class="text-xs font-bold text-primary">Caso 2: Título</span>
+                      <input type="text" id="field_case2_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <span class="text-xs font-bold text-primary">Caso 2: Descrição</span>
+                      <textarea id="field_case2_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+
+                    <div class="border border-slate-100 p-3 rounded-lg space-y-2 md:col-span-2">
+                      <span class="text-xs font-bold text-primary">Caso 3: Título</span>
+                      <input type="text" id="field_case3_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      <span class="text-xs font-bold text-primary">Caso 3: Descrição</span>
+                      <textarea id="field_case3_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -942,7 +1036,18 @@
       "card_bioestimulador_title": "Bioestimuladores de Colágeno",
       "card_bioestimulador_desc": "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
       "card_fios_title": "Lifting com Fios de PDO",
-      "card_fios_desc": "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local."
+      "card_fios_desc": "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
+      "trabalhos_title": "Trabalhos Realizados",
+      "trabalhos_subtitle": "Transformações sutilmente planejadas para realçar o que cada paciente tem de melhor.",
+      "case1_title": "Harmonização Orofacial",
+      "case1_desc": "Definição de contornos e volumetria sutil, respeitando a anatomia natural.",
+      "img_case_1": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800",
+      "case2_title": "Rejuvenescimento Facial",
+      "case2_desc": "Suavização de rugas dinâmicas e estímulo profundo de colágeno local.",
+      "img_case_2": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800",
+      "case3_title": "Lifting e Contorno",
+      "case3_desc": "Aplicação estratégica de fios de PDO para sustentação facial.",
+      "img_case_3": "https://images.unsplash.com/photo-1584515901367-f134706ef532?auto=format&fit=crop&q=80&w=800"
     };
 
     // Standard list of treatments initialized dynamically
@@ -1160,7 +1265,7 @@
 
     // Setup Dynamic Previews
     function setupPreviews() {
-      const imgKeys = ['img_hero', 'img_about_portrait', 'img_bio_portrait', 'img_clinica_hero', 'img_env_1', 'img_env_2', 'img_env_3'];
+      const imgKeys = ['img_hero', 'img_about_portrait', 'img_bio_portrait', 'img_clinica_hero', 'img_env_1', 'img_env_2', 'img_env_3', 'img_case_1', 'img_case_2', 'img_case_3'];
       imgKeys.forEach(k => {
         const inp = document.getElementById('field_' + k);
         const prev = document.getElementById('preview_' + k);
