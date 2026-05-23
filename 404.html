@@ -793,38 +793,57 @@
         }
       }
 
-      if (isPast) {
-        isAvailable = false;
-      }
-
-      // If available, check if there are slots that are not fully booked
+      let isFullyOccupied = false;
       if (isAvailable) {
         const activeBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
         const bookedTimes = activeBookings.map(a => a.time);
         const freeSlots = daySlots.filter(s => !bookedTimes.includes(s));
         if (freeSlots.length === 0) {
+          isFullyOccupied = true;
           isAvailable = false;
         }
       }
 
-      if (!isAvailable) {
-        // Soft red theme for unavailable days
-        dayButton.className = 'p-2 text-red-400 bg-red-50/50 border border-red-100/30 text-xs rounded-full aspect-square flex items-center justify-center cursor-not-allowed select-none';
-        dayButton.disabled = true;
+      const isSunday = weekday === 0;
+      let btnClass = 'p-2 text-xs rounded-full aspect-square flex items-center justify-center ';
+      let isDisabled = false;
+
+      if (isPast) {
+        // Past days: gray
+        btnClass += 'text-stone-400 bg-stone-100/50 border border-stone-200/30 cursor-not-allowed select-none';
+        isDisabled = true;
+      } else if (isSunday) {
+        // Sundays: red
+        btnClass += 'text-red-500 bg-red-50 border border-red-200/50 cursor-not-allowed select-none';
+        isDisabled = true;
+      } else if (!isAvailable || isFullyOccupied) {
+        // Unavailable / fully occupied: gray
+        btnClass += 'text-stone-400 bg-stone-100/50 border border-stone-200/30 cursor-not-allowed select-none';
+        isDisabled = true;
       } else {
-        // Premium bronze/gold theme for available days
-        let btnClass = 'p-2 text-black bg-gold/20 border border-gold/40 hover:bg-gold hover:text-black transition-colors text-xs font-semibold rounded-full aspect-square flex items-center justify-center cursor-pointer';
-        
-        // Highlight selected day
-        if (window.modalSelectedDate && 
-            window.modalSelectedDate.getDate() === day && 
-            window.modalSelectedDate.getMonth() === month && 
-            window.modalSelectedDate.getFullYear() === year) {
-          btnClass = 'p-2 bg-gold text-black border border-gold text-xs font-semibold rounded-full aspect-square flex items-center justify-center shadow-md';
-        }
+        // Available days: green
+        btnClass += 'text-green-800 bg-green-100 border border-green-200 hover:bg-green-200 hover:text-green-900 transition-colors cursor-pointer font-semibold';
+      }
 
-        dayButton.className = btnClass;
+      // Highlight selected day
+      if (window.modalSelectedDate && 
+          window.modalSelectedDate.getDate() === day && 
+          window.modalSelectedDate.getMonth() === month && 
+          window.modalSelectedDate.getFullYear() === year) {
+        btnClass = 'p-2 bg-primary text-white border border-primary text-xs font-semibold rounded-full aspect-square flex items-center justify-center shadow-md';
+      }
 
+      // Add blue border for current day
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      if (dateStr === todayStr) {
+        btnClass = btnClass.replace('border-stone-200/30', '').replace('border-red-200/50', '').replace('border-green-200', '').replace('border-transparent', '');
+        btnClass += ' ring-2 ring-blue-500 border-blue-500';
+      }
+
+      dayButton.className = btnClass;
+      dayButton.disabled = isDisabled;
+
+      if (!isDisabled) {
         dayButton.addEventListener('click', () => {
           window.modalSelectedDate = thisDate;
           renderModalCalendar();

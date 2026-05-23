@@ -1504,6 +1504,9 @@
       const month = currentAdminDate.getMonth();
       title.textContent = `${monthsPT[month]} ${year}`;
 
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
       const firstDayIdx = new Date(year, month, 1).getDay();
       const totalDays = new Date(year, month + 1, 0).getDate();
       const prevTotalDays = new Date(year, month, 0).getDate();
@@ -1544,17 +1547,29 @@
           }
         }
 
+        const dayBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
+
         if (!isEnabled) {
           // Blocked day background
           btn.classList.add('bg-red-50', 'text-red-400');
         } else {
           // Available day
-          btn.classList.add('bg-white', 'text-[#00236f]', 'hover:bg-slate-100', 'border-slate-100');
+          if (dayBookings.length > 0) {
+            btn.classList.add('bg-green-100', 'text-green-800', 'hover:bg-green-200', 'border-green-200');
+          } else {
+            btn.classList.add('bg-white', 'text-[#00236f]', 'hover:bg-slate-100', 'border-slate-100');
+          }
+        }
+
+        // Current day (blue border)
+        if (dateStr === todayStr) {
+          btn.classList.remove('border-transparent', 'border-slate-100', 'border-green-200');
+          btn.classList.add('border-blue-500', 'border-2');
         }
 
         // Active selection
         if (selectedDateStr === dateStr) {
-          btn.classList.remove('bg-red-50', 'text-red-400', 'bg-white', 'text-[#00236f]', 'hover:bg-slate-100');
+          btn.classList.remove('bg-red-50', 'text-red-400', 'bg-white', 'text-[#00236f]', 'hover:bg-slate-100', 'bg-green-100', 'text-green-800', 'hover:bg-green-200', 'border-green-200');
           btn.classList.add('bg-primary', 'text-white', 'border-primary');
         }
 
@@ -1564,7 +1579,6 @@
         btn.appendChild(numSpan);
 
         // Indicator dot for bookings
-        const dayBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
         if (dayBookings.length > 0) {
           const dot = document.createElement('div');
           dot.className = 'w-1 h-1 rounded-full bg-[#00236f] absolute bottom-1';
