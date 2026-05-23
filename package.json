@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/gabrieldeodato/Thais-Castejon#readme",
   "dependencies": {
-    "firebase": "^12.13.0"
+    "firebase": "^12.13.0",
+    "pngjs": "^7.0.0"
   }
 }
