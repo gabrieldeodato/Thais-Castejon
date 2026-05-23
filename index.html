@@ -1000,6 +1000,33 @@
     }
   }
 
+  function getDurationInMinutes(durationStr) {
+    if (!durationStr) return 30;
+    const clean = durationStr.toLowerCase().trim();
+    if (clean.includes("min") && !clean.includes("h")) {
+      const val = parseInt(clean.replace(/[^\d]/g, ""), 10);
+      return isNaN(val) ? 30 : val;
+    }
+    if (clean.includes("h")) {
+      const parts = clean.split("h");
+      const hours = parseInt(parts[0].replace(/[^\d]/g, ""), 10) || 0;
+      let minutes = 0;
+      if (parts[1] && parts[1].includes("min")) {
+        minutes = parseInt(parts[1].replace(/[^\d]/g, ""), 10) || 0;
+      }
+      return (hours * 60) + minutes;
+    }
+    const parsed = parseInt(clean.replace(/[^\d]/g, ""), 10);
+    return isNaN(parsed) ? 30 : parsed;
+  }
+
+  function timeToMinutes(timeStr) {
+    const parts = timeStr.split(":");
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    return (hours * 60) + minutes;
+  }
+
   function updateModalTimeSlotsUI(dateStr, daySlots, appointments) {
     const morningContainer = document.getElementById('modal-morning-slots');
     const afternoonContainer = document.getElementById('modal-afternoon-slots');
@@ -1009,10 +1036,26 @@
     afternoonContainer.innerHTML = '';
 
     const activeBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
-    const bookedTimes = activeBookings.map(a => a.time);
 
     daySlots.forEach(time => {
-      const isBooked = bookedTimes.includes(time);
+      const slotMin = timeToMinutes(time);
+      const isBooked = activeBookings.some(appt => {
+        let durationStr = "30 min";
+        if (window.siteState && window.siteState.treatments) {
+          const treatment = window.siteState.treatments.find(t => t.id === appt.treatmentId);
+          if (treatment && treatment.duration) {
+            durationStr = treatment.duration;
+          } else if (typeof treatmentDetails !== 'undefined' && treatmentDetails[appt.treatmentId]) {
+            durationStr = treatmentDetails[appt.treatmentId].duration;
+          }
+        } else if (typeof treatmentDetails !== 'undefined' && treatmentDetails[appt.treatmentId]) {
+          durationStr = treatmentDetails[appt.treatmentId].duration;
+        }
+        const startMin = timeToMinutes(appt.time);
+        const durationMin = getDurationInMinutes(durationStr);
+        return slotMin >= startMin && slotMin < (startMin + durationMin);
+      });
+
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.textContent = time;
@@ -1283,45 +1326,65 @@
   };
 
   window.goToSlide = function(index) {
-    const isMobile = window.innerWidth < 768;
-    const itemsToShow = isMobile ? 1 : 2;
-    const totalItems = 3;
-    const maxIndex = totalItems - itemsToShow;
-    
-    let targetIndex = index;
-    if (targetIndex > maxIndex) targetIndex = maxIndex;
-    
-    window.slideClinica(targetIndex - currentClinicaIndex);
+    const carousel = document.getElementById('clinica-carousel');
+    if (!carousel) return;
+    const itemWidth = carousel.firstElementChild.offsetWidth + 24;
+    carousel.classList.add('scroll-smooth');
+    carousel.scrollTo({
+      left: (index + 3) * itemWidth,
+      behavior: 'smooth'
+    });
   };
 
   // Drag-to-scroll, auto-play, and loop logic for Clinica Carousel
   document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.getElementById('clinica-carousel');
     if (carousel) {
-      // Assign original indexes for dots
-      const items = carousel.querySelectorAll('.shrink-0');
-      items.forEach((item, index) => item.setAttribute('data-original-index', index));
+      const originalItems = Array.from(carousel.children);
+      if (originalItems.length === 0) return;
+      
+      const totalOriginal = originalItems.length;
+      
+      // Tag original indexes
+      originalItems.forEach((item, index) => {
+        item.setAttribute('data-original-index', index);
+      });
 
       // Prevent native browser dragging of images/text inside the carousel
       carousel.addEventListener('dragstart', (e) => e.preventDefault());
-
+      
+      // Clone all slides (3 prepended, 3 appended)
+      const prependClones = originalItems.map(item => item.cloneNode(true));
+      const appendClones = originalItems.map(item => item.cloneNode(true));
+      
+      // Prepend so that they appear as Room 1, Room 2, Room 3
+      for (let i = prependClones.length - 1; i >= 0; i--) {
+        carousel.prepend(prependClones[i]);
+      }
+      // Append in order
+      appendClones.forEach(clone => carousel.appendChild(clone));
+      
       let isDown = false;
-      let startX;
-      let scrollLeft;
+      let lastX = 0;
       let autoPlayInterval;
       
+      // Force initial scroll position to Index 3 (Item 0) without smooth transition
+      const initScrollPosition = () => {
+        const itemWidth = carousel.firstElementChild.offsetWidth + 24;
+        carousel.classList.remove('scroll-smooth');
+        carousel.scrollLeft = 3 * itemWidth;
+      };
+      
+      // Wait for layout to calculate dimensions
+      setTimeout(initScrollPosition, 100);
+      window.addEventListener('resize', initScrollPosition);
+
       const startAutoPlay = () => {
         stopAutoPlay();
         autoPlayInterval = setInterval(() => {
-          if (carousel.children.length === 0) return;
           const itemWidth = carousel.firstElementChild.offsetWidth + 24;
-          const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-          
-          if (carousel.scrollLeft >= maxScroll - 15) {
-            carousel.scrollTo({ left: 0, behavior: 'smooth' });
-          } else {
-            carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
-          }
+          carousel.classList.add('scroll-smooth');
+          carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
         }, 4000);
       };
 
@@ -1331,41 +1394,47 @@
         }
       };
 
+      const snapToNearest = () => {
+        const itemWidth = carousel.firstElementChild.offsetWidth + 24;
+        const scrollPos = carousel.scrollLeft;
+        const nearestIndex = Math.round(scrollPos / itemWidth);
+        carousel.classList.add('scroll-smooth');
+        carousel.scrollTo({
+          left: nearestIndex * itemWidth,
+          behavior: 'smooth'
+        });
+      };
+
       carousel.addEventListener('mousedown', (e) => {
         isDown = true;
         stopAutoPlay();
         carousel.classList.remove('scroll-smooth');
-        startX = e.pageX - carousel.offsetLeft;
-        scrollLeft = carousel.scrollLeft;
+        lastX = e.pageX;
       });
 
       carousel.addEventListener('mouseleave', () => {
-        isDown = false;
-        carousel.classList.add('scroll-smooth');
+        if (isDown) {
+          isDown = false;
+          snapToNearest();
+        }
         startAutoPlay();
       });
 
       carousel.addEventListener('mouseup', () => {
-        isDown = false;
-        carousel.classList.add('scroll-smooth');
-        
-        // Loop around smoothly when drag ends near boundaries
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-        if (carousel.scrollLeft >= maxScroll - 15) {
-          carousel.scrollTo({ left: 0, behavior: 'smooth' });
-        } else if (carousel.scrollLeft <= 15) {
-          carousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        if (isDown) {
+          isDown = false;
+          snapToNearest();
         }
-        
         startAutoPlay();
       });
 
       carousel.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
-        const x = e.pageX - carousel.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        carousel.scrollLeft = scrollLeft - walk;
+        const x = e.pageX;
+        const walk = x - lastX;
+        carousel.scrollLeft -= walk * 1.5;
+        lastX = x;
       });
 
       // Touch events support for mobile devices autoplay pause/resume
@@ -1377,19 +1446,30 @@
         startAutoPlay();
       }, { passive: true });
 
-      // Wrap-around and Dots sync on scroll
+      // Wrap-around on scroll
       carousel.addEventListener('scroll', () => {
         if (carousel.children.length === 0) return;
         const itemWidth = carousel.firstElementChild.offsetWidth + 24;
         
+        // Wrap around seamlessly using relative offsets
+        if (carousel.scrollLeft >= 6 * itemWidth) {
+          carousel.classList.remove('scroll-smooth');
+          carousel.scrollLeft -= 3 * itemWidth;
+        } else if (carousel.scrollLeft < 3 * itemWidth) {
+          carousel.classList.remove('scroll-smooth');
+          carousel.scrollLeft += 3 * itemWidth;
+        }
+
         // Update dots based on scroll position
         const dots = document.getElementById('clinica-dots')?.children;
         if (dots) {
           const scrollPos = carousel.scrollLeft;
-          const activeIndex = Math.round(scrollPos / itemWidth);
+          const activeIndex = Math.round(scrollPos / itemWidth) - 3;
+          let dotIndex = activeIndex % 3;
+          if (dotIndex < 0) dotIndex += 3;
 
           for (let i = 0; i < dots.length; i++) {
-            if (i === activeIndex) {
+            if (i === dotIndex) {
               dots[i].classList.add('bg-gold');
               dots[i].classList.remove('bg-slate-300');
             } else {
@@ -1449,7 +1529,7 @@
       shortDesc: "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
       description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
       indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
-      duration: "Cerca de 30 minutos",
+      duration: "30 min",
       recovery: "Imediata (evitar esforço nas primeiras 4 horas)",
       featured: true
     },
@@ -1463,7 +1543,7 @@
       shortDesc: "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
       description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
       indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
-      duration: "30 a 60 minutos",
+      duration: "1h",
       recovery: "Praticamente imediata (leve inchaço transitório)",
       featured: true
     },
@@ -1477,7 +1557,7 @@
       shortDesc: "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
       description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
       indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
-      duration: "30 a 45 minutos",
+      duration: "1h",
       recovery: "Rápida (retorno imediato às atividades normais)",
       featured: true
     },
@@ -1491,7 +1571,7 @@
       shortDesc: "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
       description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
       indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
-      duration: "45 a 60 minutos",
+      duration: "1h",
       recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)",
       featured: true
     },
@@ -1505,7 +1585,7 @@
       shortDesc: "Tratamento injetável que revitaliza a pele de dentro para fora, melhorando a elasticidade, firmeza e o viço natural do rosto, pescoço e colo.",
       description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
       indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
-      duration: "Cerca de 30 minutos",
+      duration: "30 min",
       recovery: "Imediata (pequenas pápulas podem durar até 24 horas)",
       featured: false
     },
@@ -1519,7 +1599,7 @@
       shortDesc: "Clareamento a Laser Profissional e Lentes de Contato em Porcelana para um sorriso radiante e harmônico.",
       description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
       indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastadas ou lascados.",
-      duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
+      duration: "1h",
       recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)",
       featured: false
     }

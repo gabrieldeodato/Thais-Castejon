@@ -838,6 +838,33 @@
     }
   }
 
+  function getDurationInMinutes(durationStr) {
+    if (!durationStr) return 30;
+    const clean = durationStr.toLowerCase().trim();
+    if (clean.includes("min") && !clean.includes("h")) {
+      const val = parseInt(clean.replace(/[^\d]/g, ""), 10);
+      return isNaN(val) ? 30 : val;
+    }
+    if (clean.includes("h")) {
+      const parts = clean.split("h");
+      const hours = parseInt(parts[0].replace(/[^\d]/g, ""), 10) || 0;
+      let minutes = 0;
+      if (parts[1] && parts[1].includes("min")) {
+        minutes = parseInt(parts[1].replace(/[^\d]/g, ""), 10) || 0;
+      }
+      return (hours * 60) + minutes;
+    }
+    const parsed = parseInt(clean.replace(/[^\d]/g, ""), 10);
+    return isNaN(parsed) ? 30 : parsed;
+  }
+
+  function timeToMinutes(timeStr) {
+    const parts = timeStr.split(":");
+    const hours = parseInt(parts[0], 10);
+    const minutes = parseInt(parts[1], 10);
+    return (hours * 60) + minutes;
+  }
+
   function updateModalTimeSlotsUI(dateStr, daySlots, appointments) {
     const morningContainer = document.getElementById('modal-morning-slots');
     const afternoonContainer = document.getElementById('modal-afternoon-slots');
@@ -847,10 +874,26 @@
     afternoonContainer.innerHTML = '';
 
     const activeBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
-    const bookedTimes = activeBookings.map(a => a.time);
 
     daySlots.forEach(time => {
-      const isBooked = bookedTimes.includes(time);
+      const slotMin = timeToMinutes(time);
+      const isBooked = activeBookings.some(appt => {
+        let durationStr = "30 min";
+        if (window.siteState && window.siteState.treatments) {
+          const treatment = window.siteState.treatments.find(t => t.id === appt.treatmentId);
+          if (treatment && treatment.duration) {
+            durationStr = treatment.duration;
+          } else if (typeof treatmentDetails !== 'undefined' && treatmentDetails[appt.treatmentId]) {
+            durationStr = treatmentDetails[appt.treatmentId].duration;
+          }
+        } else if (typeof treatmentDetails !== 'undefined' && treatmentDetails[appt.treatmentId]) {
+          durationStr = treatmentDetails[appt.treatmentId].duration;
+        }
+        const startMin = timeToMinutes(appt.time);
+        const durationMin = getDurationInMinutes(durationStr);
+        return slotMin >= startMin && slotMin < (startMin + durationMin);
+      });
+
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.textContent = time;
@@ -980,7 +1023,7 @@
       icon: "face_retouching_natural",
       description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
       indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
-      duration: "Cerca de 30 minutos",
+      duration: "30 min",
       recovery: "Imediata (evitar esforço nas primeiras 4 horas)"
     },
     preenchimento: {
@@ -989,7 +1032,7 @@
       icon: "psychiatry",
       description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
       indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
-      duration: "30 a 60 minutos",
+      duration: "1h",
       recovery: "Praticamente imediata (leve inchaço transitório)"
     },
     bioestimulador: {
@@ -998,7 +1041,7 @@
       icon: "spa",
       description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
       indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
-      duration: "30 a 45 minutos",
+      duration: "1h",
       recovery: "Rápida (retorno imediato às atividades normais)"
     },
     fios: {
@@ -1007,7 +1050,7 @@
       icon: "healing",
       description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
       indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
-      duration: "45 a 60 minutos",
+      duration: "1h",
       recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)"
     },
     skinbooster: {
@@ -1016,7 +1059,7 @@
       icon: "water_drop",
       description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
       indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
-      duration: "Cerca de 30 minutos",
+      duration: "30 min",
       recovery: "Imediata (pequenas pápulas podem durar até 24 horas)"
     },
     dental: {
@@ -1025,7 +1068,7 @@
       icon: "medical_services",
       description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
       indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastados ou lascados.",
-      duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
+      duration: "1h",
       recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)"
     }
   };
@@ -1283,7 +1326,7 @@
       shortDesc: "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
       description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
       indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
-      duration: "Cerca de 30 minutos",
+      duration: "30 min",
       recovery: "Imediata (evitar esforço nas primeiras 4 horas)",
       featured: true
     },
@@ -1297,7 +1340,7 @@
       shortDesc: "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
       description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
       indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
-      duration: "30 a 60 minutos",
+      duration: "1h",
       recovery: "Praticamente imediata (leve inchaço transitório)",
       featured: true
     },
@@ -1311,7 +1354,7 @@
       shortDesc: "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
       description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
       indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
-      duration: "30 a 45 minutos",
+      duration: "1h",
       recovery: "Rápida (retorno imediato às atividades normais)",
       featured: true
     },
@@ -1325,7 +1368,7 @@
       shortDesc: "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
       description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
       indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
-      duration: "45 a 60 minutos",
+      duration: "1h",
       recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)",
       featured: true
     },
@@ -1339,7 +1382,7 @@
       shortDesc: "Tratamento injetável que revitaliza a pele de dentro para fora, melhorando a elasticidade, firmeza e o viço natural do rosto, pescoço e colo.",
       description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
       indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
-      duration: "Cerca de 30 minutos",
+      duration: "30 min",
       recovery: "Imediata (pequenas pápulas podem durar até 24 horas)",
       featured: false
     },
@@ -1353,7 +1396,7 @@
       shortDesc: "Clareamento a Laser Profissional e Lentes de Contato em Porcelana para um sorriso radiante e harmônico.",
       description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
       indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastadas ou lascados.",
-      duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
+      duration: "1h",
       recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)",
       featured: false
     }

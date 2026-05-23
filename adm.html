@@ -203,7 +203,39 @@
                       <span class="text-xs font-bold text-secondary uppercase tracking-wider block">Horários Habilitados neste Dia:</span>
                       <div id="selected-day-slots-list" class="grid grid-cols-3 gap-2"></div>
                       <div class="flex gap-2 pt-1">
-                        <input type="text" id="add-custom-day-slot-val" class="flex-grow rounded-full border border-slate-200 text-xs px-3 py-1.5 focus:ring-1 focus:ring-primary" placeholder="Adicionar ex: 12:00"/>
+                        <select id="add-custom-day-slot-val" class="flex-grow rounded-full border border-slate-200 text-xs px-3 py-1.5 focus:ring-1 focus:ring-primary bg-white">
+                          <option value="06:00">06:00</option>
+                          <option value="06:30">06:30</option>
+                          <option value="07:00">07:00</option>
+                          <option value="07:30">07:30</option>
+                          <option value="08:00">08:00</option>
+                          <option value="08:30">08:30</option>
+                          <option value="09:00">09:00</option>
+                          <option value="09:30">09:30</option>
+                          <option value="10:00">10:00</option>
+                          <option value="10:30">10:30</option>
+                          <option value="11:00">11:00</option>
+                          <option value="11:30">11:30</option>
+                          <option value="12:00">12:00</option>
+                          <option value="12:30">12:30</option>
+                          <option value="13:00">13:00</option>
+                          <option value="13:30">13:30</option>
+                          <option value="14:00">14:00</option>
+                          <option value="14:30">14:30</option>
+                          <option value="15:00">15:00</option>
+                          <option value="15:30">15:30</option>
+                          <option value="16:00">16:00</option>
+                          <option value="16:30">16:30</option>
+                          <option value="17:00">17:00</option>
+                          <option value="17:30">17:30</option>
+                          <option value="18:00">18:00</option>
+                          <option value="18:30">18:30</option>
+                          <option value="19:00">19:00</option>
+                          <option value="19:30">19:30</option>
+                          <option value="20:00">20:00</option>
+                          <option value="20:30">20:30</option>
+                          <option value="21:00">21:00</option>
+                        </select>
                         <button type="button" onclick="addCustomDaySlot()" class="bg-primary text-white text-xs px-4 py-1.5 rounded-full font-bold hover:opacity-90 transition-opacity">Add</button>
                       </div>
                     </div>
@@ -244,7 +276,39 @@
                 <div id="general-default-slots-list" class="grid grid-cols-4 gap-2 py-2 max-h-48 overflow-y-auto pr-1"></div>
                 
                 <div class="flex gap-2 pt-2 border-t border-slate-200/50">
-                  <input type="text" id="add-default-slot-val" class="flex-grow rounded-full border border-slate-200 text-sm px-4 py-2 focus:ring-1 focus:ring-primary" placeholder="Novo horário (ex: 13:30)"/>
+                  <select id="add-default-slot-val" class="flex-grow rounded-full border border-slate-200 text-sm px-4 py-2 focus:ring-1 focus:ring-primary bg-white">
+                    <option value="06:00">06:00</option>
+                    <option value="06:30">06:30</option>
+                    <option value="07:00">07:00</option>
+                    <option value="07:30">07:30</option>
+                    <option value="08:00">08:00</option>
+                    <option value="08:30">08:30</option>
+                    <option value="09:00">09:00</option>
+                    <option value="09:30">09:30</option>
+                    <option value="10:00">10:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:00">11:00</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:00">15:00</option>
+                    <option value="15:30">15:30</option>
+                    <option value="16:00">16:00</option>
+                    <option value="16:30">16:30</option>
+                    <option value="17:00">17:00</option>
+                    <option value="17:30">17:30</option>
+                    <option value="18:00">18:00</option>
+                    <option value="18:30">18:30</option>
+                    <option value="19:00">19:00</option>
+                    <option value="19:30">19:30</option>
+                    <option value="20:00">20:00</option>
+                    <option value="20:30">20:30</option>
+                    <option value="21:00">21:00</option>
+                  </select>
                   <button type="button" onclick="addDefaultGeneralSlot()" class="bg-primary text-white text-xs px-6 py-2 rounded-full font-bold hover:opacity-90 transition-opacity">Adicionar</button>
                 </div>
               </div>
@@ -324,7 +388,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Duração do Procedimento</label>
-                    <input type="text" id="crud_t_duration" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="Cerca de 40 minutos" required/>
+                    <select id="crud_t_duration" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary bg-white" required>
+                      <option value="30 min">30 min</option>
+                      <option value="1h">1h</option>
+                      <option value="1h 30min">1h 30min</option>
+                      <option value="2h">2h</option>
+                      <option value="2h 30min">2h 30min</option>
+                      <option value="3h">3h</option>
+                      <option value="3h 30min">3h 30min</option>
+                      <option value="4h">4h</option>
+                      <option value="4h 30min">4h 30min</option>
+                      <option value="5h">5h</option>
+                    </select>
                   </div>
                   <div>
                     <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Período de Recuperação</label>
@@ -1062,7 +1137,7 @@
         shortDesc: "Suavização de rugas dinâmicas e linhas de expressão, proporcionando um rosto descansado e rejuvenescido com naturalidade e precisão.",
         description: "A aplicação de toxina botulínica atua relaxando temporariamente os músculos faciais responsáveis pelas rugas de expressão. É indicada para suavizar as linhas da testa, 'pés de galinha' ao redor dos olhos e rugas entre as sobrancelhas, promovendo um rosto descansado e rejuvenescido sem perder a naturalidade.",
         indications: "Rugas na testa, linhas ao redor dos olhos, rugas entre as sobrancelhas (glabela), sorriso gengival.",
-        duration: "Cerca de 30 minutos",
+        duration: "30 min",
         recovery: "Imediata (evitar esforço nas primeiras 4 horas)",
         featured: true
       },
@@ -1076,7 +1151,7 @@
         shortDesc: "Restauração de volume, contorno labial e harmonização estrutural com ácido hialurônico de alta tecnologia.",
         description: "O preenchimento com ácido hialurônico é utilizado para devolver volume perdido pelo envelhecimento, preencher sulcos (como o bigode chinês) e harmonizar os contornos da face, incluindo lábios, olheiras, mandíbula, queixo e maçãs do rosto. É uma substância naturalmente presente no organismo, garantindo total biocompatibilidade.",
         indications: "Perda de volume facial, lábios finos ou sem definição, sulcos profundos (bigode chinês), olheiras profundas, contorno mandibular.",
-        duration: "30 a 60 minutos",
+        duration: "1h",
         recovery: "Praticamente imediata (leve inchaço transitório)",
         featured: true
       },
@@ -1090,7 +1165,7 @@
         shortDesc: "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
         description: "Os bioestimuladores de colágeno (como Sculptra, Radiesse e Elleva) são substâncias aplicadas sob a pele que estimulam as células do próprio corpo a produzirem colágeno novo de forma contínua. Isso melhora drasticamente a firmeza, elasticidade e espessura da pele, combatendo a flacidez facial e corporal de dentro para fora.",
         indications: "Flacidez facial, perda de firmeza na pele, perda de contorno do rosto, melhora da textura cutânea.",
-        duration: "30 a 45 minutos",
+        duration: "1h",
         recovery: "Rápida (retorno imediato às atividades normais)",
         featured: true
       },
@@ -1104,7 +1179,7 @@
         shortDesc: "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
         description: "Os Fios de PDO (Polidioxanona) são fios biodegradáveis inseridos sob a pele para promover duas ações principais: efeito de sustentação mecânica imediata (lifting) através dos fios espiculados, e estímulo biológico contínuo de colágeno à medida que os fios são absorvidos pelo organismo. Uma alternativa excelente e não cirúrgica.",
         indications: "Queda da bochecha (efeito bulldog), flacidez no pescoço, sobrancelhas caídas, perda da definição da mandíbula.",
-        duration: "45 a 60 minutos",
+        duration: "1h",
         recovery: "3 a 7 dias (evitar exercícios físicos na primeira semana)",
         featured: true
       },
@@ -1118,7 +1193,7 @@
         shortDesc: "Tratamento injetável que revitaliza a pele de dentro para fora, melhorando a elasticidade, firmeza e o viço natural do rosto, pescoço e colo.",
         description: "O Skinbooster aplica ácido hialurônico de baixa densidade (fluido) nas camadas intermediárias da pele. Diferente dos preenchedores tradicionais, ele não adiciona volume, mas atrai moléculas de água, restaurando profundamente a hidratação, maciez, viço e elasticidade da pele, além de suavizar finas linhas.",
         indications: "Pele desidratada, opaca, sem viço, linhas finas ao redor dos olhos e boca, perda de elasticidade geral.",
-        duration: "Cerca de 30 minutos",
+        duration: "30 min",
         recovery: "Imediata (pequenas pápulas podem durar até 24 hours)",
         featured: false
       },
@@ -1132,7 +1207,7 @@
         shortDesc: "Clareamento a Laser Profissional e Lentes de Contato em Porcelana para um sorriso radiante e harmônico.",
         description: "A Odontologia Estética Premium engloba o Clareamento a Laser Profissional e as Lentes de Contato em Porcelana. O clareamento elimina manchas profundas com segurança. As lentes de porcelana são facetas ultrafinas aplicadas sobre os dentes, corrigindo formato, coloração, desgaste e desalinhamentos leves com máxima durabilidade.",
         indications: "Dentes escurecidos ou manchados, desalinhados, pequenos espaços (diastemas), dentes desgastados ou lascados.",
-        duration: "Clareamento: 1h por sessão. Lentes: 2 a 3 consultas.",
+        duration: "1h",
         recovery: "Imediata (eventual sensibilidade por 24-48h no clareamento)",
         featured: false
       }
