@@ -1302,6 +1302,9 @@
       const items = carousel.querySelectorAll('.shrink-0');
       items.forEach((item, index) => item.setAttribute('data-original-index', index));
 
+      // Prevent native browser dragging of images/text inside the carousel
+      carousel.addEventListener('dragstart', (e) => e.preventDefault());
+
       let isDown = false;
       let startX;
       let scrollLeft;
