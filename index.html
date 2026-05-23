@@ -190,6 +190,29 @@
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
         }
+        /* Custom scrollbar for modals to keep them clean and inside */
+        #booking-modal-scroll::-webkit-scrollbar,
+        #catalog-modal-scroll::-webkit-scrollbar,
+        #detail-modal-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        #booking-modal-scroll::-webkit-scrollbar-track,
+        #catalog-modal-scroll::-webkit-scrollbar-track,
+        #detail-modal-scroll::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 16px 0;
+        }
+        #booking-modal-scroll::-webkit-scrollbar-thumb,
+        #catalog-modal-scroll::-webkit-scrollbar-thumb,
+        #detail-modal-scroll::-webkit-scrollbar-thumb {
+            background-color: rgba(217, 200, 157, 0.4);
+            border-radius: 9999px;
+        }
+        #booking-modal-scroll::-webkit-scrollbar-thumb:hover,
+        #catalog-modal-scroll::-webkit-scrollbar-thumb:hover,
+        #detail-modal-scroll::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(217, 200, 157, 0.7);
+        }
     </style>
 <style>
     body {
@@ -270,7 +293,7 @@
   <div class="max-w-container-max mx-auto px-5 md:px-gutter text-center">
     <!-- Title -->
     <h2 class="text-3xl md:text-5xl font-headline-display text-primary uppercase tracking-wide mb-12">
-      Nossa estrutura!
+      Nossa estrutura
     </h2>
     
     <!-- Carousel Wrapper -->
@@ -345,7 +368,6 @@
   <div class="max-w-container-max mx-auto px-gutter">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
       <div class="order-2 md:order-1 relative">
-        <div class="absolute inset-0 bg-secondary-fixed/50 rounded-xl transform -translate-x-4 translate-y-4"></div>
         <div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden shadow-sm z-10">
           <img data-edit-key="img_about_portrait" alt="Dra. Thais Castejon" class="w-full h-full object-cover relative z-10 aspect-[3/4] grayscale-[20%]" data-alt="A sophisticated portrait of a professional female doctor in a crisp white clinical coat, standing in a serene, brightly lit aesthetic clinic. The environment is minimalist and high-end, characterized by white tones and soft natural light. Subtle deep blue branding elements are visible in the blurred background. The overall mood conveys clinical authority, elegance, and trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9zRA7H7P1cHhMfpDzExI_xhBv3tehfHizDIL9w0h7mWXYtT8CZ6axytzacGGXDIiVqb4QbOncCWWyol9_VzQa_TTiLNGW7a1jGM6LKpiRAuU1tP5vTGOjFFBGjhiLKJTRv7wGAtphaUGZVDrLmiQK7XjpAHZG6IKKQgs8ZjU6SI1h-Rlxuc2PRfr4yFJZwUj09O41AsvURLPeBh1VLltqpNvrevu6G-8Q6a1oAjwFYs679hJ6REpkQ5VhUgEDTjARWTSn4zZXMX5f"/>
         </div>
@@ -417,9 +439,7 @@
   <div class="max-w-container-max mx-auto px-gutter">
     <!-- Header -->
     <div class="mb-12 text-center max-w-2xl mx-auto">
-      <span class="inline-block text-label-caps font-label-caps text-gold border border-gold/30 px-3 py-1 rounded-full mb-4">Fale Conosco</span>
-      <h2 data-edit-key="contato_hero_title" class="text-headline-lg-mobile md:text-headline-lg font-headline-display text-primary uppercase mb-2">Contato</h2>
-      <p data-edit-key="contato_hero_subtitle" class="text-body-md text-secondary">Agende uma consulta ou faça-nos uma visita em nosso consultório.</p>
+      <h2 data-edit-key="contato_hero_title" class="text-headline-lg-mobile md:text-headline-lg font-headline-display text-gold uppercase mb-2">Contato</h2>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -456,7 +476,7 @@
       </div>
 
       <!-- Right Column: Contact info details -->
-      <div class="bg-sterile-white rounded-xl border border-accent-border p-6 shadow-sm flex flex-col justify-between h-full space-y-8">
+      <div class="flex flex-col justify-center h-full space-y-8 py-4">
         <div class="space-y-6">
           <!-- WhatsApp -->
           <div class="flex items-center gap-4">
@@ -464,8 +484,8 @@
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
             </div>
             <div>
-              <p class="text-xs font-label-caps text-black font-bold">WhatsApp Direct</p>
-              <a data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="text-body-md font-semibold text-primary hover:underline">(21) 98292-1357</a>
+              <p class="text-xs font-label-caps text-gold font-bold">WhatsApp Direct</p>
+              <a data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="text-body-md font-semibold text-white hover:text-gold transition-colors hover:underline">(21) 98292-1357</a>
             </div>
           </div>
 
@@ -475,8 +495,8 @@
               <span class="material-symbols-outlined">mail</span>
             </div>
             <div>
-              <p class="text-xs font-label-caps text-black font-bold">E-mail de Contato</p>
-              <a data-edit-key="clinic_email" href="mailto:contato@drathaiscastejon.com.br" class="text-body-md font-semibold text-primary hover:underline">contato@drathaiscastejon.com.br</a>
+              <p class="text-xs font-label-caps text-gold font-bold">E-mail de Contato</p>
+              <a data-edit-key="clinic_email" href="mailto:contato@drathaiscastejon.com.br" class="text-body-md font-semibold text-white hover:text-gold transition-colors hover:underline">contato@drathaiscastejon.com.br</a>
             </div>
           </div>
 
@@ -486,15 +506,15 @@
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
             </div>
             <div>
-              <p class="text-xs font-label-caps text-black font-bold">Instagram</p>
-              <a data-edit-key="clinic_instagram" href="https://instagram.com/dra.thaiscastejon" target="_blank" class="text-body-md font-semibold text-primary hover:underline">@dra.thaiscastejon</a>
+              <p class="text-xs font-label-caps text-gold font-bold">Instagram</p>
+              <a data-edit-key="clinic_instagram" href="https://instagram.com/dra.thaiscastejon" target="_blank" class="text-body-md font-semibold text-white hover:text-gold transition-colors hover:underline">@dra.thaiscastejon</a>
             </div>
           </div>
         </div>
 
         <!-- Call to Action button -->
-        <div class="pt-6 border-t border-stone-200">
-          <button onclick="openBookingModal()" class="w-full bg-primary hover:bg-primary-hover text-white font-bold text-button font-button py-4 rounded-full transition-colors shadow-sm">
+        <div class="pt-6 border-t border-white/10">
+          <button onclick="openBookingModal()" class="w-full bg-gold hover:bg-gold-hover text-white font-bold text-button font-button py-4 rounded-full transition-colors shadow-sm">
             AGENDAR CONSULTA
           </button>
         </div>
@@ -561,14 +581,14 @@
 
 <!-- Booking Modal -->
 <div id="booking-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-  <div class="bg-sterile-white rounded-xl max-w-2xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+  <div class="bg-sterile-white rounded-xl max-w-2xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
     <!-- Close Button -->
-    <button onclick="closeBookingModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none" type="button">
+    <button onclick="closeBookingModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none z-30" type="button">
       <span class="material-symbols-outlined text-2xl">close</span>
     </button>
 
-    <!-- Modal Content -->
-    <div class="p-6 md:p-8">
+    <!-- Scrollable content wrapper inside -->
+    <div id="booking-modal-scroll" class="overflow-y-auto p-6 md:p-8 pr-8 md:pr-10 h-full w-full">
       <!-- Title -->
       <div class="text-center mb-8 pr-8">
         <h2 class="text-headline-md font-headline-md text-black mb-2">Agendar Consulta</h2>
@@ -583,14 +603,14 @@
             <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold/10 text-gold border border-gold/30 text-sm font-bold">1</span>
             Tratamento
           </h3>
-          <div class="relative border-b border-stone-300 focus-within:border-gold transition-colors">
+          <div class="relative border border-stone-300 rounded-full px-5 py-0.5 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold bg-white transition-all">
             <style>
               #modal-treatment-select {
                 background-image: none !important;
                 background-position: unset !important;
                 background-repeat: unset !important;
                 background-size: unset !important;
-                padding-right: 2rem !important;
+                padding-right: 2.5rem !important;
                 -webkit-appearance: none !important;
                 -moz-appearance: none !important;
                 appearance: none !important;
@@ -606,7 +626,7 @@
               <option value="dental" class="text-black bg-white">Tratamento Dentário (Clareamento / Lentes)</option>
               <option value="avaliacao" class="text-black bg-white">Avaliação Geral</option>
             </select>
-            <span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-black pointer-events-none">expand_more</span>
+            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-black pointer-events-none">expand_more</span>
           </div>
         </div>
 
@@ -715,23 +735,22 @@
           Entendido, obrigado!
         </button>
       </div>
-    </div>
+    </div> <!-- Closes booking-modal-scroll -->
   </div>
 </div>
 
 
 <!-- Catalog Modal (All Treatments) -->
 <div id="catalog-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-  <div class="bg-sterile-white rounded-2xl max-w-6xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+  <div class="bg-sterile-white rounded-2xl max-w-6xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
     <!-- Close Button -->
-    <button onclick="closeCatalogModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none" type="button">
+    <button onclick="closeCatalogModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none z-30" type="button">
       <span class="material-symbols-outlined text-2xl">close</span>
     </button>
 
-    <!-- Modal Content -->
-    <div class="p-6 md:p-10">
+    <!-- Scrollable content wrapper inside -->
+    <div id="catalog-modal-scroll" class="overflow-y-auto p-6 md:p-10 pr-8 md:pr-12 h-full w-full">
       <div class="text-center mb-8 max-w-2xl mx-auto">
-        <span class="inline-block text-label-caps font-label-caps text-gold border border-gold/30 px-3 py-1 rounded-full mb-3">Catálogo Completo</span>
         <h2 data-edit-key="tratamentos_hero_title" class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-black text-2xl md:text-3xl">Nossos Tratamentos</h2>
         <p data-edit-key="tratamentos_hero_subtitle" class="text-body-md text-black mt-2 font-normal">
           Procedimentos de alta performance em estética orofacial e dermatologia clínica.
@@ -746,21 +765,22 @@
           Fechar Catálogo
         </button>
       </div>
-    </div>
+      </div>
+    </div> <!-- Closes catalog-modal-scroll -->
   </div>
 </div>
 
 
 <!-- Detail Modal -->
 <div id="detail-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-  <div class="bg-sterile-white rounded-2xl max-w-xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+  <div class="bg-sterile-white rounded-2xl max-w-xl w-full border border-accent-border shadow-2xl relative max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
     <!-- Close Button -->
-    <button onclick="closeDetailModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none" type="button">
+    <button onclick="closeDetailModal()" class="absolute right-6 top-6 text-black hover:text-gold transition-colors focus:outline-none z-30" type="button">
       <span class="material-symbols-outlined text-2xl">close</span>
     </button>
 
-    <!-- Modal Content -->
-    <div class="p-6 md:p-8">
+    <!-- Scrollable content wrapper inside -->
+    <div id="detail-modal-scroll" class="overflow-y-auto p-6 md:p-8 pr-8 md:pr-10 h-full w-full">
       <div class="mb-6">
         <div class="hidden">
           <span id="detail-modal-icon">spa</span>
@@ -800,7 +820,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> <!-- Closes detail-modal-scroll -->
   </div>
 </div>
 
@@ -1274,28 +1294,57 @@
     window.slideClinica(targetIndex - currentClinicaIndex);
   };
 
-  // Drag-to-scroll & dot sync logic for Clinica Carousel
+  // Drag-to-scroll, auto-play, and loop logic for Clinica Carousel
   document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.getElementById('clinica-carousel');
     if (carousel) {
       let isDown = false;
       let startX;
       let scrollLeft;
+      let autoPlayInterval;
+      
+      const startAutoPlay = () => {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(() => {
+          const items = carousel.querySelectorAll('.shrink-0');
+          if (items.length === 0) return;
+          const itemWidth = items[0].offsetWidth + 24;
+          const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+          
+          if (carousel.scrollLeft >= maxScroll - 10) {
+            carousel.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            carousel.scrollBy({ left: itemWidth, behavior: 'smooth' });
+          }
+        }, 4000);
+      };
+
+      const stopAutoPlay = () => {
+        if (autoPlayInterval) {
+          clearInterval(autoPlayInterval);
+        }
+      };
 
       carousel.addEventListener('mousedown', (e) => {
         isDown = true;
+        stopAutoPlay();
         carousel.classList.remove('scroll-smooth');
         startX = e.pageX - carousel.offsetLeft;
         scrollLeft = carousel.scrollLeft;
       });
+
       carousel.addEventListener('mouseleave', () => {
         isDown = false;
         carousel.classList.add('scroll-smooth');
+        startAutoPlay();
       });
+
       carousel.addEventListener('mouseup', () => {
         isDown = false;
         carousel.classList.add('scroll-smooth');
+        startAutoPlay();
       });
+
       carousel.addEventListener('mousemove', (e) => {
         if (!isDown) return;
         e.preventDefault();
@@ -1304,7 +1353,17 @@
         carousel.scrollLeft = scrollLeft - walk;
       });
 
-      // Update dots on scroll
+      // Touch events support for mobile devices autoplay pause/resume
+      carousel.addEventListener('touchstart', () => {
+        stopAutoPlay();
+      }, { passive: true });
+
+      carousel.addEventListener('touchend', () => {
+        startAutoPlay();
+      }, { passive: true });
+
+      // Wrap-around on manual scroll drag past boundaries
+      let wrapTimeout;
       carousel.addEventListener('scroll', () => {
         const dots = document.getElementById('clinica-dots')?.children;
         if (!dots) return;
@@ -1323,7 +1382,21 @@
             dots[i].classList.add('bg-slate-300');
           }
         }
+
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+        if (isDown) {
+          clearTimeout(wrapTimeout);
+          wrapTimeout = setTimeout(() => {
+            if (carousel.scrollLeft >= maxScroll + 50) {
+              carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (carousel.scrollLeft <= -50) {
+              carousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            }
+          }, 100);
+        }
       });
+
+      startAutoPlay();
     }
   });
 </script>
@@ -1577,7 +1650,7 @@
           <div class="p-6 md:p-8 flex flex-col flex-grow">
             <h3 class="text-headline-md font-headline-md text-black font-bold text-lg md:text-xl mb-3">${t.title}</h3>
             <p class="text-body-md font-body-md text-black/80 text-sm mb-6 flex-grow leading-relaxed">${t.shortDesc || t.description}</p>
-            <a class="inline-flex items-center text-gold hover:text-black text-button font-button group/btn w-fit mt-auto border-b border-transparent hover:border-black pb-0.5 transition-all" href="javascript:void(0)" onclick="openDetailModal('${t.id}', true)">
+            <a class="inline-flex items-center text-[#9B8554] hover:text-black text-button font-button group/btn w-fit mt-auto border-b border-transparent hover:border-black pb-0.5 transition-all" href="javascript:void(0)" onclick="openDetailModal('${t.id}', true)">
               Ver detalhes
               <span class="material-symbols-outlined text-lg ml-1 group-hover/btn:translate-x-1 transition-transform">arrow_right_alt</span>
             </a>
