@@ -16,7 +16,9 @@
     'main iframe',
     'main form',
     '.grid-cols-1.md\\:grid-cols-3.gap-6 > div',
-    '.flex-col.md\\:flex-row.gap-12'
+    '.flex-col.md\\:flex-row.gap-12',
+    '#clinica .grid > div',
+    '#contato .grid > div'
   ];
 
   // Configurações do IntersectionObserver
