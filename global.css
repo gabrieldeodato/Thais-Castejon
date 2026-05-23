@@ -1,0 +1,81 @@
+/* ==========================================================================
+   Dra. Thais Castejon - Global Premium Styles (Hover Effects & Scroll Animations)
+   ========================================================================== */
+
+/* 1. Botões & Interações Premium
+   ========================================================================== */
+
+/* Seletor refinado que captura todos os botões e links estilo botão, excluindo itens de menu e navegação */
+button,
+:not(nav) > a[class*="rounded-full"][class*="px-"],
+:not(nav) > a[class*="rounded-xl"][class*="px-"],
+:not(nav) > a[class*="bg-primary"],
+:not(nav) > a[class*="bg-[#25D366]"],
+:not(nav) > a[class*="bg-[#20bd5a]"] {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, box-shadow;
+}
+
+/* Efeito de Ampliação Suave (Hover) */
+button:hover,
+:not(nav) > a[class*="rounded-full"][class*="px-"]:hover,
+:not(nav) > a[class*="rounded-xl"][class*="px-"]:hover,
+:not(nav) > a[class*="bg-primary"]:hover,
+:not(nav) > a[class*="bg-[#25D366]"]:hover,
+:not(nav) > a[class*="bg-[#20bd5a]"]:hover {
+  transform: scale(1.04) translateY(-2px) !important;
+  filter: brightness(1.08) !important;
+  box-shadow: 0 12px 24px -8px rgba(0, 35, 111, 0.22) !important;
+}
+
+/* Botão específico do WhatsApp (sombra verde suave) */
+:not(nav) > a[class*="bg-[#25D366]"]:hover,
+:not(nav) > a[class*="bg-[#20bd5a]"]:hover {
+  box-shadow: 0 12px 24px -8px rgba(37, 211, 102, 0.35) !important;
+}
+
+/* Efeito de Clique (Active) */
+button:active,
+:not(nav) > a[class*="rounded-full"][class*="px-"]:active,
+:not(nav) > a[class*="rounded-xl"][class*="px-"]:active,
+:not(nav) > a[class*="bg-primary"]:active,
+:not(nav) > a[class*="bg-[#25D366]"]:active,
+:not(nav) > a[class*="bg-[#20bd5a]"]:active {
+  transform: scale(0.97) translateY(0) !important;
+  box-shadow: 0 4px 10px -4px rgba(0, 35, 111, 0.15) !important;
+  filter: brightness(0.98) !important;
+}
+
+
+/* 2. Animação de Scroll (Scroll Reveal / Fade In)
+   ========================================================================== */
+
+/* Classe base para revelar conteúdo */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform, opacity;
+}
+
+/* Classe ativada quando o elemento entra no viewport */
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Efeitos de atraso (Stagger/Delay) para itens sequenciais (grades e listas) */
+.reveal-delay-100 { transition-delay: 100ms !important; }
+.reveal-delay-200 { transition-delay: 200ms !important; }
+.reveal-delay-300 { transition-delay: 300ms !important; }
+.reveal-delay-400 { transition-delay: 400ms !important; }
+.reveal-delay-500 { transition-delay: 500ms !important; }
+.reveal-delay-600 { transition-delay: 600ms !important; }
+.reveal-delay-700 { transition-delay: 700ms !important; }
+.reveal-delay-800 { transition-delay: 800ms !important; }
