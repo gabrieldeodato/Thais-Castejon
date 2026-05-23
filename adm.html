@@ -1286,8 +1286,11 @@
         const dayBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
 
         const isPast = thisDate < todayStart;
+        if (isPast) {
+          isEnabled = false;
+        }
 
-        if (!isEnabled || isPast) {
+        if (!isEnabled) {
           // Blocked day background
           btn.classList.add('bg-red-50', 'text-red-400');
         } else {
