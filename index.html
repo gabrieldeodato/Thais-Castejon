@@ -216,7 +216,7 @@
 <header class="bg-primary border-b border-white/10 docked full-width top-0 z-40 sticky">
   <div class="flex justify-between items-center w-full px-gutter py-4 max-w-container-max mx-auto">
     <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.href='index.html'">
-      <img src="assets/logo.png" alt="Dra. Thais Castejon" class="h-12 md:h-16 w-auto object-contain">
+      <img src="assets/logo.png" alt="Dra. Thais Castejon" class="h-16 md:h-24 w-auto object-contain">
     </div>
     <div class="flex items-center gap-3 md:gap-4 shrink-0 ml-auto">
       <button onclick="openBookingModal()" class="hidden lg:inline-flex items-center justify-center bg-gold hover:bg-gold-hover text-white text-button font-button px-6 py-2.5 rounded-full transition-all text-[11px] font-bold uppercase tracking-wider whitespace-nowrap hover:scale-105 active:scale-95 shadow-sm">
@@ -276,7 +276,12 @@
     <!-- Carousel Wrapper -->
     <div class="relative max-w-5xl mx-auto px-4">
       <!-- Carousel Container -->
-      <div id="clinica-carousel" class="flex gap-6 overflow-hidden scroll-smooth">
+      <style>
+        #clinica-carousel::-webkit-scrollbar {
+          display: none;
+        }
+      </style>
+      <div id="clinica-carousel" class="flex gap-6 overflow-x-auto scroll-smooth cursor-grab active:cursor-grabbing select-none" style="scrollbar-width: none; -ms-overflow-style: none;">
         <!-- Room 1 -->
         <div class="w-full md:w-[calc(50%-12px)] shrink-0 group relative rounded-2xl overflow-hidden border border-gold/20 shadow-lg">
           <img data-edit-key="img_env_1" alt="Recepção" class="w-full h-[350px] md:h-[400px] lg:h-[450px] object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADjAzsYrho8QvNLT82LLPph5YkTM6uTVqem5nzLn52qwlSR3yl0nfL5IoXBuk7NYc8vqddEmoB4AFdrzCDSa-hmmbGt8Y8i6Y62VfkHeZ3oQ45QPOcgLqMHTBxgM0mVIeD975gKBQNcF9e2CdrC-FVdkn_ZadMRmD_CR_diZayrftokqnV1yVDY0pg6eU9tRo-91u6YumnMQCR1lUYpZAjR9tdamR1dNvnWQ2_es-OtX7F0F5AXgMXXbRxOrIQSvH4gFYBfAd-Oy0E"/>
@@ -304,14 +309,6 @@
           </div>
         </div>
       </div>
-      
-      <!-- Nav Arrows -->
-      <button onclick="slideClinica(-1)" class="absolute left-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-primary border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-white transition-colors shadow-md z-20 focus:outline-none" type="button">
-        <span class="material-symbols-outlined">chevron_left</span>
-      </button>
-      <button onclick="slideClinica(1)" class="absolute right-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 text-primary border border-gold/20 flex items-center justify-center hover:bg-gold hover:text-white transition-colors shadow-md z-20 focus:outline-none" type="button">
-        <span class="material-symbols-outlined">chevron_right</span>
-      </button>
     </div>
     
     <!-- Dots Indicators -->
@@ -351,10 +348,6 @@
         <div class="absolute inset-0 bg-secondary-fixed/50 rounded-xl transform -translate-x-4 translate-y-4"></div>
         <div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden shadow-sm z-10">
           <img data-edit-key="img_about_portrait" alt="Dra. Thais Castejon" class="w-full h-full object-cover relative z-10 aspect-[3/4] grayscale-[20%]" data-alt="A sophisticated portrait of a professional female doctor in a crisp white clinical coat, standing in a serene, brightly lit aesthetic clinic. The environment is minimalist and high-end, characterized by white tones and soft natural light. Subtle deep blue branding elements are visible in the blurred background. The overall mood conveys clinical authority, elegance, and trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9zRA7H7P1cHhMfpDzExI_xhBv3tehfHizDIL9w0h7mWXYtT8CZ6axytzacGGXDIiVqb4QbOncCWWyol9_VzQa_TTiLNGW7a1jGM6LKpiRAuU1tP5vTGOjFFBGjhiLKJTRv7wGAtphaUGZVDrLmiQK7XjpAHZG6IKKQgs8ZjU6SI1h-Rlxuc2PRfr4yFJZwUj09O41AsvURLPeBh1VLltqpNvrevu6G-8Q6a1oAjwFYs679hJ6REpkQ5VhUgEDTjARWTSn4zZXMX5f"/>
-          <div class="absolute bottom-4 right-4 bg-surface/90 backdrop-blur-sm px-4 py-2 rounded-full border border-accent-border flex items-center gap-2 z-20">
-            <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
-            <span class="text-label-caps font-label-caps text-primary text-xs" data-edit-key="clinic_cro">CRO-SP 123456</span>
-          </div>
         </div>
       </div>
       <div class="order-1 md:order-2 space-y-6">
@@ -391,20 +384,8 @@
       </div>
     </div>
 
-    <!-- CTA Box -->
-    <div class="mt-16 p-8 bg-surface-container-low rounded-xl border border-accent-border max-w-4xl mx-auto text-center md:text-left flex flex-col md:flex-row md:items-center justify-between gap-6">
-      <div>
-        <h3 data-edit-key="sobre_cta_title" class="text-headline-md font-headline-md text-primary mb-2 text-xl md:text-2xl">Pronto para transformar seu sorriso?</h3>
-        <p data-edit-key="sobre_cta_desc" class="text-body-md font-body-md text-secondary">Agende uma avaliação e vamos criar um plano de tratamento personalizado para você.</p>
-      </div>
-      <a class="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white px-8 py-4 rounded-full text-button font-button hover:bg-[#20bd5a] transition-colors shadow-sm shrink-0 w-full md:w-auto" href="https://wa.me/5521982921357" target="_blank" data-edit-key="clinic_whatsapp">
-        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
-        Falar no WhatsApp
-      </a>
-    </div>
-
     <!-- Certifications & Formation Grid -->
-    <div class="mt-16 border-t border-outline-variant/30 pt-16">
+    <div class="mt-16 pt-8">
       <h3 class="text-headline-md font-headline-md text-gold mb-12 text-center">Formação &amp; Certificações</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Cert Card 1 -->
@@ -475,30 +456,15 @@
       </div>
 
       <!-- Right Column: Contact info details -->
-      <div class="flex flex-col justify-between py-2 space-y-8">
+      <div class="bg-sterile-white rounded-xl border border-accent-border p-6 shadow-sm flex flex-col justify-between h-full space-y-8">
         <div class="space-y-6">
-          <!-- Tel -->
-          <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-gold shrink-0">
-              <span class="material-symbols-outlined">phone</span>
-            </div>
-            <div>
-              <p class="text-xs font-label-caps text-outline">Telefones para Contato</p>
-              <div class="flex flex-col sm:flex-row sm:gap-4 mt-0.5">
-                <a data-edit-key="clinic_phone_1" href="tel:2125210772" class="text-body-md font-semibold text-primary hover:underline">(21) 2521-0772</a>
-                <span class="hidden sm:inline text-outline-variant">|</span>
-                <a data-edit-key="clinic_phone_2" href="tel:2125133068" class="text-body-md font-semibold text-primary hover:underline">(21) 2513-3068</a>
-              </div>
-            </div>
-          </div>
-
           <!-- WhatsApp -->
           <div class="flex items-center gap-4">
-            <div class="w-10 h-10 rounded-full bg-green-50 border border-green-200 flex items-center justify-center text-green-600 shrink-0">
+            <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-gold shrink-0">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path></svg>
             </div>
             <div>
-              <p class="text-xs font-label-caps text-outline">WhatsApp Direct</p>
+              <p class="text-xs font-label-caps text-black font-bold">WhatsApp Direct</p>
               <a data-edit-key="clinic_whatsapp" href="https://wa.me/5521982921357" target="_blank" class="text-body-md font-semibold text-primary hover:underline">(21) 98292-1357</a>
             </div>
           </div>
@@ -509,7 +475,7 @@
               <span class="material-symbols-outlined">mail</span>
             </div>
             <div>
-              <p class="text-xs font-label-caps text-outline">E-mail de Contato</p>
+              <p class="text-xs font-label-caps text-black font-bold">E-mail de Contato</p>
               <a data-edit-key="clinic_email" href="mailto:contato@drathaiscastejon.com.br" class="text-body-md font-semibold text-primary hover:underline">contato@drathaiscastejon.com.br</a>
             </div>
           </div>
@@ -520,15 +486,15 @@
               <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
             </div>
             <div>
-              <p class="text-xs font-label-caps text-outline">Instagram</p>
+              <p class="text-xs font-label-caps text-black font-bold">Instagram</p>
               <a data-edit-key="clinic_instagram" href="https://instagram.com/dra.thaiscastejon" target="_blank" class="text-body-md font-semibold text-primary hover:underline">@dra.thaiscastejon</a>
             </div>
           </div>
         </div>
 
         <!-- Call to Action button -->
-        <div class="pt-6 border-t border-outline-variant/20">
-          <button onclick="openBookingModal()" class="w-full bg-primary hover:bg-[#001c59] text-white font-bold text-button font-button py-4 rounded-full transition-colors shadow-sm">
+        <div class="pt-6 border-t border-stone-200">
+          <button onclick="openBookingModal()" class="w-full bg-primary hover:bg-primary-hover text-white font-bold text-button font-button py-4 rounded-full transition-colors shadow-sm">
             AGENDAR CONSULTA
           </button>
         </div>
@@ -541,7 +507,7 @@
   <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-outline/20 pb-12 mb-8">
     <div>
       <div class="flex items-center gap-3 mb-6">
-        <img src="assets/logo.png" alt="Dra. Thais Castejon" class="h-12 md:h-16 w-auto object-contain">
+        <img src="assets/logo.png" alt="Dra. Thais Castejon" class="h-20 md:h-30 w-auto object-contain">
       </div>
       <p class="text-body-md font-body-md text-white mb-6">
         Excelência e precisão em harmonização orofacial, realçando a sua beleza natural com segurança e sofisticação.
@@ -1281,7 +1247,6 @@
     const carousel = document.getElementById('clinica-carousel');
     if (!carousel) return;
     const items = carousel.querySelectorAll('.shrink-0');
-    const dots = document.getElementById('clinica-dots').children;
     const isMobile = window.innerWidth < 768;
     const itemsToShow = isMobile ? 1 : 2;
     const maxIndex = items.length - itemsToShow;
@@ -1295,16 +1260,6 @@
       left: currentClinicaIndex * itemWidth,
       behavior: 'smooth'
     });
-    
-    // update dots active state
-    for (let i = 0; i < dots.length; i++) {
-      dots[i].classList.remove('bg-gold');
-      dots[i].classList.add('bg-slate-300');
-    }
-    if (dots[currentClinicaIndex]) {
-      dots[currentClinicaIndex].classList.add('bg-gold');
-      dots[currentClinicaIndex].classList.remove('bg-slate-300');
-    }
   };
 
   window.goToSlide = function(index) {
@@ -1318,6 +1273,59 @@
     
     window.slideClinica(targetIndex - currentClinicaIndex);
   };
+
+  // Drag-to-scroll & dot sync logic for Clinica Carousel
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('clinica-carousel');
+    if (carousel) {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        carousel.classList.remove('scroll-smooth');
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+      });
+      carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.classList.add('scroll-smooth');
+      });
+      carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.classList.add('scroll-smooth');
+      });
+      carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        carousel.scrollLeft = scrollLeft - walk;
+      });
+
+      // Update dots on scroll
+      carousel.addEventListener('scroll', () => {
+        const dots = document.getElementById('clinica-dots')?.children;
+        if (!dots) return;
+        const scrollPos = carousel.scrollLeft;
+        const itemWidth = carousel.firstElementChild?.offsetWidth + 24 || carousel.offsetWidth;
+        const activeIndex = Math.round(scrollPos / itemWidth);
+        
+        currentClinicaIndex = activeIndex;
+
+        for (let i = 0; i < dots.length; i++) {
+          if (i === activeIndex) {
+            dots[i].classList.add('bg-gold');
+            dots[i].classList.remove('bg-slate-300');
+          } else {
+            dots[i].classList.remove('bg-gold');
+            dots[i].classList.add('bg-slate-300');
+          }
+        }
+      });
+    }
+  });
 </script>
 
 
@@ -1540,9 +1548,6 @@
         card.innerHTML = `
           <div class="relative h-48 overflow-hidden w-full shrink-0">
             <img src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}" alt="${t.title}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"/>
-            <div class="absolute top-4 left-4">
-              <span class="bg-clinical-blue-light text-primary text-[10px] font-label-caps px-2 py-0.5 rounded uppercase tracking-wider backdrop-blur-sm bg-opacity-90">${catLabel}</span>
-            </div>
           </div>
           <div class="p-6 md:p-8 flex flex-col flex-grow items-center text-center">
             <h3 class="text-headline-md font-headline-md text-primary mb-3 text-lg md:text-xl font-semibold">${t.title}</h3>
@@ -1568,9 +1573,6 @@
         card.innerHTML = `
           <div class="relative h-64 overflow-hidden">
             <img alt="${t.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${t.image || 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c'}"/>
-            <div class="absolute top-4 left-4">
-              <span class="bg-gold/10 text-gold border border-gold/30 text-label-caps font-label-caps px-3 py-1.5 rounded uppercase tracking-wider backdrop-blur-sm">&nbsp;${catLabel}&nbsp;</span>
-            </div>
           </div>
           <div class="p-6 md:p-8 flex flex-col flex-grow">
             <h3 class="text-headline-md font-headline-md text-black font-bold text-lg md:text-xl mb-3">${t.title}</h3>
