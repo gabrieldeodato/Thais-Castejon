@@ -124,6 +124,9 @@
         <button onclick="switchTab('listatratamentos')" id="tab-btn-listatratamentos" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
           <span class="material-symbols-outlined">spa</span> Gerenciar Tratamentos
         </button>
+        <button onclick="switchTab('clinica')" id="tab-btn-clinica" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
+          <span class="material-symbols-outlined">domain</span> Clínica
+        </button>
         <button onclick="switchTab('imagens')" id="tab-btn-imagens" class="tab-btn flex items-center gap-3 px-4 py-3 rounded-full text-left text-sm font-semibold whitespace-nowrap transition-colors w-full text-secondary hover:bg-slate-100">
           <span class="material-symbols-outlined">image</span> Imagens do Site
         </button>
@@ -426,66 +429,15 @@
             <div id="treatments-crud-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
           </div>
 
-          <!-- TAB 4: IMAGENS DO SITE -->
-          <div id="tab-imagens" class="tab-pane hidden space-y-6">
-            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Imagens do Site</h3>
-            <p class="text-xs text-secondary leading-relaxed">Personalize as fotos de banner, perfil e ambientes das páginas. Insira URLs públicas de imagens e visualize o resultado ao lado.</p>
+          <!-- TAB: CLINICA -->
+          <div id="tab-clinica" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Configurações da Clínica</h3>
+            <p class="text-xs text-secondary leading-relaxed">Gerencie as imagens, ambientes, e textos descritivos exibidos na página da Clínica.</p>
             
-            <div class="space-y-6">
-              <!-- Hero Banner -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Capa Principal (Home Hero Banner)</label>
-                  <input type="hidden" id="field_img_hero"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_hero').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_hero" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_hero')"/>
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_hero" class="h-24 w-40 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
-                </div>
-              </div>
-
-              <!-- About Portrait Home -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto da Dra. Thais na Página Principal (Sobre)</label>
-                  <input type="hidden" id="field_img_about_portrait"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_about_portrait').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_about_portrait" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_about_portrait')"/>
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_about_portrait" class="h-24 w-20 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
-                </div>
-              </div>
-
-              <!-- Portrait Dra. Thais Bio page -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Perfil na Biografia Completa (Página Dra. Thais)</label>
-                  <input type="hidden" id="field_img_bio_portrait"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_bio_portrait').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_bio_portrait" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_bio_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_bio_portrait')"/>
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_bio_portrait" class="h-24 w-20 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
-                </div>
-              </div>
-
+            <!-- Images block -->
+            <div class="border border-slate-100 rounded-xl p-5 bg-slate-50/50 space-y-6">
+              <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Imagens da Clínica</h4>
+              
               <!-- Clinica Hero Capa -->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
                 <div class="md:col-span-2">
@@ -555,58 +507,116 @@
                   <img id="preview_img_env_3" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
                 </div>
               </div>
+            </div>
 
-              <!-- Case Image 1 -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-t border-slate-100 pt-6 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Trabalhos Realizados: Foto do Caso 1</label>
-                  <input type="hidden" id="field_img_case_1"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_case_1').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_case_1" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_case_1" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_case_1')"/>
-                  </div>
+            <!-- Texts block -->
+            <div class="border border-slate-100 rounded-xl p-5 bg-slate-50/50 space-y-6">
+              <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Textos da Clínica</h4>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Clínica Hero)</label>
+                  <input type="text" id="field_clinica_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
                 </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_case_1" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                <div>
+                  <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Clínica Hero Subtitle)</label>
+                  <input type="text" id="field_clinica_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-semibold text-secondary mb-1">Título Seção Introdução</label>
+                  <input type="text" id="field_clinica_section_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-semibold text-secondary mb-1">Descrição Seção Introdução</label>
+                  <textarea id="field_clinica_description" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
                 </div>
               </div>
 
-              <!-- Case Image 2 -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-t border-slate-100 pt-6 pb-6">
+              <!-- Diferenciais -->
+              <div class="border-t border-slate-200 pt-4 space-y-3">
+                <span class="text-xs font-bold text-primary uppercase">Diferenciais e Ambientes</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="p-2 border border-slate-100 rounded-lg">
+                    <span class="text-xs font-bold text-secondary">Diferencial 1</span>
+                    <input type="text" id="field_clinica_feat1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_feat1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                  <div class="p-2 border border-slate-100 rounded-lg">
+                    <span class="text-xs font-bold text-secondary">Diferencial 2</span>
+                    <input type="text" id="field_clinica_feat2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_feat2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                  <div class="p-2 border border-slate-100 rounded-lg">
+                    <span class="text-xs font-bold text-secondary">Diferencial 3</span>
+                    <input type="text" id="field_clinica_feat3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_feat3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                  <div class="p-2 border border-slate-100 rounded-lg">
+                    <span class="text-xs font-bold text-secondary">Diferencial 4</span>
+                    <input type="text" id="field_clinica_feat4_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_feat4_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                  
+                  <!-- Ambientes -->
+                  <div class="p-2 border border-slate-100 rounded-lg">
+                    <span class="text-xs font-bold text-secondary">Ambiente 1 (Recepção)</span>
+                    <input type="text" id="field_clinica_env1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_env1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                  <div class="p-2 border border-slate-100 rounded-lg">
+                    <span class="text-xs font-bold text-secondary">Ambiente 2 (Consultório)</span>
+                    <input type="text" id="field_clinica_env2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_env2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                  <div class="p-2 border border-slate-100 rounded-lg md:col-span-2">
+                    <span class="text-xs font-bold text-secondary">Ambiente 3 (Esterilização)</span>
+                    <input type="text" id="field_clinica_env3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                    <input type="text" id="field_clinica_env3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: IMAGENS DO SITE -->
+          <div id="tab-imagens" class="tab-pane hidden space-y-6">
+            <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Imagens do Site</h3>
+            <p class="text-xs text-secondary leading-relaxed">Personalize as fotos de banner principal e biografia da página inicial.</p>
+            
+            <div class="space-y-6">
+              <!-- Hero Banner -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
                 <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Trabalhos Realizados: Foto do Caso 2</label>
-                  <input type="hidden" id="field_img_case_2"/>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Capa Principal (Home Hero Banner)</label>
+                  <input type="hidden" id="field_img_hero"/>
                   <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_case_2').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
+                    <button type="button" onclick="document.getElementById('file_img_hero').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
                       Selecionar PNG/JPG
                     </button>
-                    <span id="status_img_case_2" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_case_2" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_case_2')"/>
+                    <span id="status_img_hero" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
+                    <input type="file" id="file_img_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_hero')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
-                  <img id="preview_img_case_2" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                  <img id="preview_img_hero" class="h-24 w-40 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
                 </div>
               </div>
 
-              <!-- Case Image 3 -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-t border-slate-100 pt-6 pb-6">
+              <!-- About Portrait Home -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center pb-6">
                 <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Trabalhos Realizados: Foto do Caso 3</label>
-                  <input type="hidden" id="field_img_case_3"/>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto da Dra. Thais na Página Principal (Sobre)</label>
+                  <input type="hidden" id="field_img_about_portrait"/>
                   <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_case_3').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
+                    <button type="button" onclick="document.getElementById('file_img_about_portrait').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
                       Selecionar PNG/JPG
                     </button>
-                    <span id="status_img_case_3" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_case_3" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_case_3')"/>
+                    <span id="status_img_about_portrait" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
+                    <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_about_portrait')"/>
                   </div>
                 </div>
                 <div class="flex justify-center">
-                  <img id="preview_img_case_3" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+                  <img id="preview_img_about_portrait" class="h-24 w-20 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
                 </div>
               </div>
             </div>
@@ -617,6 +627,15 @@
             <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Informações de Contato & Mapas</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Título da Página (Contato Hero)</label>
+                <input type="text" id="field_contato_hero_title" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Subtítulo da Página (Contato Hero Subtitle)</label>
+                <input type="text" id="field_contato_hero_subtitle" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
+              </div>
+              
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Endereço da Clínica (Use \n para quebrar linha)</label>
                 <textarea id="field_clinic_address" rows="3" class="w-full rounded-xl border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"></textarea>
@@ -676,18 +695,14 @@
             
             <div class="space-y-4">
               
-              <!-- Accordion 1: Página Início -->
+              <!-- Accordion 1: Pagina inicial -->
               <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
                 <button type="button" onclick="toggleAccordion('acc-inicio')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Página de Início (Hero & Biografia Home)
+                  Pagina inicial
                 </button>
                 <div id="acc-inicio" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Badge de Entrada do Banner (Hero Badge)</label>
-                      <input type="text" id="field_hero_badge" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
+                    <div class="md:col-span-2">
                       <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Hero Title)</label>
                       <input type="text" id="field_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
                     </div>
@@ -703,209 +718,161 @@
                       <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Procedimentos Destaque</label>
                       <input type="text" id="field_featured_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
                     </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título Dra. Thais na Home</label>
-                      <input type="text" id="field_about_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Dra. Thais na Home</label>
-                      <input type="text" id="field_about_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 1</label>
-                      <textarea id="field_about_p1" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 2</label>
-                      <textarea id="field_about_p2" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 1</label>
-                      <input type="text" id="field_about_bullet_1" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 2</label>
-                      <input type="text" id="field_about_bullet_2" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 3</label>
-                      <input type="text" id="field_about_bullet_3" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Accordion 2: Cards Destaque Home -->
-              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-                <button type="button" onclick="toggleAccordion('acc-cards')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Página de Início (Textos dos Cards Padrão)
-                </button>
-                <div id="acc-cards" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
-                      <span class="text-xs font-bold text-primary">Card: Toxina Botulínica</span>
-                      <input type="text" id="field_card_toxina_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <textarea id="field_card_toxina_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
-                    </div>
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
-                      <span class="text-xs font-bold text-primary">Card: Preenchimento</span>
-                      <input type="text" id="field_card_preenchimento_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <textarea id="field_card_preenchimento_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
-                    </div>
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
-                      <span class="text-xs font-bold text-primary">Card: Bioestimuladores</span>
-                      <input type="text" id="field_card_bioestimulador_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <textarea id="field_card_bioestimulador_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
-                    </div>
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2">
-                      <span class="text-xs font-bold text-primary">Card: Fios de PDO</span>
-                      <input type="text" id="field_card_fios_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <textarea id="field_card_fios_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Accordion 3: Página A Clínica -->
-              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-                <button type="button" onclick="toggleAccordion('acc-clinica')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Página A Clínica
-                </button>
-                <div id="acc-clinica" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Clínica Hero)</label>
-                      <input type="text" id="field_clinica_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Clínica Hero Subtitle)</label>
-                      <input type="text" id="field_clinica_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título Seção Introdução</label>
-                      <input type="text" id="field_clinica_section_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="block text-xs font-semibold text-secondary mb-1">Descrição Seção Introdução</label>
-                      <textarea id="field_clinica_description" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
-                    </div>
-                  </div>
-                  <!-- Diferenciais -->
-                  <div class="border-t border-slate-100 pt-4 space-y-3">
-                    <span class="text-xs font-bold text-primary uppercase">Diferenciais e Ambientes</span>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Diferencial 1</span>
-                        <input type="text" id="field_clinica_feat1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_feat1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Diferencial 2</span>
-                        <input type="text" id="field_clinica_feat2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_feat2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Diferencial 3</span>
-                        <input type="text" id="field_clinica_feat3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_feat3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Diferencial 4</span>
-                        <input type="text" id="field_clinica_feat4_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_feat4_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                      
-                      <!-- Ambientes -->
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Ambiente 1 (Recepção)</span>
-                        <input type="text" id="field_clinica_env1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_env1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Ambiente 2 (Consultório)</span>
-                        <input type="text" id="field_clinica_env2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_env2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg md:col-span-2">
-                        <span class="text-xs font-bold text-secondary">Ambiente 3 (Esterilização)</span>
-                        <input type="text" id="field_clinica_env3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <input type="text" id="field_clinica_env3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Accordion 4: Página Dra. Thais (Bio) -->
+              <!-- Accordion 4: Página Dra. Thais (Perfil Completo) -->
               <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
                 <button type="button" onclick="toggleAccordion('acc-sobre')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
                   Página Dra. Thais (Perfil Completo)
                 </button>
-                <div id="acc-sobre" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título Biografia Completa</label>
-                      <input type="text" id="field_sobre_bio_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div class="md:col-span-2">
-                      <label class="block text-xs font-semibold text-secondary mb-1">Texto Biografia Completa</label>
-                      <textarea id="field_sobre_bio_desc" rows="5" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
-                    </div>
-                    <!-- Badges -->
-                    <div class="grid grid-cols-2 gap-2 md:col-span-2">
+                <div id="acc-sobre" class="accordion-content hidden p-5 space-y-6 border-t border-slate-100">
+                  
+                  <!-- Photos -->
+                  <div class="space-y-4 border-b border-slate-100 pb-4">
+                    <span class="text-xs font-bold text-primary uppercase">Fotos da Dra. Thais</span>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                       <div>
-                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 1</label>
-                        <input type="text" id="field_sobre_badge_1" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      </div>
-                      <div>
-                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 2</label>
-                        <input type="text" id="field_sobre_badge_2" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      </div>
-                      <div>
-                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 3</label>
-                        <input type="text" id="field_sobre_badge_3" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      </div>
-                      <div>
-                        <label class="block text-xs font-semibold text-secondary mb-1">Tag 4</label>
-                        <input type="text" id="field_sobre_badge_4" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      </div>
-                    </div>
-                    <!-- CTA -->
-                    <div class="md:col-span-2 border-t border-slate-100 pt-3">
-                      <label class="block text-xs font-bold text-primary uppercase mb-2">Card de Call to Action (Rodapé Bio)</label>
-                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label class="block text-xs font-semibold text-secondary mb-1">Título CTA</label>
-                          <input type="text" id="field_sobre_cta_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Foto na Página Inicial (Sobre)</label>
+                        <input type="hidden" id="field_img_about_portrait"/>
+                        <div class="flex items-center gap-2 mt-1">
+                          <button type="button" onclick="document.getElementById('file_img_about_portrait').click()" class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:opacity-95 transition-opacity">
+                            Selecionar Imagem
+                          </button>
+                          <span id="status_img_about_portrait" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
+                          <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_about_portrait')"/>
                         </div>
-                        <div>
-                          <label class="block text-xs font-semibold text-secondary mb-1">Descrição CTA</label>
-                          <input type="text" id="field_sobre_cta_desc" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        <div class="mt-2">
+                          <img id="preview_img_about_portrait" class="h-16 w-12 object-cover rounded border border-slate-200 shadow-sm hidden"/>
                         </div>
                       </div>
-                    </div>
-                    <!-- Formacao -->
-                    <div class="md:col-span-2 border-t border-slate-100 pt-3 space-y-3">
-                      <span class="text-xs font-bold text-primary uppercase">Histórico Acadêmico e Formação</span>
-                      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="p-2 border border-slate-100 rounded-lg">
-                          <span class="text-xs font-bold text-secondary">Educação 1</span>
-                          <input type="text" id="field_sobre_edu1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                          <input type="text" id="field_sobre_edu1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                      
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Foto de Perfil na Biografia Completa</label>
+                        <input type="hidden" id="field_img_bio_portrait"/>
+                        <div class="flex items-center gap-2 mt-1">
+                          <button type="button" onclick="document.getElementById('file_img_bio_portrait').click()" class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:opacity-95 transition-opacity">
+                            Selecionar Imagem
+                          </button>
+                          <span id="status_img_bio_portrait" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
+                          <input type="file" id="file_img_bio_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_bio_portrait')"/>
                         </div>
-                        <div class="p-2 border border-slate-100 rounded-lg">
-                          <span class="text-xs font-bold text-secondary">Educação 2</span>
-                          <input type="text" id="field_sobre_edu2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                          <input type="text" id="field_sobre_edu2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                        </div>
-                        <div class="p-2 border border-slate-100 rounded-lg">
-                          <span class="text-xs font-bold text-secondary">Educação 3</span>
-                          <input type="text" id="field_sobre_edu3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                          <input type="text" id="field_sobre_edu3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                        <div class="mt-2">
+                          <img id="preview_img_bio_portrait" class="h-16 w-12 object-cover rounded border border-slate-200 shadow-sm hidden"/>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  <!-- Home Biography Section (originally in Accordion 1) -->
+                  <div class="space-y-4 border-b border-slate-100 pb-4">
+                    <span class="text-xs font-bold text-primary uppercase">Resumo da Biografia (Exibido na Home)</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Título Dra. Thais na Home</label>
+                        <input type="text" id="field_about_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Dra. Thais na Home</label>
+                        <input type="text" id="field_about_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 1</label>
+                        <textarea id="field_about_p1" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                      </div>
+                      <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 2</label>
+                        <textarea id="field_about_p2" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                      </div>
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 1</label>
+                        <input type="text" id="field_about_bullet_1" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div>
+                        <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 2</label>
+                        <input type="text" id="field_about_bullet_2" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-secondary mb-1">Lista: Item Destaque 3</label>
+                        <input type="text" id="field_about_bullet_3" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Full Biography Section -->
+                  <div class="space-y-4">
+                    <span class="text-xs font-bold text-primary uppercase">Biografia Completa (Página Detalhada)</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-secondary mb-1">Título Biografia Completa</label>
+                        <input type="text" id="field_sobre_bio_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-secondary mb-1">Texto Biografia Completa</label>
+                        <textarea id="field_sobre_bio_desc" rows="5" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
+                      </div>
+                      
+                      <!-- Badges -->
+                      <div class="grid grid-cols-2 gap-2 md:col-span-2">
+                        <div>
+                          <label class="block text-xs font-semibold text-secondary mb-1">Tag 1</label>
+                          <input type="text" id="field_sobre_badge_1" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        </div>
+                        <div>
+                          <label class="block text-xs font-semibold text-secondary mb-1">Tag 2</label>
+                          <input type="text" id="field_sobre_badge_2" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        </div>
+                        <div>
+                          <label class="block text-xs font-semibold text-secondary mb-1">Tag 3</label>
+                          <input type="text" id="field_sobre_badge_3" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        </div>
+                        <div>
+                          <label class="block text-xs font-semibold text-secondary mb-1">Tag 4</label>
+                          <input type="text" id="field_sobre_badge_4" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                        </div>
+                      </div>
+
+                      <!-- CTA -->
+                      <div class="md:col-span-2 border-t border-slate-100 pt-3">
+                        <label class="block text-xs font-bold text-primary uppercase mb-2">Card de Call to Action (Rodapé Bio)</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label class="block text-xs font-semibold text-secondary mb-1">Título CTA</label>
+                            <input type="text" id="field_sobre_cta_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                          </div>
+                          <div>
+                            <label class="block text-xs font-semibold text-secondary mb-1">Descrição CTA</label>
+                            <input type="text" id="field_sobre_cta_desc" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Formacao -->
+                      <div class="md:col-span-2 border-t border-slate-100 pt-3 space-y-3">
+                        <span class="text-xs font-bold text-primary uppercase">Histórico Acadêmico e Formação</span>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div class="p-2 border border-slate-100 rounded-lg">
+                            <span class="text-xs font-bold text-secondary">Educação 1</span>
+                            <input type="text" id="field_sobre_edu1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                            <input type="text" id="field_sobre_edu1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                          </div>
+                          <div class="p-2 border border-slate-100 rounded-lg">
+                            <span class="text-xs font-bold text-secondary">Educação 2</span>
+                            <input type="text" id="field_sobre_edu2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                            <input type="text" id="field_sobre_edu2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                          </div>
+                          <div class="p-2 border border-slate-100 rounded-lg">
+                            <span class="text-xs font-bold text-secondary">Educação 3</span>
+                            <input type="text" id="field_sobre_edu3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
+                            <input type="text" id="field_sobre_edu3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
@@ -923,86 +890,6 @@
                     <div>
                       <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Tratamentos Hero Subtitle)</label>
                       <input type="text" id="field_tratamentos_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                  </div>
-                  <!-- Cards catalog text backups -->
-                  <div class="border-t border-slate-100 pt-4 space-y-3">
-                    <span class="text-xs font-bold text-primary uppercase">Cards de Tratamento Exclusivos da Página</span>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Card 1: Skinbooster</span>
-                        <input type="text" id="field_card_skinbooster_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <textarea id="field_card_skinbooster_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"></textarea>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg">
-                        <span class="text-xs font-bold text-secondary">Card 2: Clareamento</span>
-                        <input type="text" id="field_card_clareamento_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <textarea id="field_card_clareamento_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"></textarea>
-                      </div>
-                      <div class="p-2 border border-slate-100 rounded-lg md:col-span-2">
-                        <span class="text-xs font-bold text-secondary">Card 3: Lentes de Contato</span>
-                        <input type="text" id="field_card_lentes_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                        <textarea id="field_card_lentes_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Accordion 6: Página de Contato -->
-              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-                <button type="button" onclick="toggleAccordion('acc-contato')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Página de Contato
-                </button>
-                <div id="acc-contato" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Contato Hero)</label>
-                      <input type="text" id="field_contato_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Contato Hero Subtitle)</label>
-                      <input type="text" id="field_contato_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Accordion 7: Trabalhos Realizados -->
-              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-                <button type="button" onclick="toggleAccordion('acc-trabalhos')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Trabalhos Realizados
-                </button>
-                <div id="acc-trabalhos" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título da Seção</label>
-                      <input type="text" id="field_trabalhos_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo da Seção</label>
-                      <input type="text" id="field_trabalhos_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2 md:col-span-2">
-                      <span class="text-xs font-bold text-primary">Caso 1: Título</span>
-                      <input type="text" id="field_case1_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <span class="text-xs font-bold text-primary">Caso 1: Descrição</span>
-                      <textarea id="field_case1_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
-                    </div>
-
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2 md:col-span-2">
-                      <span class="text-xs font-bold text-primary">Caso 2: Título</span>
-                      <input type="text" id="field_case2_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <span class="text-xs font-bold text-primary">Caso 2: Descrição</span>
-                      <textarea id="field_case2_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
-                    </div>
-
-                    <div class="border border-slate-100 p-3 rounded-lg space-y-2 md:col-span-2">
-                      <span class="text-xs font-bold text-primary">Caso 3: Título</span>
-                      <input type="text" id="field_case3_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      <span class="text-xs font-bold text-primary">Caso 3: Descrição</span>
-                      <textarea id="field_case3_desc" rows="2" class="w-full rounded-lg border border-slate-200 p-2 text-xs focus:ring-primary"></textarea>
                     </div>
                   </div>
                 </div>
@@ -1111,18 +998,7 @@
       "card_bioestimulador_title": "Bioestimuladores de Colágeno",
       "card_bioestimulador_desc": "Estímulo profundo de colágeno para firmeza, melhora da qualidade da pele e efeito lifting duradouro.",
       "card_fios_title": "Lifting com Fios de PDO",
-      "card_fios_desc": "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local.",
-      "trabalhos_title": "Trabalhos Realizados",
-      "trabalhos_subtitle": "Transformações sutilmente planejadas para realçar o que cada paciente tem de melhor.",
-      "case1_title": "Harmonização Orofacial",
-      "case1_desc": "Definição de contornos e volumetria sutil, respeitando a anatomia natural.",
-      "img_case_1": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800",
-      "case2_title": "Rejuvenescimento Facial",
-      "case2_desc": "Suavização de rugas dinâmicas e estímulo profundo de colágeno local.",
-      "img_case_2": "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800",
-      "case3_title": "Lifting e Contorno",
-      "case3_desc": "Aplicação estratégica de fios de PDO para sustentação facial.",
-      "img_case_3": "https://images.unsplash.com/photo-1584515901367-f134706ef532?auto=format&fit=crop&q=80&w=800"
+      "card_fios_desc": "Tracionamento e sustentação dos tecidos faciais, promovendo um lifting não cirúrgico e intenso estímulo de colágeno local."
     };
 
     // Standard list of treatments initialized dynamically
@@ -1349,7 +1225,7 @@
 
     // Setup Dynamic Previews
     function setupPreviews() {
-      const imgKeys = ['img_hero', 'img_about_portrait', 'img_bio_portrait', 'img_clinica_hero', 'img_env_1', 'img_env_2', 'img_env_3', 'img_case_1', 'img_case_2', 'img_case_3'];
+      const imgKeys = ['img_hero', 'img_about_portrait', 'img_bio_portrait', 'img_clinica_hero', 'img_env_1', 'img_env_2', 'img_env_3'];
       imgKeys.forEach(k => {
         const inp = document.getElementById('field_' + k);
         const prev = document.getElementById('preview_' + k);
