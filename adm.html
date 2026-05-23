@@ -327,6 +327,29 @@
               </button>
             </div>
 
+            <!-- Configurações Gerais de Tratamentos -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
+              <span class="text-xs font-bold text-primary uppercase">Configurações Gerais dos Tratamentos</span>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Tratamentos Hero)</label>
+                  <input type="text" id="field_tratamentos_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Tratamentos Hero Subtitle)</label>
+                  <input type="text" id="field_tratamentos_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-secondary mb-1">Título Procedimentos Destaque</label>
+                  <input type="text" id="field_featured_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Procedimentos Destaque</label>
+                  <input type="text" id="field_featured_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                </div>
+              </div>
+            </div>
+
             <!-- Treatment Form Container (hidden by default) -->
             <div id="treatment-crud-form-card" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-6 space-y-4">
               <h4 id="treatment-form-title" class="font-headline font-bold text-primary text-base">Adicionar Novo Tratamento</h4>
@@ -456,55 +479,59 @@
                 </div>
               </div>
 
-              <!-- Ambientes 1, 2, 3 -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto do Ambiente 1 (Recepção)</label>
-                  <input type="hidden" id="field_img_env_1"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_env_1').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_env_1" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_env_1" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_env_1')"/>
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_env_1" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
-                </div>
-              </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto do Ambiente 2 (Consultório)</label>
-                  <input type="hidden" id="field_img_env_2"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_env_2').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_env_2" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_env_2" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_env_2')"/>
-                  </div>
+              <!-- Dynamic Clinic Gallery Section -->
+              <div class="border-t border-slate-200/60 pt-6 space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                  <h4 class="font-bold text-sm text-primary uppercase tracking-wider">Imagens da Clínica (Carrossel)</h4>
+                  <button type="button" onclick="openClinicForm()" class="bg-primary text-white text-[11px] px-4 py-2 rounded-full font-bold hover:opacity-95 transition-opacity flex items-center gap-1 shadow-sm">
+                    <span class="material-symbols-outlined text-xs">add</span> Adicionar Imagem
+                  </button>
                 </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_env_2" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
-                </div>
-              </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto do Ambiente 3 (Sala de Biossegurança)</label>
-                  <input type="hidden" id="field_img_env_3"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_env_3').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_env_3" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_env_3" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_env_3')"/>
-                  </div>
+                <!-- Clinic Image Form Container (hidden by default) -->
+                <div id="clinic-form-card" class="hidden bg-white border border-slate-200 rounded-xl p-4 space-y-4 shadow-sm">
+                  <h5 id="clinic-form-title" class="font-headline font-bold text-primary text-sm">Adicionar Imagem da Clínica</h5>
+                  <form id="clinic-image-form" class="space-y-4" onsubmit="saveClinicSubmit(event)">
+                    <input type="hidden" id="clinic_img_index" value="-1"/>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Título da Imagem</label>
+                        <input type="text" id="clinic_img_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary" placeholder="ex: Recepção Acolhedora" required/>
+                      </div>
+                      <div>
+                        <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Imagem (PNG/JPG)</label>
+                        <input type="hidden" id="clinic_img_url" required/>
+                        <div class="flex items-center gap-2 mt-1">
+                          <button type="button" onclick="document.getElementById('file_clinic_img').click()" class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:opacity-95 transition-opacity">
+                            Selecionar Imagem
+                          </button>
+                          <span id="status_clinic_img" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
+                          <input type="file" id="file_clinic_img" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleClinicImageUpload(this)"/>
+                        </div>
+                        <div class="mt-2">
+                          <img id="preview_clinic_img" class="h-16 w-24 object-cover rounded border border-slate-200 shadow-sm hidden"/>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block text-[11px] font-bold text-secondary uppercase mb-1">Descrição / Texto</label>
+                      <textarea id="clinic_img_desc" rows="2" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary" placeholder="ex: Ambiente leve para seu conforto antes do atendimento..." required></textarea>
+                    </div>
+                    <div class="flex justify-end gap-2 border-t border-slate-100 pt-3">
+                      <button type="button" onclick="closeClinicForm()" class="bg-white border border-slate-200 text-secondary text-[11px] px-4 py-1.5 rounded-full font-bold hover:bg-slate-50 transition-colors">
+                        Cancelar
+                      </button>
+                      <button type="submit" class="bg-primary text-white text-[11px] px-5 py-1.5 rounded-full font-bold hover:opacity-90 transition-opacity">
+                        Salvar
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_env_3" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
+
+                <!-- List of clinic images -->
+                <div id="clinic-images-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  <!-- Dynamically populated -->
                 </div>
               </div>
             </div>
@@ -556,23 +583,7 @@
                     <input type="text" id="field_clinica_feat4_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
                     <input type="text" id="field_clinica_feat4_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
                   </div>
-                  
-                  <!-- Ambientes -->
-                  <div class="p-2 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-bold text-secondary">Ambiente 1 (Recepção)</span>
-                    <input type="text" id="field_clinica_env1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_env1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
-                  <div class="p-2 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-bold text-secondary">Ambiente 2 (Consultório)</span>
-                    <input type="text" id="field_clinica_env2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_env2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
-                  <div class="p-2 border border-slate-100 rounded-lg md:col-span-2">
-                    <span class="text-xs font-bold text-secondary">Ambiente 3 (Esterilização)</span>
-                    <input type="text" id="field_clinica_env3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_env3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -627,25 +638,17 @@
             <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Informações de Contato & Mapas</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
+              <div class="md:col-span-2">
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Título da Página (Contato Hero)</label>
                 <input type="text" id="field_contato_hero_title" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Subtítulo da Página (Contato Hero Subtitle)</label>
-                <input type="text" id="field_contato_hero_subtitle" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
               </div>
               
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Endereço da Clínica (Use \n para quebrar linha)</label>
                 <textarea id="field_clinic_address" rows="3" class="w-full rounded-xl border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"></textarea>
               </div>
-              <div class="md:col-span-2">
-                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Número do CRO / Registro Profissional</label>
-                <input type="text" id="field_clinic_cro" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
-              </div>
               <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">WhatsApp Direct (Com DDD/Formato Visível)</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">WhatsApp (Com DDD/Formato Visível)</label>
                 <input type="text" id="field_clinic_whatsapp" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
               </div>
               <div>
@@ -655,14 +658,6 @@
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Instagram (Link do Perfil)</label>
                 <input type="text" id="field_clinic_instagram" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm" placeholder="https://instagram.com/dra.thaiscastejon"/>
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Telefone Fixo 1</label>
-                <input type="text" id="field_clinic_phone_1" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Telefone Fixo 2</label>
-                <input type="text" id="field_clinic_phone_2" class="w-full rounded-full border border-accent-border p-3 focus:ring-2 focus:ring-primary focus:border-transparent text-sm"/>
               </div>
               <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Horário Padrão: Segunda a Sexta</label>
@@ -710,58 +705,33 @@
                       <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Hero Subtitle)</label>
                       <textarea id="field_hero_subtitle" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
                     </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título Procedimentos Destaque</label>
-                      <input type="text" id="field_featured_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo Procedimentos Destaque</label>
-                      <input type="text" id="field_featured_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Accordion 4: Página Dra. Thais (Perfil Completo) -->
+              <!-- Accordion 4: Sobre Mim -->
               <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
                 <button type="button" onclick="toggleAccordion('acc-sobre')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Página Dra. Thais (Perfil Completo)
+                  Sobre Mim
                 </button>
                 <div id="acc-sobre" class="accordion-content hidden p-5 space-y-6 border-t border-slate-100">
                   
                   <!-- Photos -->
                   <div class="space-y-4 border-b border-slate-100 pb-4">
-                    <span class="text-xs font-bold text-primary uppercase">Fotos da Dra. Thais</span>
+                    <span class="text-xs font-bold text-primary uppercase">Foto do Perfil (Sobre Mim)</span>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                      <div>
-                        <label class="block text-xs font-semibold text-secondary mb-1">Foto na Página Inicial (Sobre)</label>
-                        <input type="hidden" id="field_img_about_portrait"/>
-                        <div class="flex items-center gap-2 mt-1">
-                          <button type="button" onclick="document.getElementById('file_img_about_portrait').click()" class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:opacity-95 transition-opacity">
-                            Selecionar Imagem
-                          </button>
-                          <span id="status_img_about_portrait" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
-                          <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_about_portrait')"/>
-                        </div>
-                        <div class="mt-2">
-                          <img id="preview_img_about_portrait" class="h-16 w-12 object-cover rounded border border-slate-200 shadow-sm hidden"/>
-                        </div>
+                    <div class="max-w-md">
+                      <label class="block text-xs font-semibold text-secondary mb-1">Foto na Página Inicial</label>
+                      <input type="hidden" id="field_img_about_portrait"/>
+                      <div class="flex items-center gap-2 mt-1">
+                        <button type="button" onclick="document.getElementById('file_img_about_portrait').click()" class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:opacity-95 transition-opacity">
+                          Selecionar Imagem
+                        </button>
+                        <span id="status_img_about_portrait" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
+                        <input type="file" id="file_img_about_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_about_portrait')"/>
                       </div>
-                      
-                      <div>
-                        <label class="block text-xs font-semibold text-secondary mb-1">Foto de Perfil na Biografia Completa</label>
-                        <input type="hidden" id="field_img_bio_portrait"/>
-                        <div class="flex items-center gap-2 mt-1">
-                          <button type="button" onclick="document.getElementById('file_img_bio_portrait').click()" class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full hover:opacity-95 transition-opacity">
-                            Selecionar Imagem
-                          </button>
-                          <span id="status_img_bio_portrait" class="text-[10px] text-secondary truncate max-w-[150px]">Nenhuma selecionada</span>
-                          <input type="file" id="file_img_bio_portrait" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_bio_portrait')"/>
-                        </div>
-                        <div class="mt-2">
-                          <img id="preview_img_bio_portrait" class="h-16 w-12 object-cover rounded border border-slate-200 shadow-sm hidden"/>
-                        </div>
+                      <div class="mt-2">
+                        <img id="preview_img_about_portrait" class="h-16 w-12 object-cover rounded border border-slate-200 shadow-sm hidden"/>
                       </div>
                     </div>
                   </div>
@@ -801,18 +771,10 @@
                     </div>
                   </div>
 
-                  <!-- Full Biography Section -->
+                  <!-- Badges Section -->
                   <div class="space-y-4">
-                    <span class="text-xs font-bold text-primary uppercase">Biografia Completa (Página Detalhada)</span>
+                    <span class="text-xs font-bold text-primary uppercase">Tags / Especialidades (Sobre Mim)</span>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div class="md:col-span-2">
-                        <label class="block text-xs font-semibold text-secondary mb-1">Título Biografia Completa</label>
-                        <input type="text" id="field_sobre_bio_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                      </div>
-                      <div class="md:col-span-2">
-                        <label class="block text-xs font-semibold text-secondary mb-1">Texto Biografia Completa</label>
-                        <textarea id="field_sobre_bio_desc" rows="5" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
-                      </div>
                       
                       <!-- Badges -->
                       <div class="grid grid-cols-2 gap-2 md:col-span-2">
@@ -831,21 +793,6 @@
                         <div>
                           <label class="block text-xs font-semibold text-secondary mb-1">Tag 4</label>
                           <input type="text" id="field_sobre_badge_4" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                        </div>
-                      </div>
-
-                      <!-- CTA -->
-                      <div class="md:col-span-2 border-t border-slate-100 pt-3">
-                        <label class="block text-xs font-bold text-primary uppercase mb-2">Card de Call to Action (Rodapé Bio)</label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label class="block text-xs font-semibold text-secondary mb-1">Título CTA</label>
-                            <input type="text" id="field_sobre_cta_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                          </div>
-                          <div>
-                            <label class="block text-xs font-semibold text-secondary mb-1">Descrição CTA</label>
-                            <input type="text" id="field_sobre_cta_desc" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                          </div>
                         </div>
                       </div>
 
@@ -876,24 +823,7 @@
                 </div>
               </div>
 
-              <!-- Accordion 5: Página de Tratamentos -->
-              <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-                <button type="button" onclick="toggleAccordion('acc-tratamentos')" class="accordion-header w-full px-5 py-4 bg-slate-50 text-left text-sm font-semibold text-primary focus:outline-none rounded-full">
-                  Página de Tratamentos
-                </button>
-                <div id="acc-tratamentos" class="accordion-content hidden p-5 space-y-4 border-t border-slate-100">
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Tratamentos Hero)</label>
-                      <input type="text" id="field_tratamentos_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                    <div>
-                      <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Tratamentos Hero Subtitle)</label>
-                      <input type="text" id="field_tratamentos_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
 
             </div>
           </div>
@@ -1181,6 +1111,7 @@
         renderUpcomingList();
         renderGeneralScheduleSettings();
         renderTreatmentsList();
+        renderClinicGalleryList();
       }
     };
 
@@ -1196,6 +1127,7 @@
       renderUpcomingList();
       renderGeneralScheduleSettings();
       renderTreatmentsList();
+      renderClinicGalleryList();
     }
 
     function switchTab(tabId) {
@@ -1225,7 +1157,7 @@
 
     // Setup Dynamic Previews
     function setupPreviews() {
-      const imgKeys = ['img_hero', 'img_about_portrait', 'img_bio_portrait', 'img_clinica_hero', 'img_env_1', 'img_env_2', 'img_env_3'];
+      const imgKeys = ['img_hero', 'img_about_portrait', 'img_clinica_hero'];
       imgKeys.forEach(k => {
         const inp = document.getElementById('field_' + k);
         const prev = document.getElementById('preview_' + k);
@@ -2257,6 +2189,161 @@
     } catch (err) {
       console.error("Error uploading CMS image:", err);
       if (statusEl) statusEl.textContent = "Erro ao carregar imagem";
+    }
+  };
+
+  window.handleClinicImageUpload = async function(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const statusEl = document.getElementById('status_clinic_img');
+    const previewEl = document.getElementById('preview_clinic_img');
+    const valueInput = document.getElementById('clinic_img_url');
+    
+    if (statusEl) statusEl.textContent = "Carregando...";
+    
+    try {
+      const url = await uploadFileToSupabase(file, 'clinic');
+      valueInput.value = url;
+      if (previewEl) {
+        previewEl.src = url;
+        previewEl.classList.remove('hidden');
+      }
+      if (statusEl) statusEl.textContent = "Imagem carregada";
+    } catch (err) {
+      console.error("Error uploading clinic image:", err);
+      if (statusEl) statusEl.textContent = "Erro ao carregar imagem";
+    }
+  };
+
+  function getClinicImages() {
+    if (!window.siteState) window.siteState = {};
+    if (!window.siteState.site_edits) window.siteState.site_edits = {};
+    if (!window.siteState.site_edits.clinic_images) {
+      const env1_img = window.siteState.site_edits.img_env_1 || defaultValues.img_env_1;
+      const env1_title = window.siteState.site_edits.clinica_env1_title || defaultValues.clinica_env1_title;
+      const env1_desc = window.siteState.site_edits.clinica_env1_desc || defaultValues.clinica_env1_desc;
+
+      const env2_img = window.siteState.site_edits.img_env_2 || defaultValues.img_env_2;
+      const env2_title = window.siteState.site_edits.clinica_env2_title || defaultValues.clinica_env2_title;
+      const env2_desc = window.siteState.site_edits.clinica_env2_desc || defaultValues.clinica_env2_desc;
+
+      const env3_img = window.siteState.site_edits.img_env_3 || defaultValues.img_env_3;
+      const env3_title = window.siteState.site_edits.clinica_env3_title || defaultValues.clinica_env3_title;
+      const env3_desc = window.siteState.site_edits.clinica_env3_desc || defaultValues.clinica_env3_desc;
+
+      window.siteState.site_edits.clinic_images = [
+        { image: env1_img, title: env1_title, description: env1_desc },
+        { image: env2_img, title: env2_title, description: env2_desc },
+        { image: env3_img, title: env3_title, description: env3_desc }
+      ];
+    }
+    return window.siteState.site_edits.clinic_images;
+  }
+
+  window.renderClinicGalleryList = function() {
+    const listContainer = document.getElementById('clinic-images-list');
+    if (!listContainer) return;
+    listContainer.innerHTML = '';
+    const images = getClinicImages();
+    images.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm flex flex-col justify-between';
+      card.innerHTML = `
+        <img src="${item.image}" class="h-32 w-full object-cover border-b border-slate-100" />
+        <div class="p-3 flex-1 flex flex-col justify-between">
+          <div>
+            <h5 class="font-bold text-xs text-primary truncate">${item.title}</h5>
+            <p class="text-[10px] text-secondary line-clamp-2 mt-1">${item.description}</p>
+          </div>
+          <div class="flex gap-2 mt-3 pt-2 border-t border-slate-50">
+            <button type="button" onclick="editClinicImage(${index})" class="flex-1 text-center bg-slate-100 hover:bg-slate-200 text-secondary text-[10px] font-bold py-1 rounded-full transition-colors">
+              Editar
+            </button>
+            <button type="button" onclick="deleteClinicImage(${index})" class="text-center bg-red-50 hover:bg-red-100 text-red-600 text-[10px] font-bold px-2 py-1 rounded-full transition-colors">
+              Excluir
+            </button>
+          </div>
+        </div>
+      `;
+      listContainer.appendChild(card);
+    });
+  };
+
+  window.openClinicForm = function() {
+    document.getElementById('clinic-form-card').classList.remove('hidden');
+    document.getElementById('clinic-form-title').textContent = "Adicionar Imagem da Clínica";
+    document.getElementById('clinic_img_index').value = "-1";
+    document.getElementById('clinic_img_title').value = "";
+    document.getElementById('clinic_img_desc').value = "";
+    document.getElementById('clinic_img_url').value = "";
+    document.getElementById('status_clinic_img').textContent = "Nenhuma selecionada";
+    const previewEl = document.getElementById('preview_clinic_img');
+    previewEl.src = "";
+    previewEl.classList.add('hidden');
+  };
+
+  window.closeClinicForm = function() {
+    document.getElementById('clinic-form-card').classList.add('hidden');
+  };
+
+  window.editClinicImage = function(index) {
+    const images = getClinicImages();
+    const item = images[index];
+    if (!item) return;
+
+    document.getElementById('clinic-form-card').classList.remove('hidden');
+    document.getElementById('clinic-form-title').textContent = "Editar Imagem da Clínica";
+    document.getElementById('clinic_img_index').value = index;
+    document.getElementById('clinic_img_title').value = item.title;
+    document.getElementById('clinic_img_desc').value = item.description;
+    document.getElementById('clinic_img_url').value = item.image;
+    document.getElementById('status_clinic_img').textContent = "Imagem carregada";
+    
+    const previewEl = document.getElementById('preview_clinic_img');
+    previewEl.src = item.image;
+    previewEl.classList.remove('hidden');
+  };
+
+  window.deleteClinicImage = function(index) {
+    if (!confirm("Tem certeza que deseja excluir esta imagem da clínica?")) return;
+    const images = getClinicImages();
+    images.splice(index, 1);
+    window.siteState.site_edits.clinic_images = images;
+    
+    window.renderClinicGalleryList();
+    if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+      window.saveGlobalSettingsToFirebase().catch(err => console.error(err));
+    }
+  };
+
+  window.saveClinicSubmit = function(event) {
+    event.preventDefault();
+    const index = parseInt(document.getElementById('clinic_img_index').value, 10);
+    const title = document.getElementById('clinic_img_title').value.trim();
+    const description = document.getElementById('clinic_img_desc').value.trim();
+    const image = document.getElementById('clinic_img_url').value.trim();
+
+    if (!image) {
+      alert("Por favor, selecione ou faça o upload de uma imagem.");
+      return;
+    }
+
+    const images = getClinicImages();
+    const item = { title, description, image };
+
+    if (index >= 0) {
+      images[index] = item;
+    } else {
+      images.push(item);
+    }
+
+    window.siteState.site_edits.clinic_images = images;
+    window.renderClinicGalleryList();
+    closeClinicForm();
+
+    if (typeof window.saveGlobalSettingsToFirebase === 'function') {
+      window.saveGlobalSettingsToFirebase().catch(err => console.error(err));
     }
   };
 
