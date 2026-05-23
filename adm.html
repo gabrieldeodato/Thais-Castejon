@@ -56,15 +56,15 @@
 <body class="bg-background min-h-screen flex flex-col">
 
   <!-- Loading Screen -->
-  <div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#faf8ff] transition-opacity duration-300">
+  <div id="loading-screen" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0F0908] transition-opacity duration-300">
     <div class="flex flex-col items-center gap-4 animate-pulse">
       <div class="relative w-16 h-16 flex items-center justify-center">
-        <div class="absolute inset-0 rounded-full border-4 border-[#00236f]/10"></div>
-        <div class="absolute inset-0 rounded-full border-4 border-t-[#00236f] animate-spin"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-[#D9C89D]/10"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-t-[#D9C89D] animate-spin"></div>
       </div>
       <div class="text-center mt-2">
-        <h2 class="text-xs font-semibold text-[#00236f] tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
-        <p class="text-[10px] text-secondary tracking-wider mt-1 opacity-70">Carregando...</p>
+        <h2 class="text-xs font-semibold text-[#D9C89D] tracking-widest uppercase font-sans">Dra. Thais Castejon</h2>
+        <p class="text-[10px] text-[#A59B90] tracking-wider mt-1 opacity-70">Carregando...</p>
       </div>
     </div>
   </div>
@@ -455,33 +455,12 @@
           <!-- TAB: CLINICA -->
           <div id="tab-clinica" class="tab-pane hidden space-y-6">
             <h3 class="text-xl font-headline font-bold text-primary border-b border-slate-100 pb-3">Configurações da Clínica</h3>
-            <p class="text-xs text-secondary leading-relaxed">Gerencie as imagens, ambientes, e textos descritivos exibidos na página da Clínica.</p>
+            <p class="text-xs text-secondary leading-relaxed">Gerencie a galeria de imagens e ambientes da Clínica.</p>
             
             <!-- Images block -->
             <div class="border border-slate-100 rounded-xl p-5 bg-slate-50/50 space-y-6">
-              <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Imagens da Clínica</h4>
-              
-              <!-- Clinica Hero Capa -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center border-b border-slate-100 pb-6">
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-bold uppercase tracking-wider text-secondary mb-2">Foto de Capa Principal da Clínica (A Clínica Hero)</label>
-                  <input type="hidden" id="field_img_clinica_hero"/>
-                  <div class="flex items-center gap-2 mt-1">
-                    <button type="button" onclick="document.getElementById('file_img_clinica_hero').click()" class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-full hover:opacity-95 transition-opacity">
-                      Selecionar PNG/JPG
-                    </button>
-                    <span id="status_img_clinica_hero" class="text-xs text-secondary truncate max-w-[200px]">Nenhum arquivo selecionado</span>
-                    <input type="file" id="file_img_clinica_hero" accept="image/png, image/jpeg, image/jpg" class="hidden" onchange="window.handleCmsImageUpload(this, 'img_clinica_hero')"/>
-                  </div>
-                </div>
-                <div class="flex justify-center">
-                  <img id="preview_img_clinica_hero" class="h-24 w-32 object-cover rounded-lg border border-accent-border shadow-sm hidden"/>
-                </div>
-              </div>
-
-
               <!-- Dynamic Clinic Gallery Section -->
-              <div class="border-t border-slate-200/60 pt-6 space-y-6">
+              <div class="space-y-6">
                 <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                   <h4 class="font-bold text-sm text-primary uppercase tracking-wider">Imagens da Clínica (Carrossel)</h4>
                   <button type="button" onclick="openClinicForm()" class="bg-primary text-white text-[11px] px-4 py-2 rounded-full font-bold hover:opacity-95 transition-opacity flex items-center gap-1 shadow-sm">
@@ -532,58 +511,6 @@
                 <!-- List of clinic images -->
                 <div id="clinic-images-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   <!-- Dynamically populated -->
-                </div>
-              </div>
-            </div>
-
-            <!-- Texts block -->
-            <div class="border border-slate-100 rounded-xl p-5 bg-slate-50/50 space-y-6">
-              <h4 class="font-semibold text-sm text-primary uppercase tracking-wider">Textos da Clínica</h4>
-              
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs font-semibold text-secondary mb-1">Título do Banner (Clínica Hero)</label>
-                  <input type="text" id="field_clinica_hero_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-secondary mb-1">Subtítulo do Banner (Clínica Hero Subtitle)</label>
-                  <input type="text" id="field_clinica_hero_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                </div>
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-semibold text-secondary mb-1">Título Seção Introdução</label>
-                  <input type="text" id="field_clinica_section_title" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
-                </div>
-                <div class="md:col-span-2">
-                  <label class="block text-xs font-semibold text-secondary mb-1">Descrição Seção Introdução</label>
-                  <textarea id="field_clinica_description" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
-                </div>
-              </div>
-
-              <!-- Diferenciais -->
-              <div class="border-t border-slate-200 pt-4 space-y-3">
-                <span class="text-xs font-bold text-primary uppercase">Diferenciais e Ambientes</span>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="p-2 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-bold text-secondary">Diferencial 1</span>
-                    <input type="text" id="field_clinica_feat1_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_feat1_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
-                  <div class="p-2 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-bold text-secondary">Diferencial 2</span>
-                    <input type="text" id="field_clinica_feat2_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_feat2_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
-                  <div class="p-2 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-bold text-secondary">Diferencial 3</span>
-                    <input type="text" id="field_clinica_feat3_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_feat3_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
-                  <div class="p-2 border border-slate-100 rounded-lg">
-                    <span class="text-xs font-bold text-secondary">Diferencial 4</span>
-                    <input type="text" id="field_clinica_feat4_title" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Título"/>
-                    <input type="text" id="field_clinica_feat4_desc" class="w-full rounded-full border border-slate-200 p-1.5 text-xs focus:ring-primary mt-1" placeholder="Descrição"/>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -1313,6 +1240,7 @@
       title.textContent = `${monthsPT[month]} ${year}`;
 
       const today = new Date();
+      const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
       const firstDayIdx = new Date(year, month, 1).getDay();
@@ -1357,7 +1285,9 @@
 
         const dayBookings = appointments.filter(a => a.date === dateStr && a.status !== 'cancelled');
 
-        if (!isEnabled) {
+        const isPastOrToday = thisDate <= todayStart;
+
+        if (!isEnabled || isPastOrToday) {
           // Blocked day background
           btn.classList.add('bg-red-50', 'text-red-400');
         } else {
