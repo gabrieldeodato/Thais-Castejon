@@ -1353,7 +1353,7 @@
   window.goToSlide = function(index) {
     const carousel = document.getElementById('clinica-carousel');
     if (!carousel) return;
-    const totalOriginal = carousel.querySelectorAll('[data-original-index]').length;
+    const totalOriginal = Math.round(carousel.children.length / 3);
     const firstChild = carousel.firstElementChild;
     if (!firstChild) return;
     const itemWidth = firstChild.offsetWidth + 24;
