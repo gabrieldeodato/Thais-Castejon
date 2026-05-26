@@ -680,6 +680,10 @@
                         <input type="text" id="field_about_subtitle" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
                       </div>
                       <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-secondary mb-1">Número do CRO (Exibido na Foto)</label>
+                        <input type="text" id="field_clinic_cro" class="w-full rounded-full border border-slate-200 p-2 text-xs focus:ring-primary"/>
+                      </div>
+                      <div class="md:col-span-2">
                         <label class="block text-xs font-semibold text-secondary mb-1">Resumo Biografia Parágrafo 1</label>
                         <textarea id="field_about_p1" rows="3" class="w-full rounded-xl border border-slate-200 p-3 text-xs focus:ring-primary"></textarea>
                       </div>
@@ -822,7 +826,7 @@
       "clinic_instagram": "https://www.instagram.com/thaiscastejon/",
       "hours_weekdays": "09:00 - 19:00",
       "hours_saturday": "09:00 - 13:00",
-      "clinic_cro": "CRO-SP 123456",
+      "clinic_cro": "CRO: MG 30507",
       "clinica_hero_title": "A Clínica",
       "clinica_hero_subtitle": "Um espaço planejado nos mínimos detalhes para acolher você com conforto, sofisticação e total biossegurança. Conheça o nosso conceito.",
       "clinica_section_title": "Tecnologia e Cuidado Integrados",
@@ -1313,7 +1317,7 @@
       } else if (activeTab === 'textos') {
         confirmMsg = 'Deseja realmente restaurar todos os textos e mensagens originais do site? Suas alterações personalizadas de textos serão perdidas.';
         keysToReset = [
-          'hero_badge', 'hero_title', 'hero_subtitle', 'featured_title', 'featured_subtitle',
+          'hero_badge', 'hero_title', 'hero_subtitle', 'clinic_cro', 'featured_title', 'featured_subtitle',
           'about_title', 'about_subtitle', 'about_p1', 'about_p2', 'about_bullet_1', 'about_bullet_2', 'about_bullet_3',
           'sobre_bio_title', 'sobre_bio_desc', 'sobre_badge_1', 'sobre_badge_2', 'sobre_badge_3', 'sobre_badge_4',
           'sobre_cta_title', 'sobre_cta_desc', 'sobre_edu1_title', 'sobre_edu1_desc', 'sobre_edu2_title', 'sobre_edu2_desc', 'sobre_edu3_title', 'sobre_edu3_desc',
